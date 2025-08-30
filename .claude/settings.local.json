@@ -1,15 +1,7 @@
 {
   "permissions": {
     "allow": [
-      "Read(D:\\Afif Personal\\Kiyo Software TechLab\\Alice - Memory Of Eternal/**)",
-      "Read(D:\\Afif Personal\\Kiyo Software TechLab\\Alice - Memory Of Eternal\\main/**)",
-      "Read(D:\\Afif Personal\\Kiyo Software TechLab\\Alice - Memory Of Eternal\\main/**)",
-      "Read(D:\\Afif Personal\\Kiyo Software TechLab\\Alice - Memory Of Eternal\\main/**)",
-      "Read(D:\\Afif Personal\\Kiyo Software TechLab\\Alice - Memory Of Eternal\\main/**)",
-      "Bash(git add:*)",
-      "Bash(git commit:*)"
-    ],
-    "deny": [],
-    "ask": []
+      "Bash(cat:*)"
+    ]
   }
 }
