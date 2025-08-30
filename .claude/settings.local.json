@@ -1,7 +1,18 @@
 {
   "permissions": {
     "allow": [
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Read(D:\\Afif Personal\\Kiyo Software TechLab\\Alice - Memory Of Eternal/**)",
+      "Read(D:\\Afif Personal\\Kiyo Software TechLab\\Alice - Memory Of Eternal\\main/**)",
+      "Read(D:\\Afif Personal\\Kiyo Software TechLab\\Alice - Memory Of Eternal\\main/**)",
+      "Read(D:\\Afif Personal\\Kiyo Software TechLab\\Alice - Memory Of Eternal\\main/**)",
+      "Read(D:\\Afif Personal\\Kiyo Software TechLab\\Alice - Memory Of Eternal/**)",
+      "Bash(find:*)",
+      "Read(D:\\Afif Personal\\Kiyo Software TechLab\\Alice - Memory Of Eternal\\projects/**)",
+      "Read(D:\\Afif Personal\\Kiyo Software TechLab\\Alice - Memory Of Eternal\\projects/**)",
+      "Read(D:\\Afif Personal\\Kiyo Software TechLab\\Alice - Memory Of Eternal\\projects/**)",
+      "Read(D:\\Afif Personal\\Kiyo Software TechLab\\Alice - Memory Of Eternal\\projects/**)",
+      "Read(D:\\Afif Personal\\Kiyo Software TechLab\\Alice - Memory Of Eternal\\main/**)"
     ]
   }
 }
