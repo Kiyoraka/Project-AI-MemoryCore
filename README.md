@@ -158,8 +158,10 @@ Your AI companion can specialize in:
 
 ---
 
+**Version**: 2.0 - Enhanced with Time Intelligence  
 **Created by**: Kiyoraka Ken & Alice  
 **License**: Open Source Community Project  
+**Last Updated**: September 5, 2025 - Added Time-based Aware System feature  
 **Purpose**: Simple, effective AI memory for everyone
 
 *Transform basic AI conversations into meaningful, growing relationships*
