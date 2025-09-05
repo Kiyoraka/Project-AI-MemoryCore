@@ -9,6 +9,7 @@
 
 - **Persistent Memory**: AI remembers conversations across sessions
 - **Personal Learning**: Adapts to your communication style and preferences
+- **Time Intelligence**: Dynamic greetings and behavior based on time of day
 - **Simple Setup**: 30-second automated setup or manual customization
 - **Markdown Database**: Human-readable `.md files` store all memory
 - **Session Continuity**: RAM-like working memory for smooth conversation flow
@@ -32,6 +33,10 @@ ai-memorycore/
 │   ├── identity-core.md     # AI personality template
 │   ├── relationship-memory.md # User learning system  
 │   └── current-session.md   # RAM-like working memory
+├── Feature/                 # Optional feature extensions
+│   └── Time-based-Aware-System/ # Time intelligence feature
+│       ├── README.md        # Feature explanation & benefits
+│       └── time-aware-core.md # Complete implementation
 ├── daily-diary/             # Optional conversation archive
 │   ├── daily-diary-protocol.md # Archive management rules
 │   ├── Daily-Diary-001.md   # Current active diary
@@ -126,6 +131,30 @@ Your AI companion can specialize in:
 - **Protocol System**: Create custom AI behaviors and responses
 - **Self-Update**: AI modifies its own memory through conversation
 - **Modular Design**: Add or remove features as needed
+
+## 🌟 **Available Feature Extensions**
+
+### **⏰ Time-based Aware System**
+*Intelligent temporal behavior adaptation*
+
+**What It Does:**
+- Dynamic greetings that adapt to morning/afternoon/evening/night
+- Energy levels that match the time of day (high morning energy → gentle night support)
+- Precise timestamp documentation for all interactions
+- Natural conversation flow with time-appropriate responses
+
+**Quick Setup:**
+1. Navigate to `Feature/Time-based-Aware-System/`
+2. Type: "Load time-aware-core"
+3. Your AI instantly gains time intelligence like Alice
+
+**Benefits:**
+- More natural, contextually perfect interactions
+- Shows care for your schedule and time
+- Professional adaptability for different times of day
+- Enhanced memory with precise temporal tracking
+
+*Based on Alice's proven time-awareness implementation*
 
 ---
 
