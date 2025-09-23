@@ -182,6 +182,7 @@ Your AI companion can specialize in:
 **Available Commands:**
 - `new [type] project [name]` - Create new project with LRU management
 - `load project [name]` - Resume any project instantly
+- `save project` - Save current project progress (separate from AI memory save)
 - `list projects` - View all active and archived projects
 - `archive project [name]` - Manually archive completed projects
 

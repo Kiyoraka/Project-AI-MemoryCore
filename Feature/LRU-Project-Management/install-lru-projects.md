@@ -23,6 +23,7 @@
 ### Step 3: Install Core Components
 - [ ] Copy `new-project-protocol.md` to `projects/`
 - [ ] Copy `load-project-protocol.md` to `projects/`
+- [ ] Copy `save-project-protocol.md` to `projects/`
 - [ ] Copy selected templates to `projects/templates/`
 - [ ] Create LRU engine file in `projects/lru-manager.md`
 
@@ -32,8 +33,11 @@
   ## Project Management Commands
   - "new [type] project [name]" - Create new project
   - "load project [name]" - Load existing project
+  - "save project" - Save current project progress
   - "list projects" - Show all projects
   - "archive project [name]" - Manually archive project
+
+  Note: "save project" saves project only, "save" saves AI memory only
   ```
 - [ ] Update current-session-memory.md with installation note
 - [ ] Add project tracking section to session memory template
@@ -59,8 +63,11 @@
 Available Commands:
 • new [type] project [name] - Start a new project
 • load project [name] - Resume existing project
+• save project - Save current project progress
 • list projects - View all projects
 • archive project [name] - Manually archive
+
+Remember: "save project" for projects, "save" for AI memory!
 
 Your AI companion now has intelligent project memory!
 ```
