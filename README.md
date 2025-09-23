@@ -167,8 +167,8 @@ Your AI companion can specialize in:
 - Maintains complete project history and progress logs
 
 **Quick Setup:**
-1. Navigate to `Feature/LRU-Project-Management/`
-2. Type: "install lru projects"
+1. Navigate to `Feature/LRU-Project-Management-System/`
+2. Type: "install lru projects" (loads install-lru-projects-core.md)
 3. Select project type(s) you want to manage
 4. System auto-integrates and removes installation files
 
