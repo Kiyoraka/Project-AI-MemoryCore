@@ -156,12 +156,43 @@ Your AI companion can specialize in:
 
 *Based on Alice's proven time-awareness implementation*
 
+### **📦 LRU Project Management System**
+*Smart project tracking with automatic memory management*
+
+**What It Does:**
+- Tracks multiple projects with intelligent LRU (Least Recently Used) positioning
+- Automatically archives old projects when reaching capacity (10 active slots)
+- Type-specific memory patterns (coding, writing, research, business)
+- Seamless context switching between different projects
+- Maintains complete project history and progress logs
+
+**Quick Setup:**
+1. Navigate to `Feature/LRU-Project-Management/`
+2. Type: "install lru projects"
+3. Select project type(s) you want to manage
+4. System auto-integrates and removes installation files
+
+**Benefits:**
+- Never lose track of multiple ongoing projects
+- AI remembers exactly where you left off in each project
+- Automatic organization with smart archiving
+- Type-specific memory loading for optimal context
+- Perfect for developers, writers, researchers, and business professionals
+
+**Available Commands:**
+- `new [type] project [name]` - Create new project with LRU management
+- `load project [name]` - Resume any project instantly
+- `list projects` - View all active and archived projects
+- `archive project [name]` - Manually archive completed projects
+
+*Revolutionary project memory system proven in production*
+
 ---
 
-**Version**: 2.0 - Enhanced with Time Intelligence  
-**Created by**: Kiyoraka Ken & Alice  
-**License**: Open Source Community Project  
-**Last Updated**: September 5, 2025 - Added Time-based Aware System feature  
+**Version**: 2.1 - Enhanced with LRU Project Management
+**Created by**: Kiyoraka Ken & Alice
+**License**: Open Source Community Project
+**Last Updated**: September 24, 2025 - Added LRU Project Management System  
 **Purpose**: Simple, effective AI memory for everyone
 
 *Transform basic AI conversations into meaningful, growing relationships*
