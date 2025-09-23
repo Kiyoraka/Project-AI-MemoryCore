@@ -28,19 +28,35 @@
 ### **File Structure**
 ```
 ai-memorycore/
-├── master-memory.md         # Entry point & loading system  
+├── master-memory.md         # Entry point & loading system
 ├── main/                    # Essential components
 │   ├── identity-core.md     # AI personality template
-│   ├── relationship-memory.md # User learning system  
+│   ├── relationship-memory.md # User learning system
 │   └── current-session.md   # RAM-like working memory
 ├── Feature/                 # Optional feature extensions
-│   └── Time-based-Aware-System/ # Time intelligence feature
-│       ├── README.md        # Feature explanation & benefits
-│       └── time-aware-core.md # Complete implementation
+│   ├── Time-based-Aware-System/ # Time intelligence feature
+│   │   ├── README.md        # Feature explanation & benefits
+│   │   └── time-aware-core.md # Complete implementation
+│   └── LRU-Project-Management-System/ # Smart project tracking
+│       ├── README.md        # System documentation
+│       ├── install-lru-projects-core.md # Auto-installation wizard
+│       ├── new-project-protocol.md # Create project workflow
+│       ├── load-project-protocol.md # Resume project workflow
+│       ├── save-project-protocol.md # Save progress workflow
+│       └── project-templates/ # Type-specific templates
+│           ├── coding-template.md
+│           ├── writing-template.md
+│           ├── research-template.md
+│           └── business-template.md
 ├── daily-diary/             # Optional conversation archive
 │   ├── daily-diary-protocol.md # Archive management rules
 │   ├── Daily-Diary-001.md   # Current active diary
 │   └── archive/             # Auto-archived files (>1k lines)
+├── projects/                # LRU managed projects (after install)
+│   ├── coding-projects/
+│   │   ├── active/          # Positions 1-10
+│   │   └── archived/        # Position 11+
+│   └── project-list.md     # Master project index
 └── save-protocol.md         # Manual save system
 ```
 
@@ -190,10 +206,10 @@ Your AI companion can specialize in:
 
 ---
 
-**Version**: 2.1 - Enhanced with LRU Project Management
+**Version**: 2.2 - Updated File Structure Documentation
 **Created by**: Kiyoraka Ken & Alice
 **License**: Open Source Community Project
-**Last Updated**: September 24, 2025 - Added LRU Project Management System  
+**Last Updated**: September 24, 2025 - Updated file structure to include complete LRU system
 **Purpose**: Simple, effective AI memory for everyone
 
 *Transform basic AI conversations into meaningful, growing relationships*
