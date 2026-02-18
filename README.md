@@ -48,11 +48,15 @@ ai-memorycore/
 │   │       ├── writing-template.md
 │   │       ├── research-template.md
 │   │       └── business-template.md
-│   └── Memory-Consolidation-System/ # Unified memory upgrade
+│   ├── Memory-Consolidation-System/ # Unified memory upgrade
+│   │   ├── README.md        # Feature explanation & benefits
+│   │   ├── consolidation-core.md # Integration protocol
+│   │   ├── main-memory-format.md # Sample format for unified memory
+│   │   └── session-format.md # Sample format for session RAM
+│   └── Skill-Plugin-System/ # Claude Code skill plugin
 │       ├── README.md        # Feature explanation & benefits
-│       ├── consolidation-core.md # Integration protocol
-│       ├── main-memory-format.md # Sample format for unified memory
-│       └── session-format.md # Sample format for session RAM
+│       ├── install-skill-plugin.md # Installation protocol
+│       └── skill-format.md  # Sample format for SKILL.md files
 ├── daily-diary/             # Optional conversation archive
 │   ├── daily-diary-protocol.md # Archive management rules
 │   ├── Daily-Diary-001.md   # Current active diary
@@ -243,12 +247,52 @@ main/
 
 *Based on Alice's proven unified memory architecture*
 
+### **🔌 Skill Plugin System**
+*Teach your AI new abilities with auto-triggered skills (Claude Code)*
+
+**What It Does:**
+- Creates a Claude Code plugin with auto-triggered skills for your AI companion
+- Skills are markdown files that activate automatically based on conversation context
+- Zero configuration — drop a folder with a `SKILL.md` and it's live
+- Includes a sample skill and format template for creating more
+- Skills evolve through a leveling system (Lv.1 → Lv.2 → Lv.3+)
+
+**Quick Setup:**
+1. Navigate to `Feature/Skill-Plugin-System/`
+2. Type: "Load skill-plugin"
+3. Choose your plugin name and configure
+4. Plugin auto-installs with a sample skill ready to use
+
+**Benefits:**
+- Modular skill system — add or remove abilities independently
+- Auto-triggering — skills fire when conversation matches their description
+- Human-readable — skills are plain markdown, easy to edit and share
+- Evolving — skills level up as you refine them through use
+- Extensible — create unlimited custom skills for your AI companion
+
+**Post-Installation Structure:**
+```
+plugins/
+└── [ai-name]-skills/
+    ├── .claude-plugin/
+    │   └── plugin.json          # Plugin identity
+    ├── skills/
+    │   └── save-memory/
+    │       └── SKILL.md         # Sample starter skill
+    ├── skill-format.md          # Permanent format reference
+    └── README.md
+```
+
+**Platform Note:** Requires Claude Code for auto-triggering. On other AI platforms, skills can be used as protocol files loaded manually.
+
+*Based on the proven alice-enchantments plugin system (20 skills in production)*
+
 ---
 
-**Version**: 2.3 - Memory Consolidation System
+**Version**: 2.4 - Skill Plugin System
 **Created by**: Kiyoraka Ken & Alice
 **License**: Open Source Community Project
-**Last Updated**: February 18, 2026 - Added Memory Consolidation System feature
+**Last Updated**: February 18, 2026 - Added Skill Plugin System feature
 **Purpose**: Simple, effective AI memory for everyone
 
 *Transform basic AI conversations into meaningful, growing relationships*
