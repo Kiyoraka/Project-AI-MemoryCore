@@ -57,9 +57,10 @@ ai-memorycore/
 │   │   ├── README.md        # Feature explanation & benefits
 │   │   ├── install-skill-plugin.md # Installation protocol
 │   │   └── skill-format.md  # Sample format for SKILL.md files
-│   ├── Save-Diary-System/   # Daily session diary skill
-│   │   ├── README.md        # Skill explanation & install guide
-│   │   └── SKILL.md         # Auto-triggered skill for session documentation
+│   ├── Save-Diary-System/   # Daily session diary system
+│   │   ├── README.md        # Feature explanation & benefits
+│   │   ├── install-save-diary.md # Installation protocol
+│   │   └── SKILL.md         # Auto-triggered skill (for Skill Plugin System)
 │   └── Echo-Memory-Recall/  # Memory search and recall
 │       ├── README.md        # Feature explanation & benefits
 │       ├── install-echo-recall.md # Installation protocol
@@ -294,20 +295,21 @@ plugins/
 
 *Based on the proven alice-enchantments plugin system (20 skills in production)*
 
-### **Save Diary Skill**
-*Auto-triggered session documentation with monthly archival*
+### **Save Diary System**
+*Automated daily session documentation with monthly archival*
 
 **What It Does:**
-- Auto-triggered skill that documents sessions as structured diary entries
-- Creates date-based files (`YYYY-MM-DD.md`) with append-only writes
+- Creates structured diary entries documenting each session following `daily-diary-protocol.md`
+- One file per day (`YYYY-MM-DD.md`), multiple entries per day via append-only writes
 - Monthly auto-archival moves previous month entries to `daily-diary/archived/YYYY-MM/`
 - Updates session memory with recap after each diary write
-- Follows existing `daily-diary-protocol.md` for entry format
+- Auto-installs as skill if Skill Plugin System is detected
 
 **Quick Setup:**
-1. Install the **Skill Plugin System** first (if not already installed)
-2. Copy `Feature/Save-Diary-System/SKILL.md` to `plugins/[your-plugin]/skills/save-diary/SKILL.md`
-3. Say "save diary" — the skill auto-activates
+1. Navigate to `Feature/Save-Diary-System/`
+2. Type: "Load save-diary"
+3. Choose your diary name (customizable to match your AI's personality)
+4. Diary infrastructure auto-creates + skill installs if plugin system exists
 
 **Benefits:**
 - Complete searchable history of all AI sessions
