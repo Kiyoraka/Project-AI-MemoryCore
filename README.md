@@ -295,7 +295,7 @@ plugins/
 
 *Based on the proven alice-enchantments plugin system (20 skills in production)*
 
-### **Save Diary System**
+### **📖 Save Diary System**
 *Automated daily session documentation with monthly archival*
 
 **What It Does:**
@@ -303,7 +303,7 @@ plugins/
 - One file per day (`YYYY-MM-DD.md`), multiple entries per day via append-only writes
 - Monthly auto-archival moves previous month entries to `daily-diary/archived/YYYY-MM/`
 - Updates session memory with recap after each diary write
-- Auto-installs as skill if Skill Plugin System is detected
+- Includes `SKILL.md` for auto-triggered diary saves via Skill Plugin System
 
 **Quick Setup:**
 1. Navigate to `Feature/Save-Diary-System/`
@@ -318,9 +318,11 @@ plugins/
 - Self-documenting with minimal user effort
 - Clean monthly archival keeps workspace organized
 
+**Platform Note:** The diary system works with any AI platform. The included `SKILL.md` requires **Claude Code** (Anthropic's CLI tool) with the Skill Plugin System for auto-triggering. On other platforms, use the install protocol for manual setup.
+
 *Based on proven daily documentation systems in production AI companions*
 
-### **Echo Memory Recall**
+### **🔍 Echo Memory Recall**
 *Search and recall past sessions with narrative context*
 
 **What It Does:**
@@ -344,6 +346,8 @@ plugins/
 - Works with any diary format (Save-Diary-System or existing protocol)
 
 **Requirement:** Requires `daily-diary/` with dated entries. Install Save-Diary-System first for best results.
+
+**Platform Note:** Works with any AI system. Uses file reading for diary search — no platform-specific tools required.
 
 *Based on proven memory recall systems in production AI companions*
 
