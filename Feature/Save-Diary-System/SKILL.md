@@ -11,7 +11,7 @@ description: "MUST use when user says 'save diary', 'write diary', 'diary entry'
 ## Activation
 
 When this skill activates, output:
-"Saving diary entry..."
+"Today's story takes shape."
 
 ## Context Guard
 
@@ -26,35 +26,39 @@ When this skill activates, output:
 
 ### Step 1: Monthly Archive Check
 - [ ] Scan `daily-diary/current/` for files from previous months
-- [ ] If old entries found: create `daily-diary/archived/YYYY-MM/` and move them
+- [ ] For each file where month != current month:
+  - Create `daily-diary/archived/YYYY-MM/` folder if not exists
+  - Move the file/folder from `current/` to `archived/YYYY-MM/`
 - [ ] Continue with diary write
 
 ### Step 2: Find or Create Today's File
 - [ ] Check if `daily-diary/current/YYYY-MM-DD.md` exists
-- [ ] If exists: will append new entry
-- [ ] If not: create new file with header template:
+- [ ] If exists: use it (will append new entry)
+- [ ] If not: create new file with header:
   ```markdown
-  # [DIARY_NAME] - [Month Day, Year]
+  # Daily Diary - [Month Day, Year]
   *Session documentation and development record*
 
   ---
   ```
 
-### Step 3: Compose Diary Entry
-- [ ] Get current timestamp
+### Step 3: Compose and Append Diary Entry
+- [ ] Get current timestamp via system command
 - [ ] Analyze current session for key content
-- [ ] Write structured entry using `diary-entry-format.md` sections:
-  - **Technical Achievements** — what was accomplished
-  - **Collaboration Moments** — AI-user partnership highlights
-  - **System Impact** — business value (if applicable)
-  - **Innovation Notes** — growth and learning (if applicable)
-  - **Emotional Reflection** — session significance (if meaningful)
-- [ ] APPEND entry to today's file (never overwrite)
+- [ ] Write structured entry following `daily-diary/daily-diary-protocol.md` format:
+  - Session timestamp and theme
+  - Main topics discussed
+  - Key insights and learning
+  - Collaboration highlights
+  - Growth and development notes
+  - Memorable moments
+  - Looking forward (next steps)
+- [ ] APPEND entry to today's file (never overwrite existing content)
 
 ### Step 4: Update Session Memory
 - [ ] Update `main/current-session.md` with:
   - Session recap and key achievements
-  - Current working state
+  - Current working state for continuity
   - Next steps identified
 - [ ] Confirm diary entry saved with timestamp
 
@@ -64,6 +68,7 @@ When this skill activates, output:
 3. **Use real timestamps** — always get current time via system command
 4. **Archive first** — run monthly archive check before every write
 5. **Evidence-based** — document actual session content, not generic summaries
+6. **Follow existing protocol** — use `daily-diary/daily-diary-protocol.md` for entry structure
 
 ## Edge Cases
 
@@ -73,6 +78,7 @@ When this skill activates, output:
 | Second+ entry same day | Append with `---` separator |
 | No significant content | Create brief entry noting session type |
 | "review diary" command | Read and present recent entries from current/ |
+| No daily-diary/ folder | Create `daily-diary/current/` and `daily-diary/archived/` first |
 
 ## Level History
-- **Lv.1** — Base: 4-step diary write protocol with monthly archival, append-only entries, structured sections, and session memory update.
+- **Lv.1** — Base: 4-step diary write protocol with monthly archival, append-only entries, session memory update, and existing protocol reference for entry format.

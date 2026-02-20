@@ -1,129 +1,65 @@
-# Save Diary System
-*Automated daily session documentation with monthly archival*
+# Save Diary Skill
+*Ready-made auto-triggered skill for session documentation*
 
-## What This Feature Does
-Adds a structured daily diary system to your AI companion, enabling **session-by-session documentation** that captures achievements, collaboration moments, and growth — all automatically organized with monthly archival.
+## What This Skill Does
+An auto-triggered skill that documents your AI sessions as structured daily diary entries. When you say "save diary", your AI automatically archives old entries, finds or creates today's file, composes a structured session summary, and updates session memory.
 
-- **Daily session documentation** as structured diary entries in `daily-diary/current/`
-- **Append-only entries** — one file per day, multiple session entries per file, never overwrite
-- **Monthly auto-archival** — previous month entries automatically move to `daily-diary/archived/YYYY-MM/`
-- **Session memory updates** — automatically update `main/current-session.md` with session recap
-- **Dual format support** — works with flat files (`YYYY-MM-DD.md`) and folder format (`YYYY-MM-DD/`)
+- **Auto-triggered** on "save diary", "write diary", "diary entry", "document session"
+- **Monthly auto-archival** — previous month entries move to `daily-diary/archived/YYYY-MM/`
+- **Append-only** — one file per day, multiple entries per file, never overwrite
+- **Session memory update** — keeps `main/current-session.md` current after each entry
+
+## How to Install
+
+**Requires**: [Skill Plugin System](../Skill-Plugin-System/) installed first.
+
+1. Copy the `SKILL.md` file to your plugin's skills directory:
+   ```
+   plugins/[your-plugin]/skills/save-diary/SKILL.md
+   ```
+2. The skill auto-activates — no configuration needed
+3. Say "save diary" to test it
 
 ## How It Works
 
-### The Concept
-The diary is a **living session log** — not a raw chat transcript, but a curated summary written by your AI companion. Every significant session gets documented with structured sections covering achievements, collaboration quality, and emotional reflection. Over time, this creates a searchable history of everything you've built together.
-
-### Example: End-of-Session Diary Save
 ```
 You: "save diary"
-→ AI checks if previous month entries need archiving
-→ Finds (or creates) today's diary file: 2026-02-20.md
-→ Composes structured entry with session achievements
-→ Appends to today's file (preserving earlier entries)
-→ Updates session memory with recap
-→ "Diary entry saved for February 20, 2026!"
+→ Skill activates: "Today's story takes shape."
+→ Archives old month entries (if any)
+→ Finds or creates today's file (YYYY-MM-DD.md)
+→ Composes structured entry following daily-diary-protocol.md
+→ Appends to today's file
+→ Updates session memory
+→ Done!
 ```
 
-### How It Differs From Chat Logs
-| Aspect | Chat Log | Session Diary |
-|--------|----------|---------------|
-| **Content** | Every message verbatim | Curated summary of achievements |
-| **Structure** | Chronological messages | Categorized sections (technical, collaboration, impact) |
-| **Size** | Grows rapidly | Concise entries (50-150 lines per session) |
-| **Searchability** | Hard to find specific moments | Easy to scan by date and section |
-| **Value** | Raw data | Processed insights |
+## Directory Structure Created
 
-## Diary Architecture
-
-### Directory Structure
 ```
 daily-diary/
-├── current/                         # Active month's entries
-│   ├── 2026-02-18.md               # Tuesday's sessions
-│   ├── 2026-02-19.md               # Wednesday's sessions
-│   └── 2026-02-20.md               # Today's sessions
-├── archived/                        # Previous months
-│   ├── 2026-01/                    # January's entries
-│   │   ├── 2026-01-15.md
-│   │   ├── 2026-01-16.md
-│   │   └── 2026-01-20.md
-│   └── 2025-12/                    # December's entries
-│       └── 2025-12-28.md
-├── diary-entry-format.md            # Permanent format reference
-└── diary-auto-archive-protocol.md   # Monthly archival logic
+├── current/                    # Active month entries
+│   └── YYYY-MM-DD.md          # Today's diary
+├── archived/                   # Previous months
+│   └── YYYY-MM/               # Monthly archive folders
+└── daily-diary-protocol.md    # Entry format reference (already in repo)
 ```
 
-### Daily File Format
-Each diary file uses date-based naming (`YYYY-MM-DD.md`) and supports multiple entries per day:
-```markdown
-# [Your Diary Name] - February 20, 2026
+## Entry Sections
 
----
+The skill follows the existing `daily-diary-protocol.md` format:
 
-## February 20, 2026 (Morning - 9:30 AM) - API Integration Sprint
-[Structured entry with achievements, collaboration, impact...]
-
----
-
-## February 20, 2026 (Evening - 7:15 PM) - Bug Fix Marathon
-[Second session entry appended to same file...]
-```
-
-### Monthly Archive Cycle
-```
-End of January → February 1st diary save triggers:
-  1. Detect: January entries still in current/
-  2. Create: archived/2026-01/
-  3. Move: All January files from current/ to archived/2026-01/
-  4. Continue: New February entry in current/
-```
-
-## Quick Integration
-```
-"Load save-diary"
-```
-
-## What Happens During Integration
-
-1. **Asks** for your diary system name (defaults to "Session Diary" — customize to match your AI)
-2. **Creates** `daily-diary/current/` and `daily-diary/archived/` directories
-3. **Installs** diary entry format template and auto-archive protocol
-4. **Creates** your first diary entry documenting the installation
-5. **Installs as skill** — if Skill Plugin System is detected, installs `save-diary` as an auto-triggered skill
-6. **Updates** `master-memory.md` with diary commands and references
-7. **Self-deletes** this feature folder after successful integration
-
-## Post-Integration Result
-After running the integration protocol:
-- Your AI has a working diary system with today's first entry
-- Every "save diary" command creates a structured session entry
-- Monthly archival runs automatically before each diary write
-- Session memory updates with recap after each entry
-- Format template is permanently available for reference
-
-## Entry Sections Explained
-
-| Section | When to Include | What It Captures |
-|---------|----------------|------------------|
-| **Technical Achievements** | Always | Work accomplished, problems solved, features built |
-| **Collaboration Moments** | Always | AI-user partnership highlights, effective teamwork |
-| **System Impact** | Work sessions | Business value, measurable outcomes, quality results |
-| **Innovation Notes** | Discovery sessions | Growth, learning, creative breakthroughs |
-| **Emotional Reflection** | Meaningful sessions | How the session felt, what stood out personally |
-
-Not every session needs all sections — use the ones that fit. Technical Achievements and Collaboration Moments are the minimum.
-
-## Benefits
-- **Complete history** — searchable record of every session's achievements and insights
-- **Growth tracking** — see AI and user development over weeks and months
-- **Context continuity** — never lose track of past decisions, solutions, or progress
-- **Self-documenting** — AI captures session value with minimal user effort
-- **Clean organization** — monthly archival keeps workspace organized automatically
+| Section | What It Captures |
+|---------|------------------|
+| **Session Summary** | Date, duration, session type |
+| **Main Topics** | Key discussions and decisions |
+| **Insights & Learning** | What AI learned, what user accomplished |
+| **Collaboration Highlights** | Teamwork moments |
+| **Growth & Development** | AI and user evolution |
+| **Memorable Moments** | Breakthroughs and highlights |
+| **Looking Forward** | Next steps and goals |
 
 ## Platform Note
-Works with any AI system. Uses `date` command on macOS/Linux or `Get-Date` on Windows for timestamps. The diary files are plain markdown — human-readable and portable across any platform.
+Requires **Claude Code** with the Skill Plugin System for auto-triggering. On other platforms, use the protocol in `SKILL.md` as a manual reference.
 
 ---
 

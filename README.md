@@ -57,11 +57,9 @@ ai-memorycore/
 │   │   ├── README.md        # Feature explanation & benefits
 │   │   ├── install-skill-plugin.md # Installation protocol
 │   │   └── skill-format.md  # Sample format for SKILL.md files
-│   ├── Save-Diary-System/   # Daily session diary system
-│   │   ├── README.md        # Feature explanation & benefits
-│   │   ├── install-save-diary.md # Installation protocol
-│   │   ├── diary-entry-format.md # Sample format for diary entries
-│   │   └── save-diary-skill.md # Auto-triggered skill (for Skill Plugin System)
+│   ├── Save-Diary-System/   # Daily session diary skill
+│   │   ├── README.md        # Skill explanation & install guide
+│   │   └── SKILL.md         # Auto-triggered skill for session documentation
 │   └── Echo-Memory-Recall/  # Memory search and recall
 │       ├── README.md        # Feature explanation & benefits
 │       ├── install-echo-recall.md # Installation protocol
@@ -296,21 +294,20 @@ plugins/
 
 *Based on the proven alice-enchantments plugin system (20 skills in production)*
 
-### **Save Diary System**
-*Automated daily session documentation with monthly archival*
+### **Save Diary Skill**
+*Auto-triggered session documentation with monthly archival*
 
 **What It Does:**
-- Creates structured diary entries documenting each session's achievements and insights
-- One file per day (`YYYY-MM-DD.md`), multiple entries per day via append-only writes
+- Auto-triggered skill that documents sessions as structured diary entries
+- Creates date-based files (`YYYY-MM-DD.md`) with append-only writes
 - Monthly auto-archival moves previous month entries to `daily-diary/archived/YYYY-MM/`
 - Updates session memory with recap after each diary write
-- Supports both flat file and folder format for flexible organization
+- Follows existing `daily-diary-protocol.md` for entry format
 
 **Quick Setup:**
-1. Navigate to `Feature/Save-Diary-System/`
-2. Type: "Load save-diary"
-3. Choose your diary name (customizable to match your AI's personality)
-4. Diary infrastructure auto-creates with format template and first entry
+1. Install the **Skill Plugin System** first (if not already installed)
+2. Copy `Feature/Save-Diary-System/SKILL.md` to `plugins/[your-plugin]/skills/save-diary/SKILL.md`
+3. Say "save diary" — the skill auto-activates
 
 **Benefits:**
 - Complete searchable history of all AI sessions
@@ -318,17 +315,6 @@ plugins/
 - Never lose context about past work and decisions
 - Self-documenting with minimal user effort
 - Clean monthly archival keeps workspace organized
-
-**Post-Installation Structure:**
-```
-daily-diary/
-├── current/
-│   └── YYYY-MM-DD.md               # Today's diary entries
-├── archived/                        # Monthly archives
-│   └── YYYY-MM/                     # Past month entries
-├── diary-entry-format.md            # Permanent format reference
-└── diary-auto-archive-protocol.md   # Monthly archival logic
-```
 
 *Based on proven daily documentation systems in production AI companions*
 
