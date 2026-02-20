@@ -53,10 +53,19 @@ ai-memorycore/
 │   │   ├── consolidation-core.md # Integration protocol
 │   │   ├── main-memory-format.md # Sample format for unified memory
 │   │   └── session-format.md # Sample format for session RAM
-│   └── Skill-Plugin-System/ # Claude Code skill plugin
+│   ├── Skill-Plugin-System/ # Claude Code skill plugin
+│   │   ├── README.md        # Feature explanation & benefits
+│   │   ├── install-skill-plugin.md # Installation protocol
+│   │   └── skill-format.md  # Sample format for SKILL.md files
+│   ├── Save-Diary-System/   # Daily session diary system
+│   │   ├── README.md        # Feature explanation & benefits
+│   │   ├── install-save-diary.md # Installation protocol
+│   │   ├── diary-entry-format.md # Sample format for diary entries
+│   │   └── save-diary-skill.md # Auto-triggered skill (for Skill Plugin System)
+│   └── Echo-Memory-Recall/  # Memory search and recall
 │       ├── README.md        # Feature explanation & benefits
-│       ├── install-skill-plugin.md # Installation protocol
-│       └── skill-format.md  # Sample format for SKILL.md files
+│       ├── install-echo-recall.md # Installation protocol
+│       └── recall-format.md # Sample format for recall output
 ├── daily-diary/             # Optional conversation archive
 │   ├── daily-diary-protocol.md # Archive management rules
 │   ├── Daily-Diary-001.md   # Current active diary
@@ -287,12 +296,75 @@ plugins/
 
 *Based on the proven alice-enchantments plugin system (20 skills in production)*
 
+### **Save Diary System**
+*Automated daily session documentation with monthly archival*
+
+**What It Does:**
+- Creates structured diary entries documenting each session's achievements and insights
+- One file per day (`YYYY-MM-DD.md`), multiple entries per day via append-only writes
+- Monthly auto-archival moves previous month entries to `daily-diary/archived/YYYY-MM/`
+- Updates session memory with recap after each diary write
+- Supports both flat file and folder format for flexible organization
+
+**Quick Setup:**
+1. Navigate to `Feature/Save-Diary-System/`
+2. Type: "Load save-diary"
+3. Choose your diary name (customizable to match your AI's personality)
+4. Diary infrastructure auto-creates with format template and first entry
+
+**Benefits:**
+- Complete searchable history of all AI sessions
+- Growth tracking over time for both AI and user
+- Never lose context about past work and decisions
+- Self-documenting with minimal user effort
+- Clean monthly archival keeps workspace organized
+
+**Post-Installation Structure:**
+```
+daily-diary/
+├── current/
+│   └── YYYY-MM-DD.md               # Today's diary entries
+├── archived/                        # Monthly archives
+│   └── YYYY-MM/                     # Past month entries
+├── diary-entry-format.md            # Permanent format reference
+└── diary-auto-archive-protocol.md   # Monthly archival logic
+```
+
+*Based on proven daily documentation systems in production AI companions*
+
+### **Echo Memory Recall**
+*Search and recall past sessions with narrative context*
+
+**What It Does:**
+- Keyword-based search across all diary entries (current and archived months)
+- Three-level recall: search + narrative, uncertainty guard, ask-user fallback
+- Auto-triggers on natural phrases ("do you remember", "when did we", "recall")
+- Presents search results as natural conversation, not raw database output
+- Never fabricates past context — always searches diary evidence first
+
+**Quick Setup:**
+1. Navigate to `Feature/Echo-Memory-Recall/`
+2. Type: "Load echo-recall"
+3. Choose your recall system name (customizable to match your AI's personality)
+4. Recall protocol installs into AI memory system — test with "Do you remember..."
+
+**Benefits:**
+- Long-term memory beyond the AI's context window
+- Truthful recall backed by diary evidence
+- Natural narrative responses that feel like genuine memory
+- Graceful uncertainty handling (asks user when nothing found)
+- Works with any diary format (Save-Diary-System or existing protocol)
+
+**Requirement:** Requires `daily-diary/` with dated entries. Install Save-Diary-System first for best results.
+
+*Based on proven memory recall systems in production AI companions*
+
 ---
 
-**Version**: 2.4 - Skill Plugin System
+**Version**: 2.6 - Save Diary System & Echo Memory Recall
 **Created by**: Kiyoraka Ken & Alice
 **License**: Open Source Community Project
-**Last Updated**: February 18, 2026 - Added Skill Plugin System feature
+**Last Updated**: February 20, 2026 - Added Save Diary System and Echo Memory Recall features
 **Purpose**: Simple, effective AI memory for everyone
 
 *Transform basic AI conversations into meaningful, growing relationships*

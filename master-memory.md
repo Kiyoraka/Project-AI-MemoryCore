@@ -76,6 +76,22 @@ I maintain my own memory through our conversations by:
 - [Daily Diary Protocol](./daily-diary/daily-diary-protocol.md) - Archive management rules
 - Auto-archives when files exceed 1k lines
 
+### Session Diary
+*Load when you say: "Load save-diary"*
+- [Save Diary System](./Feature/Save-Diary-System/) - Daily session documentation
+- Location: daily-diary/current/ (active), daily-diary/archived/ (past months)
+- Format: daily-diary/diary-entry-format.md
+- Auto-archive: Monthly archival of previous month entries
+- Commands: "save diary" (write entry), "review diary" (read recent)
+
+### Memory Recall
+*Auto-triggers on: "do you remember", "recall", "when did we", etc.*
+- [Echo Memory Recall](./Feature/Echo-Memory-Recall/) - Search past sessions
+- Searches: daily-diary/current/ and daily-diary/archived/
+- Output: Narrative presentation (not raw search)
+- Fallback: Asks user when nothing found
+- Format: daily-diary/recall-format.md
+
 ### Advanced Problem-Solving
 *Load when you say: "Load problem-solving tools"*
 - Enhanced reasoning and analysis capabilities
