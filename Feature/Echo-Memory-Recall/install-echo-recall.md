@@ -1,4 +1,4 @@
-# Echo Memory Recall Installation Protocol
+# 🔍 Echo Memory Recall Installation Protocol
 *Systematic memory recall setup for AI MemoryCore companions*
 
 ## Purpose

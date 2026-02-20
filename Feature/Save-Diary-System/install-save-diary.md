@@ -1,4 +1,4 @@
-# Save Diary Installation Protocol
+# 📖 Save Diary Installation Protocol
 *Systematic diary system setup for AI MemoryCore companions*
 
 ## Purpose

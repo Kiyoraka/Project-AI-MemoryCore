@@ -1,4 +1,4 @@
-# Save Diary System
+# 📖 Save Diary System
 *Automated daily session documentation with monthly archival*
 
 ## What This Feature Does

@@ -1,4 +1,4 @@
-# Echo Memory Recall
+# 🔍 Echo Memory Recall
 *Search and recall past sessions with narrative context*
 
 ## What This Feature Does
