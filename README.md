@@ -61,10 +61,16 @@ ai-memorycore/
 │   │   ├── README.md        # Feature explanation & benefits
 │   │   ├── install-save-diary.md # Installation protocol
 │   │   └── SKILL.md         # Auto-triggered skill (for Skill Plugin System)
-│   └── Echo-Memory-Recall/  # Memory search and recall
+│   ├── Echo-Memory-Recall/  # Memory search and recall
+│   │   ├── README.md        # Feature explanation & benefits
+│   │   ├── install-echo-recall.md # Installation protocol
+│   │   └── recall-format.md # Sample format for recall output
+│   └── Patch-Update-System/ # AI-executable patch system
 │       ├── README.md        # Feature explanation & benefits
-│       ├── install-echo-recall.md # Installation protocol
-│       └── recall-format.md # Sample format for recall output
+│       ├── install-patch-system.md # Installation protocol
+│       ├── patch-format.md  # Sample format for patch files
+│       └── patches/         # Bundled patches
+│           └── PATCH-001.md # Fix outdated file references
 ├── daily-diary/             # Optional conversation archive
 │   ├── daily-diary-protocol.md # Archive management rules
 │   ├── Daily-Diary-001.md   # Current active diary
@@ -351,12 +357,44 @@ plugins/
 
 *Based on proven memory recall systems in production AI companions*
 
+### **🩹 Patch Update System**
+*AI-executable patches for keeping your AI MemoryCore current*
+
+**What It Does:**
+- Introduces structured `.md` patch files that your AI reads and applies automatically
+- Each patch contains find/replace instructions with exact text matching
+- Tracks applied patches in `patches/applied.md` to prevent double-application
+- Every patch includes rollback instructions for safe undo
+- Supports conditional sections for pre/post Memory Consolidation compatibility
+
+**Quick Setup:**
+1. Navigate to `Feature/Patch-Update-System/`
+2. Type: "Load patch-system"
+3. Patch infrastructure auto-creates with tracking log
+4. Any bundled patches are detected and offered for immediate application
+
+**Benefits:**
+- Zero manual editing — AI reads and applies patches through conversation
+- Full traceability with application log and timestamps
+- Safe rollback instructions included in every patch
+- Dependency management prevents out-of-order application
+- Human-readable markdown format — review before applying
+
+**Available Commands:**
+- `apply patch [ID]` - Read and apply a specific patch
+- `check patches` - List available unapplied patches
+- `patch status` - Show applied patches log
+
+**Platform Note:** Works with any AI system that can read and write files. Patches are plain markdown — portable across any platform.
+
+*Structured updates, tracked applications, safe rollbacks*
+
 ---
 
-**Version**: 2.6 - Save Diary System & Echo Memory Recall
+**Version**: 2.7 - Patch Update System
 **Created by**: Kiyoraka Ken & Alice
 **License**: Open Source Community Project
-**Last Updated**: February 20, 2026 - Added Save Diary System and Echo Memory Recall features
+**Last Updated**: February 24, 2026 - Added Patch Update System with PATCH-001 (Fix Issue #1)
 **Purpose**: Simple, effective AI memory for everyone
 
 *Transform basic AI conversations into meaningful, growing relationships*
