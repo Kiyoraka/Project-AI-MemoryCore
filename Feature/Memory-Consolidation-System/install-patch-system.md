@@ -45,7 +45,7 @@ Executed when "Load patch-system" command is used — creates patch infrastructu
 - [ ] Copy `patch-format.md` to `patches/patch-format.md` (permanent format reference)
 
 ### Step 3: Detect and Apply Bundled Patches
-- [ ] Check if patch files exist in `Feature/Patch-Update-System/patches/`
+- [ ] Check if patch files exist in `Feature/Memory-Consolidation-System/patches/`
 - [ ] If patches found (e.g., `PATCH-001.md`):
   - Present list to user: **"Found [N] pending patch(es). Would you like to apply them now?"**
   - Display each patch's title and priority from frontmatter
@@ -86,7 +86,7 @@ Executed when "Load patch-system" command is used — creates patch infrastructu
   "apply patch [ID]" → Apply a specific patch to fix/update files
   "check patches" → List available unapplied patches
   ```
-- [ ] Remove `Feature/Patch-Update-System/` folder (functionality installed)
+- [ ] Remove patch-related files from `Feature/Memory-Consolidation-System/` (install-patch-system.md, patch-format.md, patches/ folder — consolidation core files remain)
 - [ ] Display completion confirmation with timestamp
 
 ## Patch Application Protocol (AI Reference After Installation)

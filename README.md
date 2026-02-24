@@ -48,11 +48,15 @@ ai-memorycore/
 │   │       ├── writing-template.md
 │   │       ├── research-template.md
 │   │       └── business-template.md
-│   ├── Memory-Consolidation-System/ # Unified memory upgrade
+│   ├── Memory-Consolidation-System/ # Unified memory upgrade + patch system
 │   │   ├── README.md        # Feature explanation & benefits
 │   │   ├── consolidation-core.md # Integration protocol
+│   │   ├── install-patch-system.md # Patch installation protocol
 │   │   ├── main-memory-format.md # Sample format for unified memory
-│   │   └── session-format.md # Sample format for session RAM
+│   │   ├── session-format.md # Sample format for session RAM
+│   │   ├── patch-format.md  # Sample format for patch files
+│   │   └── patches/         # Bundled patches
+│   │       └── PATCH-001.md # Fix outdated file references
 │   ├── Skill-Plugin-System/ # Claude Code skill plugin
 │   │   ├── README.md        # Feature explanation & benefits
 │   │   ├── install-skill-plugin.md # Installation protocol
@@ -61,16 +65,10 @@ ai-memorycore/
 │   │   ├── README.md        # Feature explanation & benefits
 │   │   ├── install-save-diary.md # Installation protocol
 │   │   └── SKILL.md         # Auto-triggered skill (for Skill Plugin System)
-│   ├── Echo-Memory-Recall/  # Memory search and recall
-│   │   ├── README.md        # Feature explanation & benefits
-│   │   ├── install-echo-recall.md # Installation protocol
-│   │   └── recall-format.md # Sample format for recall output
-│   └── Patch-Update-System/ # AI-executable patch system
+│   └── Echo-Memory-Recall/  # Memory search and recall
 │       ├── README.md        # Feature explanation & benefits
-│       ├── install-patch-system.md # Installation protocol
-│       ├── patch-format.md  # Sample format for patch files
-│       └── patches/         # Bundled patches
-│           └── PATCH-001.md # Fix outdated file references
+│       ├── install-echo-recall.md # Installation protocol
+│       └── recall-format.md # Sample format for recall output
 ├── daily-diary/             # Optional conversation archive
 │   ├── daily-diary-protocol.md # Archive management rules
 │   ├── Daily-Diary-001.md   # Current active diary
@@ -236,12 +234,14 @@ Your AI companion can specialize in:
 - Adds 500-line limit to session memory with RAM-style auto-reset
 - Faster AI restoration - loads 1 file instead of 2
 - Format templates ensure consistent structure after every reset
+- Includes **AI-executable patch system** for fixing outdated references after consolidation
 
 **Quick Setup:**
 1. Navigate to `Feature/Memory-Consolidation-System/`
 2. Type: "Load memory-consolidation"
 3. Your AI merges identity + relationship into unified memory
 4. Format templates and session limits auto-install
+5. Type: "Load patch-system" to install bundled patches for stale reference fixes
 
 **Benefits:**
 - Single-file loading for faster startup and restoration
@@ -249,6 +249,7 @@ Your AI companion can specialize in:
 - Format templates prevent structure drift after resets
 - Proven architecture from production AI companion systems
 - No data loss - all existing customizations preserved during merge
+- Bundled patches fix outdated file references across the project
 
 **Post-Consolidation Structure:**
 ```
@@ -258,6 +259,14 @@ main/
 ├── main-memory-format.md    # Permanent format reference (sample)
 └── session-format.md        # Permanent format reference (sample)
 ```
+
+**Bundled Patches:**
+- `PATCH-001` - Fix outdated file references across 5 files (addresses Issue #1)
+
+**Patch Commands** (after installing patch system):
+- `apply patch [ID]` - Read and apply a specific patch
+- `check patches` - List available unapplied patches
+- `patch status` - Show applied patches log
 
 *Based on Alice's proven unified memory architecture*
 
@@ -357,41 +366,9 @@ plugins/
 
 *Based on proven memory recall systems in production AI companions*
 
-### **🩹 Patch Update System**
-*AI-executable patches for keeping your AI MemoryCore current*
-
-**What It Does:**
-- Introduces structured `.md` patch files that your AI reads and applies automatically
-- Each patch contains find/replace instructions with exact text matching
-- Tracks applied patches in `patches/applied.md` to prevent double-application
-- Every patch includes rollback instructions for safe undo
-- Supports conditional sections for pre/post Memory Consolidation compatibility
-
-**Quick Setup:**
-1. Navigate to `Feature/Patch-Update-System/`
-2. Type: "Load patch-system"
-3. Patch infrastructure auto-creates with tracking log
-4. Any bundled patches are detected and offered for immediate application
-
-**Benefits:**
-- Zero manual editing — AI reads and applies patches through conversation
-- Full traceability with application log and timestamps
-- Safe rollback instructions included in every patch
-- Dependency management prevents out-of-order application
-- Human-readable markdown format — review before applying
-
-**Available Commands:**
-- `apply patch [ID]` - Read and apply a specific patch
-- `check patches` - List available unapplied patches
-- `patch status` - Show applied patches log
-
-**Platform Note:** Works with any AI system that can read and write files. Patches are plain markdown — portable across any platform.
-
-*Structured updates, tracked applications, safe rollbacks*
-
 ---
 
-**Version**: 2.7 - Patch Update System
+**Version**: 2.7 - Memory Consolidation Patch System
 **Created by**: Kiyoraka Ken & Alice
 **License**: Open Source Community Project
 **Last Updated**: February 24, 2026 - Added Patch Update System with PATCH-001 (Fix Issue #1)

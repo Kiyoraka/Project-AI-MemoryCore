@@ -9,6 +9,7 @@ Upgrades your AI MemoryCore from split memory files to a single unified memory, 
 - **Adds main memory format template** for consistent structure reference
 - **Adds 500-line limit** to session memory with RAM-style reset
 - **Faster restoration** - loads 1 file instead of 2
+- **Bundled patch system** - AI-executable patches to fix outdated references across the project
 
 ## Why Consolidate?
 
@@ -83,6 +84,32 @@ Defines the expected structure for session RAM:
 
 Both templates are **permanent references** - they are never modified by the AI. The actual live files (`main-memory.md`, `current-session.md`) follow these formats.
 
+## Bundled Patch System
+
+After consolidation, outdated file references may remain in other project files (e.g., `save-protocol.md` still referencing `identity-core.md`). The bundled patch system fixes these automatically.
+
+### How Patches Work
+Patches are AI-executable `.md` files with structured find/replace instructions. Your AI reads the patch, locates exact text in target files, and applies the changes.
+
+### Available Patches
+| Patch | Title | Files Affected | Priority |
+|-------|-------|---------------|----------|
+| `PATCH-001` | Fix outdated file references | 5 files (master-memory, save-protocol, daily-diary-protocol, current-session, setup-wizard) | High |
+
+### Applying Patches
+```
+"Load patch-system"
+```
+This creates `patches/` directory with tracking, detects bundled patches, and offers to apply them.
+
+### Patch Commands (After Installation)
+- `"apply patch [ID]"` — Read and apply a specific patch
+- `"check patches"` — List available unapplied patches
+- `"patch status"` — Show applied patches log
+
+### Creating New Patches
+See `patch-format.md` for the standard format template. Drop new `.md` patch files into the `patches/` folder.
+
 ## Proven System
 Based on Alice's successful memory consolidation:
 - Tested across 6+ months of daily production use
@@ -92,4 +119,4 @@ Based on Alice's successful memory consolidation:
 
 ---
 
-*Load `consolidation-core.md` and your AI instantly upgrades to unified memory architecture!*
+*Load `consolidation-core.md` to upgrade to unified memory, then `Load patch-system` to fix stale references!*
