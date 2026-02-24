@@ -51,11 +51,11 @@ ai-memorycore/
 │   ├── Memory-Consolidation-System/ # Unified memory upgrade + patch system
 │   │   ├── README.md        # Feature explanation & benefits
 │   │   ├── consolidation-core.md # Integration protocol
-│   │   ├── install-patch-system.md # Patch installation protocol
 │   │   ├── main-memory-format.md # Sample format for unified memory
 │   │   ├── session-format.md # Sample format for session RAM
-│   │   ├── patch-format.md  # Sample format for patch files
-│   │   └── patches/         # Bundled patches
+│   │   └── patches/         # Bundled patch system
+│   │       ├── install-patch-system.md # Patch installation protocol
+│   │       ├── patch-format.md  # Sample format for patch files
 │   │       └── PATCH-001.md # Fix outdated file references
 │   ├── Skill-Plugin-System/ # Claude Code skill plugin
 │   │   ├── README.md        # Feature explanation & benefits

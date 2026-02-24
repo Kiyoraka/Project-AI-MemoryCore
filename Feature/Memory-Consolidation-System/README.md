@@ -108,7 +108,7 @@ This creates `patches/` directory with tracking, detects bundled patches, and of
 - `"patch status"` — Show applied patches log
 
 ### Creating New Patches
-See `patch-format.md` for the standard format template. Drop new `.md` patch files into the `patches/` folder.
+See `patches/patch-format.md` for the standard format template. Drop new `.md` patch files into the `patches/` folder.
 
 ## Proven System
 Based on Alice's successful memory consolidation:
