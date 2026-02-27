@@ -9,7 +9,7 @@ description: "MUST use when user says 'copy plan', 'append plan', 'resume plan',
 ---
 
 # Work — Plan Execution Skill
-*The architect's hand guides every stone into place.*
+*Plan lifecycle management with tracked execution and context recovery*
 
 ## Activation
 
@@ -17,9 +17,9 @@ Three commands, each with its own activation message:
 
 | Command | Activation Message |
 |---------|-------------------|
-| **Copy Plan** | `"The blueprint unfolds."` |
-| **Append Plan** | `"The scroll extends."` |
-| **Resume Plan** | `"We pick up where we left off."` |
+| **Copy Plan** | `"Copying plan to execution format..."` |
+| **Append Plan** | `"Appending to existing plan..."` |
+| **Resume Plan** | `"Resuming plan execution..."` |
 
 ## Context Guard
 

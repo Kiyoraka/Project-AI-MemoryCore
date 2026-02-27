@@ -10,7 +10,7 @@ description: "MUST use when committing code changes, when user says 'commit',
 ---
 
 # Auto-Commit — Intelligent Commit Skill
-*Every commit is a promise sealed into history. Let none be careless.*
+*Automated git commits with structured messages and intelligent change analysis*
 
 ## Activation
 

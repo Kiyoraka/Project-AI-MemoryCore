@@ -36,9 +36,9 @@ Executed when "Load work-plan" command is used — creates a plan execution skil
   - When a plan file exceeds this limit during append, the old file is archived
 - [ ] Store as `[LINE_LIMIT]`
 - [ ] Ask user: **"What should the AI say for each command?"** (or use defaults)
-  - Copy Plan message: default `"The blueprint unfolds."`
-  - Append Plan message: default `"The scroll extends."`
-  - Resume Plan message: default `"We pick up where we left off."`
+  - Copy Plan message: default `"Copying plan to execution format..."`
+  - Append Plan message: default `"Appending to existing plan..."`
+  - Resume Plan message: default `"Resuming plan execution..."`
 - [ ] Execute `Get-Date` (Windows) or `date` (macOS/Linux) for current timestamp
 
 ### Step 2: Verify Plugin System and Auto-Commit

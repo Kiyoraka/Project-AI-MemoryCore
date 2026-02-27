@@ -156,4 +156,4 @@ If you install the **Work Plan Execution** feature, Auto-Commit automatically ch
 **Last Updated**: February 2026
 **Status**: Active protocol for commit system setup
 
-*Every commit tells a story. Make yours worth reading.*
+*Structured commits that document your work — not just your diff*
