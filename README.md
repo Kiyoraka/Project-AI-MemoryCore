@@ -65,10 +65,20 @@ ai-memorycore/
 │   │   ├── README.md        # Feature explanation & benefits
 │   │   ├── install-save-diary.md # Installation protocol
 │   │   └── SKILL.md         # Auto-triggered skill (for Skill Plugin System)
-│   └── Echo-Memory-Recall/  # Memory search and recall
+│   ├── Echo-Memory-Recall/  # Memory search and recall
+│   │   ├── README.md        # Feature explanation & benefits
+│   │   ├── install-echo-recall.md # Installation protocol
+│   │   └── recall-format.md # Sample format for recall output
+│   ├── Auto-Commit-System/  # Intelligent git commit system
+│   │   ├── README.md        # Feature explanation & benefits
+│   │   ├── install-auto-commit.md # Installation protocol
+│   │   ├── commit-format.md # Sample format for commit messages
+│   │   └── SKILL.md         # Auto-triggered skill (for Skill Plugin System)
+│   └── Work-Plan-Execution/ # Project plan execution system
 │       ├── README.md        # Feature explanation & benefits
-│       ├── install-echo-recall.md # Installation protocol
-│       └── recall-format.md # Sample format for recall output
+│       ├── install-work-plan.md # Installation protocol
+│       ├── plan-format.md   # Sample format for plan files
+│       └── SKILL.md         # Auto-triggered skill (for Skill Plugin System)
 ├── daily-diary/             # Optional conversation archive
 │   ├── daily-diary-protocol.md # Archive management rules
 │   ├── Daily-Diary-001.md   # Current active diary
@@ -366,12 +376,90 @@ plugins/
 
 *Based on proven memory recall systems in production AI companions*
 
+### **🔒 Auto-Commit System**
+*Intelligent git commits that document your work as history, not just file changes*
+
+**What It Does:**
+- Structured commit messages with configurable named sections (e.g., TECHNICAL CHANGES + SESSION CONTEXT)
+- Intelligent change analysis — AI reads staged diff and drafts meaningful commit messages
+- Session context injection — commits capture what was accomplished, time spent, and session type
+- Auto-staging with smart file selection (avoids accidental commits of sensitive files)
+- Vigilant mode — after completing any task, auto-checks git status and commits if dirty
+
+**Quick Setup:**
+1. Install Skill Plugin System first (recommended for auto-triggering)
+2. Navigate to `Feature/Auto-Commit-System/`
+3. Type: "Load auto-commit"
+4. Choose your commit section names and author info — system installs and is ready
+
+**Benefits:**
+- Every commit tells the story of the session, not just the diff
+- Complete, searchable git history with context about decisions and progress
+- Vigilant mode ensures no work is ever left uncommitted
+- Human-authored commits — AI drafts, your name is on the record
+- Works with any git project, any language, any workflow
+
+**Available Commands:**
+- `commit` / `save changes` - Analyze changes, draft structured message, and commit
+- `push` / `commit and push` - Commit and immediately push to remote
+
+**Post-Installation Structure:**
+```
+[project]/
+└── commit-format.md             # Permanent commit format reference
+```
+
+**Platform Note:** Requires **Claude Code** with the Skill Plugin System for auto-triggering. On other platforms, load the `SKILL.md` as a manual protocol.
+
+*Based on proven auto-commit systems in production AI companions (5+ months of daily use)*
+
+### **📋 Work — Plan Execution System**
+*From plan mode to tracked execution — every step committed, every reset survivable*
+
+**What It Does:**
+- Copies plan mode output into a trackable `project-plan.md` with checkbox format
+- Converts plan steps into executable `[ ]` todos grouped by phase, preserving diagrams
+- Tracks progress through each item — completed tasks are marked `[x]`
+- Per-task commit discipline — chains with Auto-Commit to commit after each completed todo
+- Resume capability — survives context resets by reading plan file and picking up at next `[ ]`
+- Append mode — add new plan sections to an existing plan with automatic line-limit rotation
+
+**Quick Setup:**
+1. Navigate to `Feature/Work-Plan-Execution/`
+2. Type: "Load work-plan"
+3. Choose your plan location and source path — system installs and is ready
+4. Optionally install Auto-Commit first for per-task commit discipline
+
+**Benefits:**
+- Never lose plan progress — every completed task is committed or checkpointed
+- Survives context resets — resume from exactly the right task after any interruption
+- Complete execution history — git log shows plan progression commit by commit
+- Scales to large plans — 1,000-line limit with automatic rotation and archiving
+- Works independently — no other features required, but pairs perfectly with Auto-Commit
+
+**Available Commands:**
+- `copy plan` - Copy latest plan into execution format (fresh start)
+- `append plan` - Add new plan steps to existing plan
+- `resume plan` - Resume execution after context reset
+
+**Post-Installation Structure:**
+```
+[project]/
+└── plan-format.md               # Permanent plan format reference
+```
+
+**Synergy with Auto-Commit:** When both Auto-Commit and Work are installed, Work automatically chains — each completed todo triggers a structured commit. Git history maps directly to the plan.
+
+**Platform Note:** Requires **Claude Code** with the Skill Plugin System for auto-triggering. The plan file itself works on any platform.
+
+*Based on proven plan execution systems in production AI companions (daily plan tracking and recovery)*
+
 ---
 
-**Version**: 2.7 - Memory Consolidation Patch System
+**Version**: 2.9 - Auto-Commit System + Work Plan Execution
 **Created by**: Kiyoraka Ken & Alice
 **License**: Open Source Community Project
-**Last Updated**: February 24, 2026 - Added Patch Update System with PATCH-001 (Fix Issue #1)
+**Last Updated**: February 27, 2026 - Added Auto-Commit System and Work Plan Execution features
 **Purpose**: Simple, effective AI memory for everyone
 
 *Transform basic AI conversations into meaningful, growing relationships*
