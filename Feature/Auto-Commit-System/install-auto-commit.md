@@ -63,18 +63,17 @@ Executed when "Load auto-commit" command is used — creates an intelligent comm
   - Replace `[AI_NAME]` with AI companion's name from `master-memory.md`
 - [ ] Verify SKILL.md has valid YAML frontmatter with `name` and `description`
 
-### Step 4: Install Commit Format Template
-- [ ] Copy `commit-format.md` to project root as `commit-format.md`
-- [ ] Replace `[SECTION 1 NAME]` with `[SECTION_1_NAME]` in the copied file
-- [ ] Replace `[SECTION 2 NAME]` with `[SECTION_2_NAME]` in the copied file
-- [ ] Inform user: "Commit format template saved as `commit-format.md` — this is your permanent reference"
+### Step 4: Verify Skill Installation
+- [ ] Verify SKILL.md was created successfully with correct section names
+- [ ] Confirm the commit format is embedded in the SKILL.md (Step 2 section)
+- [ ] Inform user: "Commit format is built into the skill — no separate template needed"
 
 ### Step 5: Update Master Memory and Cleanup
 - [ ] Add commit reference to `master-memory.md` Optional Components section:
   ```markdown
   ### [COMMIT_SKILL_NAME]
   *Auto-triggers when: committing code, task completion (Vigilant mode)*
-  - Commit format: commit-format.md
+  - Commit format: embedded in SKILL.md
   - Sections: [SECTION_1_NAME] + [SECTION_2_NAME]
   - Author: [AUTHOR_NAME] <[AUTHOR_EMAIL]>
   - Vigilant mode: auto-commits after task completion
@@ -112,12 +111,11 @@ Executed when "Load auto-commit" command is used — creates an intelligent comm
 ## Post-Installation Structure
 ```
 [project]/
-├── commit-format.md                   # Permanent commit format reference
 └── plugins/
     └── [plugin-name]/
         └── skills/
             └── [COMMIT_SKILL_NAME]/
-                └── SKILL.md           # Auto-triggered commit skill
+                └── SKILL.md           # Auto-triggered commit skill (format embedded)
 ```
 
 ## Customizing After Installation
@@ -138,7 +136,7 @@ Edit `plugins/[plugin-name]/skills/[COMMIT_SKILL_NAME]/SKILL.md` to add addition
 ### Changing Section Names
 Update both files:
 1. `SKILL.md` — change the section names in the commit template
-2. `commit-format.md` — update the reference format to match
+2. Update the format in SKILL.md Step 2 section to match
 
 ### Pairing with Work Plan Execution
 If you install the **Work Plan Execution** feature, Auto-Commit automatically chains with it — each completed plan task triggers a structured commit. Your git history maps directly to your project plan.

@@ -71,8 +71,8 @@ Executed when "Load work-plan" command is used — creates a plan execution skil
 - [ ] Verify SKILL.md has valid YAML frontmatter with `name` and `description`
 
 ### Step 4: Install Plan Format Template
-- [ ] Copy `plan-format.md` to project root as `plan-format.md`
-- [ ] Inform user: "Plan format template saved as `plan-format.md` — this is your permanent reference for plan file structure"
+- [ ] Copy `plan-format.md` to `[PLAN_LOCATION]/plan-format.md` (alongside project-plan.md)
+- [ ] Inform user: "Plan format template saved in `[PLAN_LOCATION]/` — this is your permanent reference for plan file structure"
 
 ### Step 5: Update Master Memory and Cleanup
 - [ ] Add plan execution reference to `master-memory.md` Optional Components section:
@@ -122,7 +122,9 @@ Executed when "Load work-plan" command is used — creates a plan execution skil
 ## Post-Installation Structure
 ```
 [project]/
-├── plan-format.md                     # Permanent plan format reference
+├── [PLAN_LOCATION]/
+│   ├── project-plan.md                # Active plan file (created on first use)
+│   └── plan-format.md                 # Permanent plan format reference
 └── plugins/
     └── [plugin-name]/
         └── skills/
@@ -136,7 +138,7 @@ If the Skill Plugin System is not installed, add these instructions directly to 
 ```markdown
 ### Plan Execution
 When user says "copy plan", "append plan", or "resume plan":
-1. Read the plan execution protocol from plan-format.md
+1. Read the plan execution protocol from [PLAN_LOCATION]/plan-format.md
 2. Execute the corresponding command (copy/append/resume)
 3. Track progress using [ ] and [x] checkboxes
 4. Commit after each completed task (if using git)

@@ -88,7 +88,7 @@ After completing any task, the AI proactively checks `git status`. If uncommitte
 3. **Asks** for activation message (what the AI says when committing)
 4. **Asks** for author name and email (your identity on commits)
 5. **Creates** SKILL.md in your plugin system (or as manual protocol)
-6. **Creates** `commit-format.md` as permanent format reference
+6. **Embeds** commit format directly in SKILL.md — no separate template file needed
 7. **Updates** `master-memory.md` with commit commands
 8. **Self-deletes** this feature folder after successful integration
 
@@ -103,12 +103,11 @@ After running the integration protocol:
 **Post-Installation Structure:**
 ```
 [project]/
-├── commit-format.md             # Permanent commit format reference
 └── plugins/
     └── [plugin-name]/
         └── skills/
             └── [skill-name]/
-                └── SKILL.md     # Auto-triggered commit skill
+                └── SKILL.md     # Auto-triggered commit skill (format embedded)
 ```
 
 ## Benefits

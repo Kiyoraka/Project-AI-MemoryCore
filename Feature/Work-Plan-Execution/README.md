@@ -112,7 +112,7 @@ The file stores everything needed to recover — no user explanation required.
 3. **Asks** for plan source path (where your AI saves plan files)
 4. **Asks** for plan file line limit (default: 1000 lines)
 5. **Creates** SKILL.md in your plugin system (or as manual protocol)
-6. **Creates** `plan-format.md` as permanent format reference
+6. **Creates** `plan-format.md` in your plan location folder as permanent format reference
 7. **Updates** `master-memory.md` with plan execution commands
 8. **Self-deletes** this feature folder after successful integration
 
@@ -127,7 +127,9 @@ After running the integration protocol:
 **Post-Installation Structure:**
 ```
 [project]/
-├── plan-format.md                 # Permanent plan format reference
+├── [Plan Location]/
+│   ├── project-plan.md            # Active plan file (created on first use)
+│   └── plan-format.md             # Permanent plan format reference
 └── plugins/
     └── [plugin-name]/
         └── skills/

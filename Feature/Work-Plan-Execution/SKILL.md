@@ -53,7 +53,7 @@ Three commands, each with its own activation message:
 ### Step 2: Transform to Project Plan Format
 - [ ] Convert plan steps/items into `- [ ]` checkbox todo items
 - [ ] Preserve all architecture diagrams (ASCII, mermaid) from the original plan
-- [ ] Add standard instructions header (see `plan-format.md`)
+- [ ] Add standard instructions header (see `plan-format.md` in plan location folder)
 - [ ] Maintain logical phase/section grouping from the original plan
 - [ ] No emoji in the plan file — clean, parseable markdown only
 

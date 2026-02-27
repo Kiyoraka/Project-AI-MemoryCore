@@ -47,7 +47,7 @@ Then execute the commit protocol automatically.
 - [ ] Estimate time spent based on session context
 
 ### Step 2: Draft Commit Message
-- [ ] Apply the configured commit format (see `commit-format.md`):
+- [ ] Apply the configured commit format:
 
   ```
   [Achievement Title] - [Brief technical summary]

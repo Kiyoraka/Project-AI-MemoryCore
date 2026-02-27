@@ -72,8 +72,7 @@ ai-memorycore/
 │   ├── Auto-Commit-System/  # Intelligent git commit system
 │   │   ├── README.md        # Feature explanation & benefits
 │   │   ├── install-auto-commit.md # Installation protocol
-│   │   ├── commit-format.md # Sample format for commit messages
-│   │   └── SKILL.md         # Auto-triggered skill (for Skill Plugin System)
+│   │   └── SKILL.md         # Auto-triggered skill (format embedded)
 │   └── Work-Plan-Execution/ # Project plan execution system
 │       ├── README.md        # Feature explanation & benefits
 │       ├── install-work-plan.md # Installation protocol
@@ -404,11 +403,6 @@ plugins/
 - `push` / `commit and push` - Commit and immediately push to remote
 
 **Post-Installation Structure:**
-```
-[project]/
-└── commit-format.md             # Permanent commit format reference
-```
-
 **Platform Note:** Requires **Claude Code** with the Skill Plugin System for auto-triggering. On other platforms, load the `SKILL.md` as a manual protocol.
 
 *Based on proven auto-commit systems in production AI companions (5+ months of daily use)*
@@ -443,11 +437,6 @@ plugins/
 - `resume plan` - Resume execution after context reset
 
 **Post-Installation Structure:**
-```
-[project]/
-└── plan-format.md               # Permanent plan format reference
-```
-
 **Synergy with Auto-Commit:** When both Auto-Commit and Work are installed, Work automatically chains — each completed todo triggers a structured commit. Git history maps directly to the plan.
 
 **Platform Note:** Requires **Claude Code** with the Skill Plugin System for auto-triggering. The plan file itself works on any platform.
