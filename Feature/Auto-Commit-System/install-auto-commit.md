@@ -60,7 +60,6 @@ Executed when "Load auto-commit" command is used — creates an intelligent comm
   - Replace `[SECTION_1_NAME]` with chosen first section name
   - Replace `[SECTION_2_NAME]` with chosen second section name
   - Replace `[ACTIVATION_MESSAGE]` with chosen activation message
-  - Replace `[AI_NAME]` with AI companion's name from `master-memory.md`
 - [ ] Verify SKILL.md has valid YAML frontmatter with `name` and `description`
 
 ### Step 4: Verify Skill Installation

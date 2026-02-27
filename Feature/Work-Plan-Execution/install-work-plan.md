@@ -67,7 +67,6 @@ Executed when "Load work-plan" command is used — creates a plan execution skil
   - Replace `[PLAN_SOURCE_PATH]` with chosen plan source path
   - Replace `[LINE_LIMIT]` with chosen line limit
   - Replace activation messages with user's chosen messages
-  - Replace `[AI_NAME]` with AI companion's name from `master-memory.md`
 - [ ] Verify SKILL.md has valid YAML frontmatter with `name` and `description`
 
 ### Step 4: Install Plan Format Template
