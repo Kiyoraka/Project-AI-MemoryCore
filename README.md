@@ -402,7 +402,6 @@ plugins/
 - `commit` / `save changes` - Analyze changes, draft structured message, and commit
 - `push` / `commit and push` - Commit and immediately push to remote
 
-**Post-Installation Structure:**
 **Platform Note:** Requires **Claude Code** with the Skill Plugin System for auto-triggering. On other platforms, load the `SKILL.md` as a manual protocol.
 
 *Based on proven auto-commit systems in production AI companions (5+ months of daily use)*
@@ -436,7 +435,6 @@ plugins/
 - `append plan` - Add new plan steps to existing plan
 - `resume plan` - Resume execution after context reset
 
-**Post-Installation Structure:**
 **Synergy with Auto-Commit:** When both Auto-Commit and Work are installed, Work automatically chains — each completed todo triggers a structured commit. Git history maps directly to the plan.
 
 **Platform Note:** Requires **Claude Code** with the Skill Plugin System for auto-triggering. The plan file itself works on any platform.
