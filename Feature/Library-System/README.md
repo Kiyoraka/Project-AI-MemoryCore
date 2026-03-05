@@ -1,4 +1,4 @@
-# Library System
+# 📚 Library System
 *Reusable knowledge library — save patterns once, use them across every project*
 
 ## What This Feature Does
@@ -74,7 +74,15 @@ Each section has a format template (`library/formats/[section]-format.md`) that 
 7. **Updates** `master-memory.md` with library commands
 8. **Self-deletes** this feature folder after successful integration
 
-## Post-Installation Structure
+## Post-Integration Result
+After running the integration protocol:
+- Your AI has a working knowledge library with 8 sections and format templates
+- Every "save library" command searches for duplicates before creating entries
+- Project-aware recommendations match entries to your current tech stack
+- Format templates are applied automatically when saving new entries
+- If Auto-Commit installed: library saves auto-trigger a commit
+
+**Post-Installation Structure:**
 ```
 [project]/
 ├── plugins/
@@ -103,6 +111,20 @@ Each section has a format template (`library/formats/[section]-format.md`) that 
     ├── theme/
     └── workflow/
 ```
+
+## Available Commands
+
+| Command | What It Does |
+|---------|-------------|
+| `save library` | Search for duplicates, then save a knowledge entry |
+| `load library` | Search and load an existing knowledge entry |
+| `search library` | Search library without saving |
+| `check library` | Check if a pattern already exists |
+
+## Synergy: Works Best With Auto-Commit
+When both **Auto-Commit** and **Library** are installed, library saves automatically chain into commits — every knowledge entry is version-controlled the moment it's saved. Your library growth is tracked in git history.
+
+Without Auto-Commit, the library still works — entries are saved to files, but commits are done manually.
 
 ## Benefits
 - **Never solve the same problem twice** — proven patterns saved and searchable
