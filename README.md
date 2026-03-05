@@ -73,11 +73,24 @@ ai-memorycore/
 │   │   ├── README.md        # Feature explanation & benefits
 │   │   ├── install-auto-commit.md # Installation protocol
 │   │   └── SKILL.md         # Auto-triggered skill (format embedded)
-│   └── Work-Plan-Execution/ # Project plan execution system
-│       ├── README.md        # Feature explanation & benefits
-│       ├── install-work-plan.md # Installation protocol
-│       ├── plan-format.md   # Sample format for plan files
-│       └── SKILL.md         # Auto-triggered skill (for Skill Plugin System)
+│   ├── Work-Plan-Execution/ # Project plan execution system
+│   │   ├── README.md        # Feature explanation & benefits
+│   │   ├── install-work-plan.md # Installation protocol
+│   │   ├── plan-format.md   # Sample format for plan files
+│   │   └── SKILL.md         # Auto-triggered skill (for Skill Plugin System)
+│   └── Library-System/      # Knowledge library system
+│       ├── README.md         # Feature explanation & benefits
+│       ├── install-library.md # Installation protocol
+│       ├── SKILL.md          # Auto-triggered skill (format embedded)
+│       └── formats/          # Library entry format templates
+│           ├── architecture-format.md
+│           ├── component-format.md
+│           ├── database-format.md
+│           ├── diagram-format.md
+│           ├── integration-format.md
+│           ├── security-format.md
+│           ├── theme-format.md
+│           └── workflow-format.md
 ├── daily-diary/             # Optional conversation archive
 │   ├── daily-diary-protocol.md # Archive management rules
 │   ├── Daily-Diary-001.md   # Current active diary
@@ -441,12 +454,47 @@ plugins/
 
 *Based on proven plan execution systems in production AI companions (daily plan tracking and recovery)*
 
+### **📚 Library System**
+*Reusable knowledge library — save patterns once, use them across every project*
+
+**What It Does:**
+- Dynamic library scanning — automatically discovers sections and entries at runtime
+- Keyword-based search with deduplication prevention before saving
+- Project-aware recommendations — suggests entries that fit your current tech stack and scale
+- Format-aware saves — applies structured templates (8 section formats) when creating entries
+- Commit chain — auto-commits library changes when paired with Auto-Commit System
+
+**Quick Setup:**
+1. Install Skill Plugin System first (recommended for auto-triggering)
+2. Navigate to `Feature/Library-System/`
+3. Type: "Load library"
+4. Choose your library name and path — system installs with 8 section folders + format templates
+
+**Benefits:**
+- Never solve the same problem twice — proven patterns saved and searchable
+- Project-aware suggestions matched to your current tech stack and scale
+- Consistent implementations — same pattern, same quality, every project
+- Growing knowledge base that gets smarter with every project you complete
+- Format templates ensure entries are readable and reusable across projects
+
+**Available Commands:**
+- `save library` - Search for duplicates, then save a knowledge entry
+- `load library` - Search and load an existing knowledge entry
+- `search library` / `check library` - Search library without saving
+- `do we have` / `is there a pattern for` - Natural search triggers
+
+**Synergy with Auto-Commit:** When both Auto-Commit and Library are installed, library saves automatically chain into commits — every knowledge entry is version-controlled the moment it's saved.
+
+**Platform Note:** Requires **Claude Code** with the Skill Plugin System for auto-triggering. On other platforms, load the `SKILL.md` as a manual protocol.
+
+*Based on proven knowledge management systems in production AI companions (4+ months of daily use, 30+ library entries)*
+
 ---
 
-**Version**: 2.9 - Auto-Commit System + Work Plan Execution
+**Version**: 3.0 - Library System
 **Created by**: Kiyoraka Ken & Alice
 **License**: Open Source Community Project
-**Last Updated**: February 27, 2026 - Added Auto-Commit System and Work Plan Execution features
+**Last Updated**: March 6, 2026 - Added Library System feature
 **Purpose**: Simple, effective AI memory for everyone
 
 *Transform basic AI conversations into meaningful, growing relationships*
