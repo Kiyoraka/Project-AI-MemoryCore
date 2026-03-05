@@ -1,0 +1,301 @@
+# 🗄️ Database Entry Format
+*Template for database schema blueprint entries - Visual schema reference books*
+
+## Philosophy
+Library entries should be like **architectural blueprints**:
+- ASCII diagrams as PRIMARY content (visual ERDs)
+- Domain-based organization (group related tables)
+- Complete FK cascade strategy documentation
+- Index strategy summary
+- ENUM values reference
+- Generic and reusable across projects
+
+## Naming Convention
+```
+library/database/[domain]-enterprise-schema.md
+```
+Examples:
+- `wms-enterprise-schema.md` - Warehouse Management System
+- `lms-enterprise-schema.md` - Learning Management System
+- `ecommerce-enterprise-schema.md` - E-commerce System
+- `crm-enterprise-schema.md` - Customer Relationship Management
+
+## Required Sections
+1. Quick Stats (table count, FK count)
+2. Complete ERD (Master Overview)
+3. Domain Diagrams (grouped by business domain)
+4. Workflow Diagrams (for complex flows)
+5. FK Cascade Strategy Summary
+6. Index Strategy Summary
+7. ENUM Values Reference
+8. Source Reference
+
+---
+
+## Template
+
+```markdown
+# [Domain] Enterprise Schema Blueprint
+*Complete database architecture for [description of system type]*
+
+## Quick Stats
+| Metric | Value |
+|--------|-------|
+| Total Tables | [count] |
+| Business Tables | [count] |
+| System Tables | [count] |
+| Foreign Keys | [count]+ |
+| Unique Constraints | [count]+ |
+
+---
+
+## Complete Entity Relationship Diagram
+
+### Master Overview (All [X] Tables)
+` ` `
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                    [SYSTEM NAME] - COMPLETE ERD                                             │
+│                                         [X] Tables / [Y]+ FKs                                               │
+├─────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                                             │
+│   [ASCII ERD showing all tables organized by domain]                                                        │
+│                                                                                                             │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+` ` `
+
+---
+
+## [Domain 1] Diagram
+
+` ` `
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                      [DOMAIN NAME]                                                           │
+├─────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                                             │
+│   ┌──────────────────┐    ┌──────────────────┐    ┌──────────────────┐                                      │
+│   │   TABLE_NAME     │    │   TABLE_NAME     │    │   TABLE_NAME     │                                      │
+│   │   ──────────     │    │   ──────────     │    │   ──────────     │                                      │
+│   │ • id (PK)        │    │ • id (PK)        │    │ • id (PK)        │                                      │
+│   │ • column         │◄───│ • fk_id (FK)     │───►│ • column         │                                      │
+│   │ • status ENUM    │    │ • column         │    │ • column         │                                      │
+│   └──────────────────┘    └──────────────────┘    └──────────────────┘                                      │
+│                                                                                                             │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+` ` `
+
+---
+
+## [Workflow Name] Workflow
+
+` ` `
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                    [WORKFLOW NAME]                                                           │
+├─────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                                             │
+│      ROLE 1                                            ROLE 2                                               │
+│         │                                                  │                                                │
+│         ▼                                                  ▼                                                │
+│   ┌─────────────┐                                    ┌─────────────┐                                        │
+│   │  ACTION 1   │──────────────────────────────────►│  ACTION 2   │                                        │
+│   └─────────────┘                                    └─────────────┘                                        │
+│                                                                                                             │
+│   FLOW:                                                                                                     │
+│   ┌──────────┐    ┌──────────┐    ┌──────────┐    ┌──────────┐                                             │
+│   │ Step 1   │───►│ Step 2   │───►│ Step 3   │───►│ Step 4   │                                             │
+│   └──────────┘    └──────────┘    └──────────┘    └──────────┘                                             │
+│                                                                                                             │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+` ` `
+
+---
+
+## Foreign Key Cascade Strategy Summary
+
+` ` `
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                  FOREIGN KEY CASCADE STRATEGIES                                              │
+├─────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                                             │
+│   ON DELETE CASCADE (Delete children when parent deleted)                                                   │
+│   ───────────────────────────────────────────────────────                                                   │
+│   • [table.column] ───► [parent_table]                    ([explanation])                                   │
+│   • [table.column] ───► [parent_table]                    ([explanation])                                   │
+│                                                                                                             │
+│   ON DELETE SET NULL (Keep record, clear reference)                                                         │
+│   ─────────────────────────────────────────────────                                                         │
+│   • [table.column] ───► [parent_table]                    ([explanation])                                   │
+│   • [table.column] ───► [parent_table]                    ([explanation])                                   │
+│                                                                                                             │
+│   NO ACTION / RESTRICT (Prevent deletion if children exist)                                                 │
+│   ────────────────────────────────────────────────────────                                                  │
+│   • [table.column] ───► [parent_table]                    ([explanation])                                   │
+│                                                                                                             │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+` ` `
+
+---
+
+## Index Strategy Summary
+
+` ` `
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                       INDEX STRATEGY                                                         │
+├─────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                                             │
+│   UNIQUE INDEXES (Business Rule Enforcement)                                                                │
+│   ──────────────────────────────────────────                                                                │
+│   • [table].[column]                                                                                        │
+│   • [table].[column]                                                                                        │
+│                                                                                                             │
+│   COMPOSITE UNIQUE (Prevent Duplicates in Pivot Tables)                                                     │
+│   ─────────────────────────────────────────────────────                                                     │
+│   • [table] ([column1], [column2])                                                                          │
+│   • [table] ([column1], [column2])                                                                          │
+│                                                                                                             │
+│   SINGLE COLUMN INDEXES (Query Optimization)                                                                │
+│   ──────────────────────────────────────────                                                                │
+│   • [table]: ([column1]), ([column2]), ([column3])                                                          │
+│                                                                                                             │
+│   COMPOSITE INDEXES (Multi-Column Query Optimization)                                                       │
+│   ───────────────────────────────────────────────────                                                       │
+│   • [table] ([column1], [column2]) ───► "[query explanation]"                                               │
+│                                                                                                             │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+` ` `
+
+---
+
+## ENUM Values Reference
+
+` ` `
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                        ENUM VALUES REFERENCE                                                 │
+├─────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                                             │
+│   [table].[column]:           [value1] | [value2] | [value3]                                                │
+│   [table].[column]:           [value1] | [value2] | [value3] | [value4]                                     │
+│                                                                                                             │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+` ` `
+
+---
+
+## Source Reference
+
+| Attribute | Value |
+|-----------|-------|
+| **Project** | [Original project name] |
+| **Database** | [database_name] |
+| **Engine** | [MySQL/MariaDB/PostgreSQL version] |
+| **Stack** | [Framework + Frontend] |
+| **Tables** | [count] |
+| **Exported** | [Month Year] |
+
+---
+
+*[Domain] Enterprise Schema Blueprint*
+*[One-line description of what this schema supports]*
+```
+
+---
+
+## ASCII Diagram Guidelines
+
+### Box Drawing Characters
+```
+Corners:    ┌ ┐ └ ┘
+Lines:      │ ─
+T-joints:   ├ ┤ ┬ ┴
+Cross:      ┼
+Arrows:     ► ◄ ▲ ▼
+Bullets:    •
+```
+
+### Table Box Format
+```
+┌──────────────────┐
+│   TABLE_NAME     │
+│   ──────────     │
+│ • id (PK)        │
+│ • name           │
+│ • fk_id (FK)     │
+│ • status ENUM    │
+│ • created_at     │
+│                  │
+│ UNIQUE(col1,col2)│
+└──────────────────┘
+```
+
+### Relationship Arrows
+```
+───►    One direction FK
+◄───    Reverse direction
+◄──►    Bidirectional
+───┬─── Branch point
+   │
+   ▼
+```
+
+### Domain Box Format
+```
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                      DOMAIN NAME                                                             │
+├─────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                                             │
+│   [Tables and relationships inside]                                                                         │
+│                                                                                                             │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Common Domain Categories
+
+| Domain | Contains |
+|--------|----------|
+| **Product Domain** | products, categories, suppliers, bundles, variants |
+| **Order Domain** | orders, order_items, payments, deliveries |
+| **User Domain** | users, roles, sessions, notifications |
+| **Inventory Domain** | warehouse_inventory, stock_transfers, stock_waste |
+| **Config Domain** | settings, groups, taxes, pricing |
+| **System Domain** | cache, jobs, migrations, activity_logs |
+
+---
+
+## FK Cascade Strategy Guide
+
+| Strategy | Use When | Example |
+|----------|----------|---------|
+| **CASCADE** | Child meaningless without parent | order_items → orders |
+| **SET NULL** | Keep history, optional reference | orders.packed_by → users |
+| **RESTRICT** | Prevent accidental deletion | products.category_id → categories |
+
+---
+
+## Section Order (Important!)
+1. **Quick Stats** - Table counts at a glance
+2. **Master ERD** - Complete overview diagram
+3. **Domain Diagrams** - Grouped by business domain
+4. **Workflow Diagrams** - Complex multi-step processes
+5. **FK Cascade Strategy** - Deletion behavior
+6. **Index Strategy** - Performance optimization
+7. **ENUM Reference** - All enum values
+8. **Source Reference** - Attribution (project-specific names ONLY here)
+
+---
+
+## Key Principles
+
+1. **ASCII Diagrams First** - Primary content, not supplementary
+2. **Domain Organization** - Group related tables visually
+3. **Generic Labels** - No project names except in Source Reference
+4. **Complete Coverage** - Document ALL tables, not just main ones
+5. **Workflow Clarity** - Show multi-role processes with flow arrows
+6. **Cascade Documentation** - Every FK strategy explained
+
+---
+
+*Format v2.0 - January 10, 2026*
+*Philosophy: Architectural blueprints with complete visual schema*
+*Based on: wms-enterprise-schema.md pattern*
+*Enterprise database documentation format*
