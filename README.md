@@ -91,6 +91,10 @@ ai-memorycore/
 │           ├── security-format.md
 │           ├── theme-format.md
 │           └── workflow-format.md
+├── library-items/            # Pre-made knowledge entries for Library System
+│   ├── README.md             # Catalog and install instructions
+│   └── security/             # Security section items
+│       └── security-headers.md # HTTP security headers with CSP
 ├── daily-diary/             # Optional conversation archive
 │   ├── daily-diary-protocol.md # Archive management rules
 │   ├── Daily-Diary-001.md   # Current active diary
@@ -482,6 +486,9 @@ plugins/
 - `load library` - Search and load an existing knowledge entry
 - `search library` / `check library` - Search library without saving
 - `do we have` / `is there a pattern for` - Natural search triggers
+
+**Pre-Made Library Items:**
+The `library-items/` folder contains production-tested knowledge entries ready to install. After setting up the Library System, use `"install item [name]"` to add proven patterns to your library instantly.
 
 **Synergy with Auto-Commit:** When both Auto-Commit and Library are installed, library saves automatically chain into commits — every knowledge entry is version-controlled the moment it's saved.
 
