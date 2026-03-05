@@ -1,4 +1,4 @@
-# Library Items — Pre-Made Knowledge Entries
+# 📦 Library Items — Pre-Made Knowledge Entries
 *Production-tested patterns ready to install into your library*
 
 ## What Are Library Items?
