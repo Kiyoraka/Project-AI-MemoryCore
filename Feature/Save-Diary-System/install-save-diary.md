@@ -21,7 +21,7 @@ Executed when "Load save-diary" command is used — creates diary infrastructure
   - Default: `"Session Diary"`
   - Examples: `"Daily Log"`, `"Memory Journal"`, `"Adventure Record"`, `"Dev Diary"`
 - [ ] Store chosen name as `[DIARY_NAME]` for use in all references
-- [ ] Execute `date` command (or `Get-Date` on Windows) to get current timestamp
+- [ ] Get current timestamp using platform-appropriate command (`date +"%H:%M"` on bash, `Get-Date` on PowerShell, `time /T` on CMD)
 
 ### Step 2: Create Diary Infrastructure
 - [ ] Check if `daily-diary/` directory exists; create if not
@@ -119,7 +119,7 @@ daily-diary/
 - Always **APPEND**, never overwrite diary files
 - One file per day, multiple entries per file separated by `---`
 - Monthly archival keeps `current/` clean with only the active month
-- Cross-platform: Use `date` on macOS/Linux, `Get-Date` on Windows for timestamps
+- Cross-platform timestamps: `date +"%H:%M"` on bash/zsh (Linux, macOS, Git Bash, WSL), `Get-Date` on PowerShell, `time /T` on CMD. See `Feature/Time-based-Aware-System/time-aware-core.md` for full detection strategy
 - The `[DIARY_NAME]` placeholder is replaced with the name chosen in Step 1
 
 ---

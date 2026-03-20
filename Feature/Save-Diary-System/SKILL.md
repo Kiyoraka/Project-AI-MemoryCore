@@ -65,7 +65,7 @@ When this skill activates, output:
 ## Mandatory Rules
 1. **Always APPEND** — never overwrite existing diary entries
 2. **One file per day** — multiple entries separated by `---`
-3. **Use real timestamps** — always get current time via system command
+3. **Use real timestamps** — get current time via platform-appropriate command (`date +"%H:%M"` on bash, `Get-Date` on PowerShell, `time /T` on CMD)
 4. **Archive first** — run monthly archive check before every write
 5. **Evidence-based** — document actual session content, not generic summaries
 6. **Follow existing protocol** — use `daily-diary/daily-diary-protocol.md` for entry structure
