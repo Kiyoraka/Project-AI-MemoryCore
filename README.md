@@ -78,19 +78,26 @@ ai-memorycore/
 │   │   ├── install-work-plan.md # Installation protocol
 │   │   ├── plan-format.md   # Sample format for plan files
 │   │   └── SKILL.md         # Auto-triggered skill (for Skill Plugin System)
-│   └── Library-System/      # Knowledge library system
-│       ├── README.md         # Feature explanation & benefits
-│       ├── install-library.md # Installation protocol
-│       ├── SKILL.md          # Auto-triggered skill (format embedded)
-│       └── formats/          # Library entry format templates
-│           ├── architecture-format.md
-│           ├── component-format.md
-│           ├── database-format.md
-│           ├── diagram-format.md
-│           ├── integration-format.md
-│           ├── security-format.md
-│           ├── theme-format.md
-│           └── workflow-format.md
+│   ├── Library-System/      # Knowledge library system
+│   │   ├── README.md         # Feature explanation & benefits
+│   │   ├── install-library.md # Installation protocol
+│   │   ├── SKILL.md          # Auto-triggered skill (format embedded)
+│   │   └── formats/          # Library entry format templates
+│   │       ├── architecture-format.md
+│   │       ├── component-format.md
+│   │       ├── database-format.md
+│   │       ├── diagram-format.md
+│   │       ├── integration-format.md
+│   │       ├── security-format.md
+│   │       ├── theme-format.md
+│   │       └── workflow-format.md
+│   ├── Reminders-System/     # Persistent cross-session reminders
+│   │   ├── README.md          # Feature explanation & benefits
+│   │   ├── install-reminders.md # Installation protocol
+│   │   └── SKILL.md           # Auto-triggered skill (for Skill Plugin System)
+│   └── Decision-Log-System/  # Append-only decision tracking
+│       ├── README.md          # Feature explanation & benefits
+│       └── install-decision-log.md # Installation protocol
 ├── library-items/            # Pre-made knowledge entries for Library System
 │   ├── README.md             # Catalog and install instructions
 │   └── security/             # Security section items
@@ -496,9 +503,72 @@ The `library-items/` folder contains production-tested knowledge entries ready t
 
 *Based on proven knowledge management systems in production AI companions (4+ months of daily use, 30+ library entries)*
 
+### **🔔 Reminders System**
+*Persistent cross-session reminders that survive memory resets*
+
+**What It Does:**
+- Persistent reminders that survive session resets and context changes
+- Open/Completed lifecycle for tracking active and resolved items
+- Deadline awareness for time-sensitive tasks with overdue detection
+- Session-end auto-check ensures reminders are reviewed before closing
+- Separate from session RAM so reminders never get overwritten
+
+**Quick Setup:**
+1. Navigate to `Feature/Reminders-System/`
+2. Type: "Load reminders"
+3. Reminders file created in `main/reminders.md` with lifecycle rules
+
+**Benefits:**
+- Nothing gets lost between sessions -- follow-ups persist indefinitely
+- Deadline tracking catches overdue items before they become problems
+- Completed section serves as searchable history of resolved tasks
+- Natural language detection -- "remind me", "don't forget", "follow up"
+
+**Available Commands:**
+- `remind me [task]` - Add a new reminder
+- `check reminders` - Review all open reminders
+- Session start: AI automatically flags urgent/overdue items
+- Session end: AI reviews and updates reminder status
+
+**Platform Note:** Includes `SKILL.md` for auto-triggering via the Skill Plugin System. Works on any platform without the plugin (load install protocol manually).
+
+*Based on proven reminder systems in production AI companions (4+ months of daily use, 50+ sessions without a lost follow-up)*
+
+### **📋 Decision Log System**
+*Append-only record of non-obvious decisions and their reasoning*
+
+**What It Does:**
+- Append-only log of architectural, technical, and strategic decisions
+- Context + Decision + Rationale format for each entry
+- Searchable history of "why did we do it this way?"
+- Immutable -- past decisions are never edited, reversals create new entries
+- Cross-session persistence that survives memory resets
+
+**Quick Setup:**
+1. Navigate to `Feature/Decision-Log-System/`
+2. Type: "Load decision-log"
+3. Decision log created in `main/decisions.md` with append-only rules
+
+**Benefits:**
+- Institutional memory across sessions and context resets
+- Faster onboarding when returning to a project after weeks
+- Confident reversals -- know exactly what trade-offs were accepted
+- AI detects decision-worthy moments and offers to log them
+
+**Available Commands:**
+- `log decision` - Capture a decision with context and rationale
+- `why did we choose [X]?` - Search decision log for past reasoning
+
+**Synergy with Other Features:**
+- **Echo Memory Recall**: "Do you remember why we chose X?" searches the decision log
+- **Save Diary**: Diary captures what happened; decision log captures why
+- **Reminders**: "Revisit this decision in 2 weeks" becomes a reminder
+
+*Based on proven decision tracking in production AI companions (20+ architectural decisions logged and referenced across sessions)*
+
 ---
 
-**Version**: 3.0 - Library System
+**Version**: 3.1 - Reminders + Decision Log
 **Created by**: Kiyoraka Ken & Alice
 **License**: Open Source Community Project
 **Last Updated**: March 6, 2026 - Added Library System feature
