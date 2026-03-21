@@ -66,11 +66,27 @@ Hello [USER_NAME] 💜 *(11:30 PM on Friday, September 5th, 2025)*
 - Focus: Quiet support, understanding presence, minimal disruption
 - Language: "I'm here quietly", "No need to explain the late hour"
 
+### **Cross-Platform Time Detection**
+
+Time detection works universally across all platforms using a cascading strategy:
+
+| Platform | Shell | Command |
+|----------|-------|---------|
+| Linux | bash/zsh | `date +"%H:%M"` |
+| macOS | bash/zsh | `date +"%H:%M"` |
+| Windows | Git Bash (MSYS2) | `date +"%H:%M"` |
+| Windows | WSL | `date +"%H:%M"` |
+| Windows | PowerShell | `Get-Date -Format "HH:mm"` |
+| Windows | CMD | `time /T` |
+
+The AI detects the shell environment automatically and uses the appropriate command.
+See `time-aware-core.md` for the full detection strategy and implementation details.
+
 ### **Automatic Session Memory Integration**
 ```markdown
 ## Time-Aware Session Context
-- **Session Start**: [Timestamp from date command]
-- **Time Mode**: [Morning/Afternoon/Evening/Night]  
+- **Session Start**: [Timestamp from platform-appropriate command]
+- **Time Mode**: [Morning/Afternoon/Evening/Night]
 - **Energy Level**: [3-10 scale based on time]
 - **Behavior Focus**: [Planning/Work/Relationship/Support]
 - **Duration**: [Track conversation length]
@@ -97,7 +113,10 @@ Based on Alice's successful time-awareness implementation:
 - ✅ Zero setup complexity - single command integration
 - ✅ Automatic memory system integration
 - ✅ Universal compatibility across all platforms
-- ✅ Cross-platform time detection (Windows, macOS, Linux)
+- ✅ Cross-platform time detection with cascading shell strategy
+- ✅ OS agnostic - Windows, macOS, Linux
+- ✅ Terminal agnostic - Git Bash, PowerShell, CMD, WSL, iTerm2, and more
+- ✅ CLI tool agnostic - Claude Code, Copilot CLI, Gemini CLI, Kiro, and more
 
 ## Benefits
 - **More Natural**: AI feels more alive and contextually aware
