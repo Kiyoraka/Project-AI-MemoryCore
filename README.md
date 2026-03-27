@@ -568,10 +568,11 @@ The `library-items/` folder contains production-tested knowledge entries ready t
 
 ---
 
-**Version**: 3.1 - Reminders + Decision Log
+**Version**: 3.1 - Library System + Reminders + Decision Log
 **Created by**: Kiyoraka Ken & Alice
+**Contributors**: Faiz Khairi (@faizkhairi)
 **License**: Open Source Community Project
-**Last Updated**: March 6, 2026 - Added Library System feature
+**Last Updated**: March 27, 2026 - Added contributor credit, repaired Decision Log SKILL.md
 **Purpose**: Simple, effective AI memory for everyone
 
 *Transform basic AI conversations into meaningful, growing relationships*
