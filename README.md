@@ -40,14 +40,7 @@ ai-memorycore/
 │   ├── LRU-Project-Management-System/ # Smart project tracking
 │   │   ├── README.md        # System documentation
 │   │   ├── install-lru-projects-core.md # Auto-installation wizard
-│   │   ├── new-project-protocol.md # Create project workflow
-│   │   ├── load-project-protocol.md # Resume project workflow
-│   │   ├── save-project-protocol.md # Save progress workflow
-│   │   └── project-templates/ # Type-specific templates
-│   │       ├── coding-template.md
-│   │       ├── writing-template.md
-│   │       ├── research-template.md
-│   │       └── business-template.md
+│   │   └── SKILL.md         # Auto-triggered skill (all commands + LRU engine embedded)
 │   ├── Memory-Consolidation-System/ # Unified memory upgrade + patch system
 │   │   ├── README.md        # Feature explanation & benefits
 │   │   ├── consolidation-core.md # Integration protocol
@@ -97,7 +90,8 @@ ai-memorycore/
 │   │   └── SKILL.md           # Auto-triggered skill (for Skill Plugin System)
 │   └── Decision-Log-System/  # Append-only decision tracking
 │       ├── README.md          # Feature explanation & benefits
-│       └── install-decision-log.md # Installation protocol
+│       ├── install-decision-log.md # Installation protocol
+│       └── SKILL.md           # Auto-triggered skill (for Skill Plugin System)
 ├── library-items/            # Pre-made knowledge entries for Library System
 │   ├── README.md             # Catalog and install instructions
 │   └── security/             # Security section items
@@ -106,12 +100,10 @@ ai-memorycore/
 │   ├── daily-diary-protocol.md # Archive management rules
 │   ├── Daily-Diary-001.md   # Current active diary
 │   └── archive/             # Auto-archived files (>1k lines)
-├── projects/                # LRU managed projects (after install)
-│   ├── coding-projects/
-│   │   ├── active/          # Positions 1-10
-│   │   └── archived/        # Position 11+
-│   └── project-list.md     # Master project index
-└── save-protocol.md         # Manual save system
+└── projects/                # LRU managed projects (after install)
+    ├── active/              # Positions 1-10
+    ├── archived/            # Position 11+
+    └── project-list.md      # Auto-generated project index
 ```
 
 ### **Core Components**
@@ -120,7 +112,6 @@ ai-memorycore/
 3. **Relationship Memory** - User preferences and learning patterns
 4. **Current Session** - Temporary working memory (resets each session)
 5. **Daily Diary** - Optional conversation history with auto-archiving
-6. **Save Protocol** - User-triggered save system
 
 ## 🚀 **Quick Start**
 
@@ -232,31 +223,35 @@ Your AI companion can specialize in:
 **What It Does:**
 - Tracks multiple projects with intelligent LRU (Least Recently Used) positioning
 - Automatically archives old projects when reaching capacity (10 active slots)
-- Type-specific memory patterns (coding, writing, research, business)
+- Duration tracking that accumulates time from Auto-Commit messages
+- Line limit enforcement (1000 lines max with auto-summarization)
 - Seamless context switching between different projects
-- Maintains complete project history and progress logs
+- Fuzzy search for loading projects by partial name
 
 **Quick Setup:**
 1. Navigate to `Feature/LRU-Project-Management-System/`
-2. Type: "install lru projects" (loads install-lru-projects-core.md)
-3. Select project type(s) you want to manage
+2. Type: "install lru projects"
+3. System creates project structure and installs skill
 4. System auto-integrates and removes installation files
 
 **Benefits:**
 - Never lose track of multiple ongoing projects
 - AI remembers exactly where you left off in each project
-- Automatic organization with smart archiving
-- Type-specific memory loading for optimal context
-- Perfect for developers, writers, researchers, and business professionals
+- Automatic organization with smart LRU archiving
+- Duration tracking shows time invested per project
+- 1000-line cap prevents project file bloat over time
 
 **Available Commands:**
-- `new [type] project [name]` - Create new project with LRU management
-- `load project [name]` - Resume any project instantly
-- `save project` - Save current project progress (separate from AI memory save)
+- `new project [name]` - Create new project at position #1
+- `load project [name]` - Resume any project instantly (fuzzy search)
+- `save project` - Save current project progress (separate from AI memory)
 - `list projects` - View all active and archived projects
-- `archive project [name]` - Manually archive completed projects
 
-*Revolutionary project memory system proven in production*
+**Synergy with Auto-Commit:** Duration tracking parses `Time: ~XX min` from Auto-Commit messages, accumulating per project across sessions.
+
+**Platform Note:** Includes `SKILL.md` for auto-triggering via the Skill Plugin System. Works on any platform without the plugin (load install protocol manually).
+
+*Based on proven project management in production AI companions (70+ projects tracked)*
 
 ### **🔄 Memory Consolidation System**
 *Unified memory architecture for faster loading and better context*
@@ -568,11 +563,11 @@ The `library-items/` folder contains production-tested knowledge entries ready t
 
 ---
 
-**Version**: 3.1 - Library System + Reminders + Decision Log
+**Version**: 3.2 - LRU Overhaul + Duration Tracking
 **Created by**: Kiyoraka Ken & Alice
 **Contributors**: Faiz Khairi (@faizkhairi)
 **License**: Open Source Community Project
-**Last Updated**: March 27, 2026 - Added contributor credit, repaired Decision Log SKILL.md
+**Last Updated**: March 27, 2026 - LRU System overhaul: unified SKILL.md, duration tracking, line limit enforcement
 **Purpose**: Simple, effective AI memory for everyone
 
 *Transform basic AI conversations into meaningful, growing relationships*
