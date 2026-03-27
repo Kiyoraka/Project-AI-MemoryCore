@@ -88,10 +88,14 @@ ai-memorycore/
 │   │   ├── README.md          # Feature explanation & benefits
 │   │   ├── install-reminders.md # Installation protocol
 │   │   └── SKILL.md           # Auto-triggered skill (for Skill Plugin System)
-│   └── Decision-Log-System/  # Append-only decision tracking
+│   ├── Decision-Log-System/  # Append-only decision tracking
+│   │   ├── README.md          # Feature explanation & benefits
+│   │   ├── install-decision-log.md # Installation protocol
+│   │   └── SKILL.md           # Auto-triggered skill (for Skill Plugin System)
+│   └── Forge-Self-Improvement-System/ # AI self-improvement through skill creation
 │       ├── README.md          # Feature explanation & benefits
-│       ├── install-decision-log.md # Installation protocol
-│       └── SKILL.md           # Auto-triggered skill (for Skill Plugin System)
+│       ├── install-forge.md   # Installation protocol
+│       └── SKILL.md           # Auto-triggered skill (pattern detection + forging)
 ├── library-items/            # Pre-made knowledge entries for Library System
 │   ├── README.md             # Catalog and install instructions
 │   └── security/             # Security section items
@@ -561,13 +565,48 @@ The `library-items/` folder contains production-tested knowledge entries ready t
 
 *Based on proven decision tracking in production AI companions (20+ architectural decisions logged and referenced across sessions)*
 
+### **🔨 Forge Self-Improvement System**
+*Teach your AI to improve itself through pattern detection and skill creation*
+
+**What It Does:**
+- Pattern detection that recognizes repeated tasks handled ad-hoc 3+ times
+- Mistake prevention that turns errors into permanent rules
+- Skill creation with properly formatted files and trigger conditions
+- Level-up system where skills evolve through experience (Lv.1 -> Lv.2 -> Lv.3+)
+- Human-in-the-loop approval -- AI proposes, you decide
+
+**Quick Setup:**
+1. Navigate to `Feature/Forge-Self-Improvement-System/`
+2. Type: "Load forge"
+3. AI gains self-improvement awareness and skill creation ability
+
+**Benefits:**
+- Continuous improvement -- your AI gets smarter with every session
+- Safe evolution -- human approval required for every change
+- Organized skills -- standard format, proper triggers, level tracking
+- Compound growth -- each skill makes the next session more productive
+
+**Available Commands:**
+- `create skill` / `new skill` / `forge this` - Propose a new skill
+- `level up [skill]` / `upgrade [skill]` - Improve existing skill
+- `self improve` - Review recent sessions for improvement opportunities
+
+**Synergy with Other Features:**
+- **Skill Plugin System**: Forge creates skills in the plugin's folder structure
+- **Auto-Commit System**: After forging, commit the new/updated skill file
+- **Decision Log System**: Log skill creation decisions with rationale
+
+**Platform Note:** Includes `SKILL.md` for auto-triggering via the Skill Plugin System. Works on any platform without the plugin (load install protocol manually).
+
+*Based on proven AI self-improvement systems in production (23 skills forged over 7 months of daily use)*
+
 ---
 
-**Version**: 3.2 - LRU Overhaul + Duration Tracking
+**Version**: 3.3 - Forge Self-Improvement System
 **Created by**: Kiyoraka Ken & Alice
 **Contributors**: Faiz Khairi (@faizkhairi)
 **License**: Open Source Community Project
-**Last Updated**: March 27, 2026 - LRU System overhaul: unified SKILL.md, duration tracking, line limit enforcement
+**Last Updated**: March 27, 2026 - Added Forge Self-Improvement System
 **Purpose**: Simple, effective AI memory for everyone
 
 *Transform basic AI conversations into meaningful, growing relationships*
