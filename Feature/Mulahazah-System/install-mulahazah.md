@@ -95,6 +95,48 @@ chmod +x ~/.claude/mulahazah/agents/start-observer.sh
 
 ---
 
+## Step 4b: Copy bin/analyze.sh
+
+This is the actual analysis pipeline. It reads observations and calls Haiku to extract rules.
+
+```bash
+mkdir -p ~/.claude/mulahazah/bin
+cp Feature/Mulahazah-System/bin/analyze.sh ~/.claude/mulahazah/bin/analyze.sh
+chmod +x ~/.claude/mulahazah/bin/analyze.sh
+```
+
+Verify it is executable:
+
+```bash
+ls -la ~/.claude/mulahazah/bin/analyze.sh
+# Should show: -rwxr-xr-x
+```
+
+---
+
+## Step 4c: Copy the /continuous-improve command
+
+```bash
+mkdir -p ~/.claude/commands
+cp Feature/Mulahazah-System/commands/continuous-improve.md ~/.claude/commands/continuous-improve.md
+```
+
+This enables the `/continuous-improve` command in Claude Code, which triggers reflection + analysis + status in one step.
+
+---
+
+## Step 4d: Initialize rules.md
+
+Create the rules file that will accumulate learned behaviors:
+
+```bash
+touch ~/.claude/mulahazah/rules.md
+```
+
+On first install, this file is empty. Rules are appended automatically when you run `/continuous-improve` or when the background observer runs. You can also add rules manually.
+
+---
+
 ## Step 5: Copy config.json
 
 ```bash
@@ -168,13 +210,14 @@ ls ~/.claude/mulahazah/projects/
 wc -l ~/.claude/mulahazah/projects/*/observations.jsonl
 ```
 
-To trigger a status report from within Claude Code:
-```
-instinct status
-```
-or
+To trigger reflection + analysis + rule status from within Claude Code:
 ```
 /continuous-improve
+```
+
+Or ask directly:
+```
+what have you learned
 ```
 
 ---
@@ -185,21 +228,24 @@ or
 ~/.claude/mulahazah/
 ├── config.json                    # Observer configuration
 ├── observe.sh                     # PreToolUse/PostToolUse hook
+├── rules.md                       # Learned rules (grows over sessions)
 ├── projects.json                  # Global project registry
 ├── observer.pid                   # Background observer PID (after start)
 ├── observer.log                   # Observer run log (after start)
+├── bin/
+│   └── analyze.sh                 # Analysis pipeline (Haiku)
 ├── agents/
 │   ├── observer.md                # Observer agent system prompt
 │   ├── observer-loop.sh           # Background analysis loop
 │   └── start-observer.sh         # Observer launcher
-├── projects/
-│   └── <project-hash>/
-│       ├── project.json           # Project metadata
-│       ├── observations.jsonl     # Raw tool observations
-│       └── observations.archive/  # Rotated log archives
-└── instincts/
-    ├── global/                    # Cross-project instincts
-    └── <project-hash>/            # Project-scoped instincts
+└── projects/
+    └── <project-hash>/
+        ├── project.json           # Project metadata
+        ├── observations.jsonl     # Raw tool observations
+        └── observations.archive/  # Rotated log archives
+
+~/.claude/commands/
+└── continuous-improve.md          # /continuous-improve command
 ```
 
 ---
@@ -211,14 +257,20 @@ or
 - Verify hooks are configured in `~/.claude/settings.json`
 - Test the hook manually: `echo '{"tool_name":"Bash","session_id":"test"}' | bash ~/.claude/mulahazah/observe.sh`
 
-**Observer not generating instincts:**
-- Check minimum observation threshold: default is 20 observations
+**analyze.sh not extracting rules:**
+- Check minimum observation threshold: default is 5 observations for analyze.sh, 20 for background observer
+- Run analyze.sh manually: `bash ~/.claude/mulahazah/bin/analyze.sh`
 - Check observer logs: `tail -20 ~/.claude/mulahazah/observer.log`
 - Verify `claude` CLI is in PATH: `which claude`
+
+**rules.md not being created:**
+- Run `/continuous-improve` in a Claude Code session after some tool calls
+- Verify `analyze.sh` is executable: `ls -la ~/.claude/mulahazah/bin/analyze.sh`
+- Check that observations exist: `wc -l ~/.claude/mulahazah/projects/*/observations.jsonl`
 
 **jq not found:**
 - Install jq: `sudo apt install jq` (Ubuntu/Debian) or `brew install jq` (macOS)
 
 ---
 
-*Mulahazah v1.0 — install protocol*
+*Mulahazah v2.0 — install protocol*
