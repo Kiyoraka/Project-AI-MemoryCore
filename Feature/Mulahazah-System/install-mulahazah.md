@@ -1,7 +1,17 @@
-# Install Mulahazah
-*Two paths to install the Mulahazah instinct learning system*
+# Mulahazah Installation Protocol
+*Systematic setup for behavioral learning from session observations*
 
----
+## Purpose
+
+Executed when setting up the Mulahazah instinct learning system -- creates directory infrastructure, wires hooks into Claude Code, fetches analysis scripts, and activates the `/continuous-improve` command. After installation, your AI companion silently observes every tool call and learns from the patterns.
+
+## Trigger Command
+
+```
+npx continuous-improve-skill --target claude
+```
+
+*Or follow the manual path below if you prefer to inspect each script before running.*
 
 ## Prerequisites
 
@@ -10,89 +20,55 @@
 - `sha256sum` available (standard on Linux; `gsha256sum` on macOS via coreutils)
 - Bash 4.0+
 
----
+## 7-Step Installation Process
 
-## Path 1: npx (Recommended)
+### Step 1: Run the npx Installer (Recommended)
 
-The npm installer handles everything — directory creation, script download, hook configuration, and command setup.
+- [ ] Execute: `npx continuous-improve-skill --target claude`
+- [ ] The installer creates `~/.claude/mulahazah/` directory structure
+- [ ] Fetches `observe.sh`, `analyze.sh`, and observer scripts from GitHub
+- [ ] Wires `PreToolUse`/`PostToolUse` hooks in `~/.claude/settings.json`
+- [ ] Installs `/continuous-improve` command to `~/.claude/commands/`
+- [ ] Initializes `rules.md` and `projects.json`
 
-```bash
-npx continuous-improve-skill --target claude
-```
+### Step 2: Create Directory Structure (Manual Path)
 
-That's it. The installer will:
-1. Create `~/.claude/mulahazah/` directory structure
-2. Fetch `observe.sh`, `analyze.sh`, and observer scripts from GitHub
-3. Wire up `PreToolUse`/`PostToolUse` hooks in `~/.claude/settings.json`
-4. Install `/continuous-improve` command to `~/.claude/commands/`
-5. Initialize `rules.md` and `projects.json`
+- [ ] Run:
+  ```bash
+  mkdir -p ~/.claude/mulahazah/bin
+  mkdir -p ~/.claude/mulahazah/agents
+  mkdir -p ~/.claude/mulahazah/projects
+  mkdir -p ~/.claude/commands
+  ```
 
-**Verify the install:**
-```bash
-# Check hook script exists and is executable
-ls -la ~/.claude/mulahazah/observe.sh
+### Step 3: Fetch Scripts (Manual Path)
 
-# Check analysis script
-ls -la ~/.claude/mulahazah/bin/analyze.sh
+- [ ] Run:
+  ```bash
+  BASE="https://raw.githubusercontent.com/naimkatiman/continuous-improve-skill/main"
 
-# Confirm hooks are in settings.json
-cat ~/.claude/settings.json | grep mulahazah
-```
+  curl -fsSL "$BASE/hooks/observe.sh"        -o ~/.claude/mulahazah/observe.sh
+  curl -fsSL "$BASE/bin/analyze.sh"          -o ~/.claude/mulahazah/bin/analyze.sh
+  curl -fsSL "$BASE/agents/observer-loop.sh" -o ~/.claude/mulahazah/agents/observer-loop.sh
+  curl -fsSL "$BASE/agents/start-observer.sh" -o ~/.claude/mulahazah/agents/start-observer.sh
+  curl -fsSL "$BASE/agents/observer.md"      -o ~/.claude/mulahazah/agents/observer.md
+  curl -fsSL "$BASE/commands/continuous-improve.md" -o ~/.claude/commands/continuous-improve.md
+  ```
 
-Then restart Claude Code and run `/continuous-improve` after a few tool calls.
+### Step 4: Make Scripts Executable (Manual Path)
 
----
+- [ ] Run:
+  ```bash
+  chmod +x ~/.claude/mulahazah/observe.sh
+  chmod +x ~/.claude/mulahazah/bin/analyze.sh
+  chmod +x ~/.claude/mulahazah/agents/observer-loop.sh
+  chmod +x ~/.claude/mulahazah/agents/start-observer.sh
+  ```
 
-## Path 2: Manual Install
+### Step 5: Copy Config and Initialize Data Files (Manual Path)
 
-Use this path if you prefer to inspect each script before running it, or if npx is unavailable.
-
-All scripts are fetched from:
-`https://raw.githubusercontent.com/naimkatiman/continuous-improve-skill/main/`
-
-### Step 1: Create Directory Structure
-
-```bash
-mkdir -p ~/.claude/mulahazah/bin
-mkdir -p ~/.claude/mulahazah/agents
-mkdir -p ~/.claude/mulahazah/projects
-mkdir -p ~/.claude/commands
-```
-
-### Step 2: Fetch Scripts
-
-```bash
-BASE="https://raw.githubusercontent.com/naimkatiman/continuous-improve-skill/main"
-
-# Hook (fires on every tool call)
-curl -fsSL "$BASE/hooks/observe.sh" -o ~/.claude/mulahazah/observe.sh
-
-# Analysis pipeline (Haiku extracts rules from observations)
-curl -fsSL "$BASE/bin/analyze.sh" -o ~/.claude/mulahazah/bin/analyze.sh
-
-# Background observer (optional)
-curl -fsSL "$BASE/agents/observer-loop.sh" -o ~/.claude/mulahazah/agents/observer-loop.sh
-curl -fsSL "$BASE/agents/start-observer.sh" -o ~/.claude/mulahazah/agents/start-observer.sh
-curl -fsSL "$BASE/agents/observer.md" -o ~/.claude/mulahazah/agents/observer.md
-
-# /continuous-improve command
-curl -fsSL "$BASE/commands/continuous-improve.md" -o ~/.claude/commands/continuous-improve.md
-```
-
-### Step 3: Make Scripts Executable
-
-```bash
-chmod +x ~/.claude/mulahazah/observe.sh
-chmod +x ~/.claude/mulahazah/bin/analyze.sh
-chmod +x ~/.claude/mulahazah/agents/observer-loop.sh
-chmod +x ~/.claude/mulahazah/agents/start-observer.sh
-```
-
-### Step 4: Copy config.json
-
-```bash
-cp Feature/Mulahazah-System/config.json ~/.claude/mulahazah/config.json
-```
+- [ ] Copy config: `cp Feature/Mulahazah-System/config.json ~/.claude/mulahazah/config.json`
+- [ ] Initialize: `touch ~/.claude/mulahazah/rules.md && echo '{}' > ~/.claude/mulahazah/projects.json`
 
 Default configuration:
 ```json
@@ -107,111 +83,79 @@ Default configuration:
 }
 ```
 
-Adjust `run_interval_minutes` and `min_observations_to_analyze` to your preference.
+### Step 6: Configure Hooks in settings.json (Manual Path)
 
-### Step 5: Initialize Data Files
-
-```bash
-touch ~/.claude/mulahazah/rules.md
-echo '{}' > ~/.claude/mulahazah/projects.json
-```
-
-### Step 6: Configure Hooks in settings.json
-
-Open `~/.claude/settings.json` (create it if it does not exist) and add the following under the `hooks` key:
-
-```json
-{
-  "hooks": {
-    "PreToolUse": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash ~/.claude/mulahazah/observe.sh"
-          }
-        ]
-      }
-    ],
-    "PostToolUse": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash ~/.claude/mulahazah/observe.sh"
-          }
-        ]
-      }
-    ]
+- [ ] Open `~/.claude/settings.json` and add the following under the `hooks` key:
+  ```json
+  {
+    "hooks": {
+      "PreToolUse": [
+        {
+          "matcher": "",
+          "hooks": [
+            {
+              "type": "command",
+              "command": "bash ~/.claude/mulahazah/observe.sh"
+            }
+          ]
+        }
+      ],
+      "PostToolUse": [
+        {
+          "matcher": "",
+          "hooks": [
+            {
+              "type": "command",
+              "command": "bash ~/.claude/mulahazah/observe.sh"
+            }
+          ]
+        }
+      ]
+    }
   }
-}
+  ```
+- [ ] If you already have hooks configured, merge these entries -- do not replace existing hooks
+
+### Step 7: Verify Installation
+
+- [ ] Restart Claude Code
+- [ ] Perform a few tool calls
+- [ ] Check observations directory: `ls ~/.claude/mulahazah/projects/`
+- [ ] Check observation count: `wc -l ~/.claude/mulahazah/projects/*/observations.jsonl`
+- [ ] Run `/continuous-improve` or ask "what have you learned"
+
+## Installation Complete Message
+
+```
+Mulahazah installed successfully.
+
+  Hooks: PreToolUse + PostToolUse → observe.sh
+  Analysis: ~/.claude/mulahazah/bin/analyze.sh (Haiku-powered)
+  Rules: ~/.claude/mulahazah/rules.md (persistent across sessions)
+  Command: /continuous-improve
+
+Restart Claude Code to activate observation.
+After a few tool calls, run /continuous-improve to extract your first rules.
 ```
 
-If you already have hooks configured, merge these entries — do not replace existing hooks. The hook always exits 0 and completes in under 50ms.
+## What This System Does
 
-### Step 7 (Optional): Start the Background Observer
+1. Silently captures every tool call as structured JSONL -- no performance impact
+2. Accumulates observations per project in `~/.claude/mulahazah/projects/<hash>/`
+3. On `/continuous-improve` -- sends observations to Haiku for pattern extraction
+4. Writes extracted rules to `rules.md` -- your AI reads them next session
+5. Optional background observer auto-analyzes every 5 minutes when 20+ observations exist
 
-```bash
-bash ~/.claude/mulahazah/agents/start-observer.sh
-```
+## Notes
 
-The observer wakes every 5 minutes and runs analysis when 20+ observations are accumulated. To check status:
-```bash
-cat ~/.claude/mulahazah/observer.pid   # PID of running observer
-tail -f ~/.claude/mulahazah/observer.log
-```
+- The hook always exits 0 and completes in under 50ms -- it never blocks Claude Code
+- Rules decay without reinforcement -- rules that stop being observed are candidates for removal
+- To start the background observer: `bash ~/.claude/mulahazah/agents/start-observer.sh`
+- To check observer status: `cat ~/.claude/mulahazah/observer.pid`
+- To troubleshoot hooks: `cat ~/.claude/settings.json | grep mulahazah`
 
 ---
 
-## Verification
+**Version**: Protocol v1.0
 
-Restart Claude Code and perform a few tool calls. Then verify:
-
-```bash
-# Observations directory should appear
-ls ~/.claude/mulahazah/projects/
-
-# After your first session, a hash directory should exist:
-# ~/.claude/mulahazah/projects/<12-char-hash>/observations.jsonl
-
-# Check observation count
-wc -l ~/.claude/mulahazah/projects/*/observations.jsonl
-```
-
-Run the main command from within Claude Code:
-```
-/continuous-improve
-```
-
-Or ask directly:
-```
-what have you learned
-```
-
----
-
-## Troubleshooting
-
-**Observations not being written:**
-- Verify `observe.sh` is executable: `ls -la ~/.claude/mulahazah/observe.sh`
-- Verify hooks are in `~/.claude/settings.json`: `cat ~/.claude/settings.json | grep mulahazah`
-- Test manually: `echo '{"tool_name":"Bash","session_id":"test"}' | bash ~/.claude/mulahazah/observe.sh`
-
-**analyze.sh not extracting rules:**
-- Check minimum observation threshold (default: 5 for analyze.sh, 20 for background observer)
-- Run manually: `bash ~/.claude/mulahazah/bin/analyze.sh`
-- Verify `claude` CLI is in PATH: `which claude`
-
-**rules.md not being created:**
-- Run `/continuous-improve` after some tool calls
-- Verify analyze.sh is executable: `ls -la ~/.claude/mulahazah/bin/analyze.sh`
-
-**jq not found:**
-- Ubuntu/Debian: `sudo apt install jq`
-- macOS: `brew install jq`
-
----
-
-*Mulahazah v2.0 — install protocol*
+*Your AI companion gets wiser with every session -- one rule at a time.*
