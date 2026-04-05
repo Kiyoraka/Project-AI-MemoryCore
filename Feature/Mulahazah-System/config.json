@@ -1,5 +1,5 @@
 {
-  "version": "2.0",
+  "version": "2.2",
   "observer": {
     "enabled": true,
     "run_interval_minutes": 5,

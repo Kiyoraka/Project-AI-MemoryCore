@@ -3,12 +3,12 @@
 
 ## Purpose
 
-Executed when setting up the Mulahazah instinct learning system -- creates directory infrastructure, wires hooks into Claude Code, fetches analysis scripts, and activates the `/continuous-improve` command. After installation, your AI companion silently observes every tool call and learns from the patterns.
+Executed when setting up the Mulahazah instinct learning system -- creates directory infrastructure, wires hooks into Claude Code, fetches analysis scripts, and activates the `/continuous-improvement` command. After installation, your AI companion silently observes every tool call and learns from the patterns.
 
 ## Trigger Command
 
 ```
-npx continuous-improve-skill --target claude
+npx continuous-improvement install --target claude
 ```
 
 *Or follow the manual path below if you prefer to inspect each script before running.*
@@ -24,11 +24,11 @@ npx continuous-improve-skill --target claude
 
 ### Step 1: Run the npx Installer (Recommended)
 
-- [ ] Execute: `npx continuous-improve-skill --target claude`
+- [ ] Execute: `npx continuous-improvement install --target claude`
 - [ ] The installer creates `~/.claude/mulahazah/` directory structure
 - [ ] Fetches `observe.sh`, `analyze.sh`, and observer scripts from GitHub
 - [ ] Wires `PreToolUse`/`PostToolUse` hooks in `~/.claude/settings.json`
-- [ ] Installs `/continuous-improve` command to `~/.claude/commands/`
+- [ ] Installs `/continuous-improvement` command to `~/.claude/commands/`
 - [ ] Initializes `rules.md` and `projects.json`
 
 ### Step 2: Create Directory Structure (Manual Path)
@@ -45,14 +45,14 @@ npx continuous-improve-skill --target claude
 
 - [ ] Run:
   ```bash
-  BASE="https://raw.githubusercontent.com/naimkatiman/continuous-improve-skill/main"
+  BASE="https://raw.githubusercontent.com/naimkatiman/continuous-improvement/main"
 
   curl -fsSL "$BASE/hooks/observe.sh"        -o ~/.claude/mulahazah/observe.sh
   curl -fsSL "$BASE/bin/analyze.sh"          -o ~/.claude/mulahazah/bin/analyze.sh
   curl -fsSL "$BASE/agents/observer-loop.sh" -o ~/.claude/mulahazah/agents/observer-loop.sh
   curl -fsSL "$BASE/agents/start-observer.sh" -o ~/.claude/mulahazah/agents/start-observer.sh
   curl -fsSL "$BASE/agents/observer.md"      -o ~/.claude/mulahazah/agents/observer.md
-  curl -fsSL "$BASE/commands/continuous-improve.md" -o ~/.claude/commands/continuous-improve.md
+  curl -fsSL "$BASE/commands/continuous-improvement.md" -o ~/.claude/commands/continuous-improvement.md
   ```
 
 ### Step 4: Make Scripts Executable (Manual Path)
@@ -122,7 +122,7 @@ Default configuration:
 - [ ] Perform a few tool calls
 - [ ] Check observations directory: `ls ~/.claude/mulahazah/projects/`
 - [ ] Check observation count: `wc -l ~/.claude/mulahazah/projects/*/observations.jsonl`
-- [ ] Run `/continuous-improve` or ask "what have you learned"
+- [ ] Run `/continuous-improvement` or ask "what have you learned"
 
 ## Installation Complete Message
 
@@ -132,17 +132,17 @@ Mulahazah installed successfully.
   Hooks: PreToolUse + PostToolUse → observe.sh
   Analysis: ~/.claude/mulahazah/bin/analyze.sh (Haiku-powered)
   Rules: ~/.claude/mulahazah/rules.md (persistent across sessions)
-  Command: /continuous-improve
+  Command: /continuous-improvement
 
 Restart Claude Code to activate observation.
-After a few tool calls, run /continuous-improve to extract your first rules.
+After a few tool calls, run /continuous-improvement to extract your first rules.
 ```
 
 ## What This System Does
 
 1. Silently captures every tool call as structured JSONL -- no performance impact
 2. Accumulates observations per project in `~/.claude/mulahazah/projects/<hash>/`
-3. On `/continuous-improve` -- sends observations to Haiku for pattern extraction
+3. On `/continuous-improvement` -- sends observations to Haiku for pattern extraction
 4. Writes extracted rules to `rules.md` -- your AI reads them next session
 5. Optional background observer auto-analyzes every 5 minutes when 20+ observations exist
 

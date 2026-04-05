@@ -12,7 +12,7 @@ Adds unconscious behavioral learning to your AI companion:
 - **Hook-based observation** that captures every tool call as JSONL (<50ms, never blocks)
 - **Haiku-powered analysis** that extracts behavioral rules from session patterns
 - **Persistent rules** in `rules.md` -- your AI reads them each session and follows them
-- **One command** (`/continuous-improve`) to reflect, analyze, and review learned rules
+- **One command** (`/continuous-improvement`) to reflect, analyze, and review learned rules
 - **Background observer** (optional) for automatic periodic analysis
 
 ## The Problem It Solves
@@ -38,7 +38,7 @@ Without Mulahazah, corrections vanish between sessions. Your AI makes the same m
 
 ```bash
 # Option 1: npx (recommended -- installs hooks, observer, and command)
-npx continuous-improve-skill --target claude
+npx continuous-improvement install --target claude
 
 # Option 2: Manual (see install-mulahazah.md for full protocol)
 ```
@@ -53,9 +53,9 @@ You work normally in Claude Code
   → no performance impact (<50ms per hook, append-only)
 ```
 
-### On-Demand Analysis (/continuous-improve)
+### On-Demand Analysis (/continuous-improvement)
 ```
-You: /continuous-improve
+You: /continuous-improvement
 
 Mulahazah:
   Reflection -- What worked, what failed, rule to add

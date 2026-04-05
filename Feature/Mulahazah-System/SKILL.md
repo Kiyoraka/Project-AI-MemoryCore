@@ -1,6 +1,6 @@
 ---
 name: mulahazah
-description: "MUST use when user says 'continuous-improve', 'instinct status',
+description: "MUST use when user says 'continuous-improvement', 'instinct status',
              'what have you learned', 'show learned rules', 'mulahazah status',
              'what patterns have you noticed', 'behavioral learning', 'show rules',
              or when user asks about session learning, accumulated rules, or
@@ -27,7 +27,7 @@ Mulahazah is a passive observation layer built into your AI companion. It captur
 | Context | Status |
 |---------|--------|
 | **User asks about learned rules or patterns** | ACTIVE -- full protocol |
-| **User types `/continuous-improve`** | ACTIVE -- full protocol |
+| **User types `/continuous-improvement`** | ACTIVE -- full protocol |
 | **User says "what have you learned"** | ACTIVE -- full protocol |
 | **User wants to see rule summary** | ACTIVE -- full protocol |
 | **General coding conversation** | DORMANT -- follow rules.md silently |
@@ -38,7 +38,7 @@ Mulahazah is a passive observation layer built into your AI companion. It captur
 ### Step 1: Read Learned Rules
 
 - [ ] Check `~/.claude/mulahazah/rules.md` -- this is where learned rules live
-- [ ] If the file does not exist, report "No rules yet. Run `/continuous-improve` after a work session to generate them."
+- [ ] If the file does not exist, report "No rules yet. Run `/continuous-improvement` after a work session to generate them."
 - [ ] Count and display total rules
 
 ### Step 2: Session Reflection
@@ -55,7 +55,7 @@ Generate a reflection for this session:
 
 If there is a "Rule to add", check `~/.claude/mulahazah/rules.md` to see if it already exists. If not, append it.
 
-### Step 3: Analyze Observations (if requested or on /continuous-improve)
+### Step 3: Analyze Observations (if requested or on /continuous-improvement)
 
 - [ ] Check for `~/.claude/mulahazah/projects/*/observations.jsonl`
 - [ ] If 5+ observations exist, run: `bash ~/.claude/mulahazah/bin/analyze.sh`
@@ -87,7 +87,7 @@ Read `~/.claude/mulahazah/rules.md` and display:
 
 | Situation | Behavior |
 |-----------|----------|
-| **No rules.md yet** | Report "No rules yet for this project. Run `/continuous-improve` after your first work session." |
+| **No rules.md yet** | Report "No rules yet for this project. Run `/continuous-improvement` after your first work session." |
 | **Mulahazah not installed** | Output: "Mulahazah is not installed. See Feature/Mulahazah-System/install-mulahazah.md to get started." |
 | **Observer not running** | Note it is optional and show start command. Do not block skill execution. |
 | **analyze.sh not found** | Report the missing path and remind user to re-run install steps. |
@@ -104,4 +104,4 @@ Read `~/.claude/mulahazah/rules.md` and display:
 
 ## Level History
 
-- **Lv.1** -- Base: rules.md persistence, session reflection, observation capture via `observe.sh`, Haiku-powered analysis via `analyze.sh`, `/continuous-improve` command. Background observer optional. (Origin: continuous-improve v2.0, ported to MemoryCore as Mulahazah System. Tested end-to-end: observations captured, analyze.sh extracted "Grep → Read → Edit workflow" rule.)
+- **Lv.1** -- Base: rules.md persistence, session reflection, observation capture via `observe.sh`, Haiku-powered analysis via `analyze.sh`, `/continuous-improvement` command. Background observer optional. (Origin: continuous-improvement v2.0, ported to MemoryCore as Mulahazah System. Tested end-to-end: observations captured, analyze.sh extracted "Grep → Read → Edit workflow" rule.)
