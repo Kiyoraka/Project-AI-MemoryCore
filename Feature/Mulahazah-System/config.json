@@ -1,0 +1,9 @@
+{
+  "version": "2.0",
+  "observer": {
+    "enabled": true,
+    "run_interval_minutes": 5,
+    "min_observations_to_analyze": 20,
+    "model": "haiku"
+  }
+}
