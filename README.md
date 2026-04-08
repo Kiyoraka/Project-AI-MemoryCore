@@ -106,9 +106,13 @@ ai-memorycore/
 │   │   ├── install-post-mortem.md # Installation protocol
 │   │   ├── post-mortem-core.md  # Post-mortem protocol core
 │   │   └── SKILL.md             # Auto-triggered skill (for Skill Plugin System)
-│   └── Observation-System/      # Tiered code awareness
+│   ├── Observation-System/      # Tiered code awareness
+│   │   ├── README.md            # Feature explanation & benefits
+│   │   └── SKILL.md             # Auto-triggered skill (4-tier observation)
+│   └── Image-Prompt-System/     # AI image prompt generation
 │       ├── README.md            # Feature explanation & benefits
-│       └── SKILL.md             # Auto-triggered skill (4-tier observation)
+│       ├── install-image-prompt.md # Installation protocol
+│       └── SKILL.md             # Auto-triggered skill (composition-aware prompts)
 ├── library-items/            # Pre-made knowledge entries for Library System
 │   ├── README.md             # Catalog and install instructions
 │   └── security/             # Security section items
@@ -742,13 +746,49 @@ The `library-items/` folder contains production-tested knowledge entries ready t
 
 *Contributed by SherlockianAsh*
 
+### **🎨 Image Prompt System**
+*Craft perfect Midjourney & NijiJourney prompts — for any subject, any style*
+
+**What It Does:**
+- Generates optimized image prompts for Midjourney, NijiJourney, and similar AI image generators
+- **Freeform Mode** — describe anything (landscapes, objects, concepts), get an optimized prompt
+- **Character Mode** — reads your AI's character profile for consistent character art
+- Built-in **Shot Composition Guide** with 13 camera angles (close-up, wide shot, bird's eye, etc.)
+- **Style Presets** for anime, photorealistic, painterly, concept art, watercolor, pixel art, and more
+- Automatic **moderator safety check** before presenting prompts
+- Keyword ordering optimized for AI image generator token weighting
+
+**Quick Setup:**
+1. Navigate to `Feature/Image-Prompt-System/`
+2. Type: "Load image-prompt"
+3. Start generating: "create a prompt for [anything]"
+4. (Optional) Add `## Character Appearance` to main memory for character mode
+
+**Benefits:**
+- Works with ANY subject — not limited to characters
+- Shot composition guide teaches visual storytelling and framing
+- Consistent character art through profile-aware generation
+- Ready-to-paste prompts in code blocks with model flags
+- Style presets for quick quality targeting across different aesthetics
+- Accent color management keeps character consistency across diverse scenes
+
+**Available Commands:**
+- `create a prompt for [description]` - Generate an optimized image prompt
+- `midjourney prompt [description]` - Generate with Midjourney settings
+- `niji prompt [description]` - Generate with NijiJourney anime preset
+- `reference sheet for [character]` - Generate 3-panel character reference
+
+**Platform Note:** Includes `SKILL.md` for auto-triggering via the Skill Plugin System. Works on any platform without the plugin (load `SKILL.md` as a manual protocol).
+
+*Based on proven prompt generation systems in production AI companions*
+
 ---
 
-**Version**: 3.7 - Tiered installation guide with feature ordering
+**Version**: 3.8 - Image Prompt System with composition-aware generation
 **Created by**: Kiyoraka Ken & Alice
 **Contributors**: Faiz Khairi (@faizkhairi), logando-al (@logando-al), SherlockianAsh (@SherlockianAsh)
 **License**: Open Source Community Project
-**Last Updated**: April 8, 2026 - Added tiered installation guide with feature ordering
+**Last Updated**: April 8, 2026 - Added Image Prompt System with composition guide
 **Purpose**: Simple, effective AI memory for everyone
 
 *Transform basic AI conversations into meaningful, growing relationships*
