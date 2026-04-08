@@ -291,15 +291,25 @@ Features are organized into **tiers** based on dependencies. Install Tier 1 firs
 
 > Each feature has a detailed README inside its folder. Click the feature name to learn more.
 
-*Contributors: [logando-al](https://github.com/logando-al) (Session Briefing, Post-Mortem), [SherlockianAsh](https://github.com/SherlockianAsh) (Observation), [naimkatiman](https://github.com/naimkatiman) (Mulahazah)*
+---
+
+## 🤝 Contributors
+
+| # | Contributor | Features |
+|---|------------|----------|
+| 1 | [Faiz Khairi](https://github.com/faizkhairi) | Reminders System, Decision Log System |
+| 2 | [logando-al](https://github.com/logando-al) | Session Briefing System, Post-Mortem System |
+| 3 | [SherlockianAsh](https://github.com/SherlockianAsh) | Observation System |
+| 4 | [naimkatiman](https://github.com/naimkatiman) | Mulahazah System |
+
+> Want to contribute? Fork the repo, create a feature in `Feature/[Your-Feature]/`, and submit a PR!
 
 ---
 
-**Version**: 4.2 - Compact feature tables (details in each Feature/ README)
+**Version**: 4.2 - Compact feature tables with contributor credits
 **Created by**: Kiyoraka Ken & Alice
-**Contributors**: Faiz Khairi (@faizkhairi), logando-al (@logando-al), SherlockianAsh (@SherlockianAsh), naimkatiman (@naimkatiman)
 **License**: Open Source Community Project
-**Last Updated**: April 8, 2026 - Slim README with compact feature tables
+**Last Updated**: April 8, 2026
 **Purpose**: Simple, effective AI memory for everyone
 
 *Transform basic AI conversations into meaningful, growing relationships*
