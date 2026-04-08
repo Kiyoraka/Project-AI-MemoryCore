@@ -92,10 +92,23 @@ ai-memorycore/
 │   │   ├── README.md          # Feature explanation & benefits
 │   │   ├── install-decision-log.md # Installation protocol
 │   │   └── SKILL.md           # Auto-triggered skill (for Skill Plugin System)
-│   └── Forge-Self-Improvement-System/ # AI self-improvement through skill creation
-│       ├── README.md          # Feature explanation & benefits
-│       ├── install-forge.md   # Installation protocol
-│       └── SKILL.md           # Auto-triggered skill (pattern detection + forging)
+│   ├── Forge-Self-Improvement-System/ # AI self-improvement through skill creation
+│   │   ├── README.md          # Feature explanation & benefits
+│   │   ├── install-forge.md   # Installation protocol
+│   │   └── SKILL.md           # Auto-triggered skill (pattern detection + forging)
+│   ├── Session-Briefing-System/ # Proactive session-start intelligence brief
+│   │   ├── README.md            # Feature explanation & benefits
+│   │   ├── install-session-briefing.md # Installation protocol
+│   │   ├── session-brief-core.md # Briefing protocol core
+│   │   └── SKILL.md             # Auto-triggered skill (for Skill Plugin System)
+│   ├── Post-Mortem-System/      # Failure learning log
+│   │   ├── README.md            # Feature explanation & benefits
+│   │   ├── install-post-mortem.md # Installation protocol
+│   │   ├── post-mortem-core.md  # Post-mortem protocol core
+│   │   └── SKILL.md             # Auto-triggered skill (for Skill Plugin System)
+│   └── Observation-System/      # Tiered code awareness
+│       ├── README.md            # Feature explanation & benefits
+│       └── SKILL.md             # Auto-triggered skill (4-tier observation)
 ├── library-items/            # Pre-made knowledge entries for Library System
 │   ├── README.md             # Catalog and install instructions
 │   └── security/             # Security section items
@@ -600,13 +613,108 @@ The `library-items/` folder contains production-tested knowledge entries ready t
 
 *Based on proven AI self-improvement systems in production (23 skills forged over 7 months of daily use)*
 
+### **📋 Session Briefing System**
+*Proactive session-start intelligence — know where you left off before you ask*
+
+**What It Does:**
+- Delivers a concise brief (under 12 lines) at the start of every session automatically
+- Recaps where you left off from `current-session.md`
+- Surfaces open reminders, active project status, and idle project flags
+- Time-adaptive work suggestion based on time of day
+- Manual trigger with `"brief"` or suppress with `"skip brief"`
+
+**Quick Setup:**
+1. Navigate to `Feature/Session-Briefing-System/`
+2. Type: "Load session-briefing"
+3. Briefing auto-delivers at every session start — no command needed
+
+**Benefits:**
+- Zero-effort context restoration at the start of every session
+- Never miss open reminders or stale projects
+- Time-aware suggestions match your energy to the work
+- Works standalone with just `current-session.md`, or integrates with Reminders, LRU Projects, and Time-Aware systems
+
+**Companion Systems:**
+- **Time-based-Aware-System**: Powers time-adaptive work suggestions
+- **LRU-Project-Management-System**: Provides active project + idle/stale health flags
+- **Reminders-System**: Surfaces open reminders in the brief
+
+**Platform Note:** Includes `SKILL.md` for auto-triggering via the Skill Plugin System. Works on any platform without the plugin (load install protocol manually).
+
+*Contributed by logando-al*
+
+### **🔥 Post-Mortem System**
+*Failure learning log — the same mistake never costs you twice*
+
+**What It Does:**
+- Auto-detects failure signals in conversation (failed deploys, broken tests, wasted time on dead ends)
+- Asks whether it's worth logging — you always decide
+- Records structured entries: what happened, why, impact, lesson, and prevention action
+- References past post-mortems when you start work in the same domain
+- Append-only — past entries are never edited, reversals create new entries
+
+**Quick Setup:**
+1. Navigate to `Feature/Post-Mortem-System/`
+2. Type: "Load post-mortem"
+3. AI gains failure detection and learning log capability
+
+**Benefits:**
+- Institutional memory for failures — never repeat the same costly mistake
+- Actionable prevention steps attached to every entry
+- Honest, no-blame format that encourages transparent logging
+- Searchable history of "what went wrong and what we learned"
+- Severity tracking (Minor / Moderate / Major) for prioritized learning
+
+**Companion Systems:**
+- **Session Briefing System**: Flags recent post-mortems when starting work in the same domain
+- **Decision-Log-System**: Post-mortems complement decisions — one records why, the other records what went wrong
+- **Save-Diary-System**: Post-mortem entries can be referenced in diary entries
+
+**Platform Note:** Includes `SKILL.md` for auto-triggering via the Skill Plugin System. Works on any platform without the plugin (load install protocol manually).
+
+*Contributed by logando-al*
+
+### **👁️ Observation System**
+*Tiered code awareness — see clearly before you act*
+
+**What It Does:**
+- 4-tier observation system for structured project inspection at different depths
+- **Survey** (Lv.1) — Quick bird's-eye view of project health (~30 sec)
+- **Investigate** (Lv.2) — Deep dive into a specific area, bug, or file (~5 min)
+- **Refine** (Lv.2) — Review and fix changed code for quality (~5 min)
+- **Audit** (Lv.3) — Full system audit with architecture mapping (~15 min)
+- Escalation pattern: tiers are aware of each other and suggest deeper investigation when appropriate
+- Cost-aware delegation — frequent cheap observation prevents expensive deep audits
+
+**Quick Setup:**
+1. Navigate to `Feature/Observation-System/`
+2. Type: "Load observation"
+3. AI gains tiered observation commands — survey, investigate, refine, audit
+
+**Benefits:**
+- The right depth for the right question — don't audit when you need a survey
+- Refine tier acts as a quality gate before every commit
+- Escalation patterns guide you from quick checks to deep analysis
+- Cost-efficient — match observation depth to actual need
+- Integrates with Library, Post-Mortem, Work-Plan, and Auto-Commit systems
+
+**Available Commands:**
+- `survey` - Quick project health check (~30 sec)
+- `investigate [area/bug]` - Deep dive into specific area (~5 min)
+- `refine` / `refine [file]` - Review changed code for quality (~5 min)
+- `audit` / `audit cross` - Full system or cross-project audit (~15 min)
+
+**Platform Note:** Includes `SKILL.md` for auto-triggering via the Skill Plugin System. Works on any platform without the plugin (load `SKILL.md` as a manual protocol).
+
+*Contributed by SherlockianAsh*
+
 ---
 
-**Version**: 3.3 - Forge Self-Improvement System
+**Version**: 3.6 - Observation System + Session Briefing + Post-Mortem
 **Created by**: Kiyoraka Ken & Alice
-**Contributors**: Faiz Khairi (@faizkhairi)
+**Contributors**: Faiz Khairi (@faizkhairi), logando-al (@logando-al), SherlockianAsh (@SherlockianAsh)
 **License**: Open Source Community Project
-**Last Updated**: March 27, 2026 - Added Forge Self-Improvement System
+**Last Updated**: April 8, 2026 - Added Session Briefing, Post-Mortem & Observation Systems
 **Purpose**: Simple, effective AI memory for everyone
 
 *Transform basic AI conversations into meaningful, growing relationships*
