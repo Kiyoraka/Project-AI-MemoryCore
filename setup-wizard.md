@@ -47,6 +47,23 @@ After successful setup, these files are no longer needed:
 - Delete `setup-guide.md` 
 - Keep only the core system files
 
+## 🚀 What's Next?
+
+Your AI companion is ready! Here's the recommended path to unlock more features:
+
+### Recommended First Steps
+1. **Memory Consolidation** — Upgrade to unified memory architecture (faster loading)
+   → Navigate to `Feature/Memory-Consolidation-System/` and type: "Load memory-consolidation"
+
+2. **Skill Plugin System** — Enable auto-triggered skills for your AI
+   → Navigate to `Feature/Skill-Plugin-System/` and type: "Load skill-plugin"
+
+3. **Time-based Aware System** — Add time-intelligent greetings and behavior
+   → Navigate to `Feature/Time-based-Aware-System/` and type: "Load time-aware-core"
+
+### Then Explore More
+Check the **Available Feature Extensions** section in `README.md` for all features organized by installation tier. Each tier builds on the previous one — start from Tier 1 and work your way up!
+
 ## 🔄 **Auto-Update Protocol During Setup**
 
 ### **Real-Time File Saving**

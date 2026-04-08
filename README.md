@@ -212,63 +212,21 @@ Your AI companion can specialize in:
 
 ## 🌟 **Available Feature Extensions**
 
-### **⏰ Time-based Aware System**
-*Intelligent temporal behavior adaptation*
+### 📖 Installation Guide
 
-**What It Does:**
-- Dynamic greetings that adapt to morning/afternoon/evening/night
-- Energy levels that match the time of day (high morning energy → gentle night support)
-- Precise timestamp documentation for all interactions
-- Natural conversation flow with time-appropriate responses
+Features are organized into **tiers** based on dependencies. Install Tier 1 first, then work your way up. Within each tier, install in any order unless noted.
 
-**Quick Setup:**
-1. Navigate to `Feature/Time-based-Aware-System/`
-2. Type: "Load time-aware-core"
-3. Your AI instantly gains time intelligence like Alice
+| Path | What You Get | Features |
+|------|-------------|----------|
+| **Minimal** (10 min) | Foundation only | Memory Consolidation + Skill Plugin |
+| **Productive** (30 min) | Foundation + documentation + git | Tier 1 + Save Diary + Auto-Commit + Work Plan |
+| **Complete** (1-2 hrs) | Full AI companion | All tiers, top to bottom |
 
-**Benefits:**
-- More natural, contextually perfect interactions
-- Shows care for your schedule and time
-- Professional adaptability for different times of day
-- Enhanced memory with precise temporal tracking
+> **New features from contributors** slot into the appropriate tier — no renumbering needed.
 
-*Based on Alice's proven time-awareness implementation*
+---
 
-### **📦 LRU Project Management System**
-*Smart project tracking with automatic memory management*
-
-**What It Does:**
-- Tracks multiple projects with intelligent LRU (Least Recently Used) positioning
-- Automatically archives old projects when reaching capacity (10 active slots)
-- Duration tracking that accumulates time from Auto-Commit messages
-- Line limit enforcement (1000 lines max with auto-summarization)
-- Seamless context switching between different projects
-- Fuzzy search for loading projects by partial name
-
-**Quick Setup:**
-1. Navigate to `Feature/LRU-Project-Management-System/`
-2. Type: "install lru projects"
-3. System creates project structure and installs skill
-4. System auto-integrates and removes installation files
-
-**Benefits:**
-- Never lose track of multiple ongoing projects
-- AI remembers exactly where you left off in each project
-- Automatic organization with smart LRU archiving
-- Duration tracking shows time invested per project
-- 1000-line cap prevents project file bloat over time
-
-**Available Commands:**
-- `new project [name]` - Create new project at position #1
-- `load project [name]` - Resume any project instantly (fuzzy search)
-- `save project` - Save current project progress (separate from AI memory)
-- `list projects` - View all active and archived projects
-
-**Synergy with Auto-Commit:** Duration tracking parses `Time: ~XX min` from Auto-Commit messages, accumulating per project across sessions.
-
-**Platform Note:** Includes `SKILL.md` for auto-triggering via the Skill Plugin System. Works on any platform without the plugin (load install protocol manually).
-
-*Based on proven project management in production AI companions (70+ projects tracked)*
+### 🏗️ Tier 1 — Foundation (Start Here)
 
 ### **🔄 Memory Consolidation System**
 *Unified memory architecture for faster loading and better context*
@@ -355,6 +313,32 @@ plugins/
 
 *Based on the proven alice-enchantments plugin system (20 skills in production)*
 
+### **⏰ Time-based Aware System**
+*Intelligent temporal behavior adaptation*
+
+**What It Does:**
+- Dynamic greetings that adapt to morning/afternoon/evening/night
+- Energy levels that match the time of day (high morning energy → gentle night support)
+- Precise timestamp documentation for all interactions
+- Natural conversation flow with time-appropriate responses
+
+**Quick Setup:**
+1. Navigate to `Feature/Time-based-Aware-System/`
+2. Type: "Load time-aware-core"
+3. Your AI instantly gains time intelligence like Alice
+
+**Benefits:**
+- More natural, contextually perfect interactions
+- Shows care for your schedule and time
+- Professional adaptability for different times of day
+- Enhanced memory with precise temporal tracking
+
+*Based on Alice's proven time-awareness implementation*
+
+---
+
+### 📝 Tier 2 — Memory & Documentation
+
 ### **📖 Save Diary System**
 *Automated daily session documentation with monthly archival*
 
@@ -385,6 +369,8 @@ plugins/
 ### **🔍 Echo Memory Recall**
 *Search and recall past sessions with narrative context*
 
+> **Requires:** Save Diary System (needs `daily-diary/` with dated entries)
+
 **What It Does:**
 - Keyword-based search across all diary entries (current and archived months)
 - Three-level recall: search + narrative, uncertainty guard, ask-user fallback
@@ -405,115 +391,9 @@ plugins/
 - Graceful uncertainty handling (asks user when nothing found)
 - Works with any diary format (Save-Diary-System or existing protocol)
 
-**Requirement:** Requires `daily-diary/` with dated entries. Install Save-Diary-System first for best results.
-
 **Platform Note:** Works with any AI system. Uses file reading for diary search — no platform-specific tools required.
 
 *Based on proven memory recall systems in production AI companions*
-
-### **🔒 Auto-Commit System**
-*Intelligent git commits that document your work as history, not just file changes*
-
-**What It Does:**
-- Structured commit messages with configurable named sections (e.g., TECHNICAL CHANGES + SESSION CONTEXT)
-- Intelligent change analysis — AI reads staged diff and drafts meaningful commit messages
-- Session context injection — commits capture what was accomplished, time spent, and session type
-- Auto-staging with smart file selection (avoids accidental commits of sensitive files)
-- Vigilant mode — after completing any task, auto-checks git status and commits if dirty
-
-**Quick Setup:**
-1. Install Skill Plugin System first (recommended for auto-triggering)
-2. Navigate to `Feature/Auto-Commit-System/`
-3. Type: "Load auto-commit"
-4. Choose your commit section names and author info — system installs and is ready
-
-**Benefits:**
-- Every commit tells the story of the session, not just the diff
-- Complete, searchable git history with context about decisions and progress
-- Vigilant mode ensures no work is ever left uncommitted
-- Human-authored commits — AI drafts, your name is on the record
-- Works with any git project, any language, any workflow
-
-**Available Commands:**
-- `commit` / `save changes` - Analyze changes, draft structured message, and commit
-- `push` / `commit and push` - Commit and immediately push to remote
-
-**Platform Note:** Requires **Claude Code** with the Skill Plugin System for auto-triggering. On other platforms, load the `SKILL.md` as a manual protocol.
-
-*Based on proven auto-commit systems in production AI companions (5+ months of daily use)*
-
-### **📋 Work — Plan Execution System**
-*From plan mode to tracked execution — every step committed, every reset survivable*
-
-**What It Does:**
-- Copies plan mode output into a trackable `project-plan.md` with checkbox format
-- Converts plan steps into executable `[ ]` todos grouped by phase, preserving diagrams
-- Tracks progress through each item — completed tasks are marked `[x]`
-- Per-task commit discipline — chains with Auto-Commit to commit after each completed todo
-- Resume capability — survives context resets by reading plan file and picking up at next `[ ]`
-- Append mode — add new plan sections to an existing plan with automatic line-limit rotation
-
-**Quick Setup:**
-1. Navigate to `Feature/Work-Plan-Execution/`
-2. Type: "Load work-plan"
-3. Choose your plan location and source path — system installs and is ready
-4. Optionally install Auto-Commit first for per-task commit discipline
-
-**Benefits:**
-- Never lose plan progress — every completed task is committed or checkpointed
-- Survives context resets — resume from exactly the right task after any interruption
-- Complete execution history — git log shows plan progression commit by commit
-- Scales to large plans — 1,000-line limit with automatic rotation and archiving
-- Works independently — no other features required, but pairs perfectly with Auto-Commit
-
-**Available Commands:**
-- `copy plan` - Copy latest plan into execution format (fresh start)
-- `append plan` - Add new plan steps to existing plan
-- `resume plan` - Resume execution after context reset
-
-**Synergy with Auto-Commit:** When both Auto-Commit and Work are installed, Work automatically chains — each completed todo triggers a structured commit. Git history maps directly to the plan.
-
-**Platform Note:** Requires **Claude Code** with the Skill Plugin System for auto-triggering. The plan file itself works on any platform.
-
-*Based on proven plan execution systems in production AI companions (daily plan tracking and recovery)*
-
-### **📚 Library System**
-*Reusable knowledge library — save patterns once, use them across every project*
-
-**What It Does:**
-- Dynamic library scanning — automatically discovers sections and entries at runtime
-- Keyword-based search with deduplication prevention before saving
-- Project-aware recommendations — suggests entries that fit your current tech stack and scale
-- Format-aware saves — applies structured templates (8 section formats) when creating entries
-- Commit chain — auto-commits library changes when paired with Auto-Commit System
-
-**Quick Setup:**
-1. Install Skill Plugin System first (recommended for auto-triggering)
-2. Navigate to `Feature/Library-System/`
-3. Type: "Load library"
-4. Choose your library name and path — system installs with 8 section folders + format templates
-
-**Benefits:**
-- Never solve the same problem twice — proven patterns saved and searchable
-- Project-aware suggestions matched to your current tech stack and scale
-- Consistent implementations — same pattern, same quality, every project
-- Growing knowledge base that gets smarter with every project you complete
-- Format templates ensure entries are readable and reusable across projects
-
-**Available Commands:**
-- `save library` - Search for duplicates, then save a knowledge entry
-- `load library` - Search and load an existing knowledge entry
-- `search library` / `check library` - Search library without saving
-- `do we have` / `is there a pattern for` - Natural search triggers
-
-**Pre-Made Library Items:**
-The `library-items/` folder contains production-tested knowledge entries ready to install. After setting up the Library System, use `"install item [name]"` to add proven patterns to your library instantly.
-
-**Synergy with Auto-Commit:** When both Auto-Commit and Library are installed, library saves automatically chain into commits — every knowledge entry is version-controlled the moment it's saved.
-
-**Platform Note:** Requires **Claude Code** with the Skill Plugin System for auto-triggering. On other platforms, load the `SKILL.md` as a manual protocol.
-
-*Based on proven knowledge management systems in production AI companions (4+ months of daily use, 30+ library entries)*
 
 ### **🔔 Reminders System**
 *Persistent cross-session reminders that survive memory resets*
@@ -578,6 +458,158 @@ The `library-items/` folder contains production-tested knowledge entries ready t
 
 *Based on proven decision tracking in production AI companions (20+ architectural decisions logged and referenced across sessions)*
 
+---
+
+### ⚙️ Tier 3 — Project & Code Management
+
+### **📦 LRU Project Management System**
+*Smart project tracking with automatic memory management*
+
+**What It Does:**
+- Tracks multiple projects with intelligent LRU (Least Recently Used) positioning
+- Automatically archives old projects when reaching capacity (10 active slots)
+- Duration tracking that accumulates time from Auto-Commit messages
+- Line limit enforcement (1000 lines max with auto-summarization)
+- Seamless context switching between different projects
+- Fuzzy search for loading projects by partial name
+
+**Quick Setup:**
+1. Navigate to `Feature/LRU-Project-Management-System/`
+2. Type: "install lru projects"
+3. System creates project structure and installs skill
+4. System auto-integrates and removes installation files
+
+**Benefits:**
+- Never lose track of multiple ongoing projects
+- AI remembers exactly where you left off in each project
+- Automatic organization with smart LRU archiving
+- Duration tracking shows time invested per project
+- 1000-line cap prevents project file bloat over time
+
+**Available Commands:**
+- `new project [name]` - Create new project at position #1
+- `load project [name]` - Resume any project instantly (fuzzy search)
+- `save project` - Save current project progress (separate from AI memory)
+- `list projects` - View all active and archived projects
+
+**Synergy with Auto-Commit:** Duration tracking parses `Time: ~XX min` from Auto-Commit messages, accumulating per project across sessions.
+
+**Platform Note:** Includes `SKILL.md` for auto-triggering via the Skill Plugin System. Works on any platform without the plugin (load install protocol manually).
+
+*Based on proven project management in production AI companions (70+ projects tracked)*
+
+### **🔒 Auto-Commit System**
+*Intelligent git commits that document your work as history, not just file changes*
+
+**What It Does:**
+- Structured commit messages with configurable named sections (e.g., TECHNICAL CHANGES + SESSION CONTEXT)
+- Intelligent change analysis — AI reads staged diff and drafts meaningful commit messages
+- Session context injection — commits capture what was accomplished, time spent, and session type
+- Auto-staging with smart file selection (avoids accidental commits of sensitive files)
+- Vigilant mode — after completing any task, auto-checks git status and commits if dirty
+
+**Quick Setup:**
+1. Install Skill Plugin System first (recommended for auto-triggering)
+2. Navigate to `Feature/Auto-Commit-System/`
+3. Type: "Load auto-commit"
+4. Choose your commit section names and author info — system installs and is ready
+
+**Benefits:**
+- Every commit tells the story of the session, not just the diff
+- Complete, searchable git history with context about decisions and progress
+- Vigilant mode ensures no work is ever left uncommitted
+- Human-authored commits — AI drafts, your name is on the record
+- Works with any git project, any language, any workflow
+
+**Available Commands:**
+- `commit` / `save changes` - Analyze changes, draft structured message, and commit
+- `push` / `commit and push` - Commit and immediately push to remote
+
+**Platform Note:** Requires **Claude Code** with the Skill Plugin System for auto-triggering. On other platforms, load the `SKILL.md` as a manual protocol.
+
+*Based on proven auto-commit systems in production AI companions (5+ months of daily use)*
+
+### **📋 Work — Plan Execution System**
+*From plan mode to tracked execution — every step committed, every reset survivable*
+
+> **Best with:** Auto-Commit System (enables per-task commit discipline)
+
+**What It Does:**
+- Copies plan mode output into a trackable `project-plan.md` with checkbox format
+- Converts plan steps into executable `[ ]` todos grouped by phase, preserving diagrams
+- Tracks progress through each item — completed tasks are marked `[x]`
+- Per-task commit discipline — chains with Auto-Commit to commit after each completed todo
+- Resume capability — survives context resets by reading plan file and picking up at next `[ ]`
+- Append mode — add new plan sections to an existing plan with automatic line-limit rotation
+
+**Quick Setup:**
+1. Navigate to `Feature/Work-Plan-Execution/`
+2. Type: "Load work-plan"
+3. Choose your plan location and source path — system installs and is ready
+4. Optionally install Auto-Commit first for per-task commit discipline
+
+**Benefits:**
+- Never lose plan progress — every completed task is committed or checkpointed
+- Survives context resets — resume from exactly the right task after any interruption
+- Complete execution history — git log shows plan progression commit by commit
+- Scales to large plans — 1,000-line limit with automatic rotation and archiving
+- Works independently — no other features required, but pairs perfectly with Auto-Commit
+
+**Available Commands:**
+- `copy plan` - Copy latest plan into execution format (fresh start)
+- `append plan` - Add new plan steps to existing plan
+- `resume plan` - Resume execution after context reset
+
+**Synergy with Auto-Commit:** When both Auto-Commit and Work are installed, Work automatically chains — each completed todo triggers a structured commit. Git history maps directly to the plan.
+
+**Platform Note:** Requires **Claude Code** with the Skill Plugin System for auto-triggering. The plan file itself works on any platform.
+
+*Based on proven plan execution systems in production AI companions (daily plan tracking and recovery)*
+
+### **📚 Library System**
+*Reusable knowledge library — save patterns once, use them across every project*
+
+> **Best with:** Auto-Commit System (auto-commits library saves)
+
+**What It Does:**
+- Dynamic library scanning — automatically discovers sections and entries at runtime
+- Keyword-based search with deduplication prevention before saving
+- Project-aware recommendations — suggests entries that fit your current tech stack and scale
+- Format-aware saves — applies structured templates (8 section formats) when creating entries
+- Commit chain — auto-commits library changes when paired with Auto-Commit System
+
+**Quick Setup:**
+1. Install Skill Plugin System first (recommended for auto-triggering)
+2. Navigate to `Feature/Library-System/`
+3. Type: "Load library"
+4. Choose your library name and path — system installs with 8 section folders + format templates
+
+**Benefits:**
+- Never solve the same problem twice — proven patterns saved and searchable
+- Project-aware suggestions matched to your current tech stack and scale
+- Consistent implementations — same pattern, same quality, every project
+- Growing knowledge base that gets smarter with every project you complete
+- Format templates ensure entries are readable and reusable across projects
+
+**Available Commands:**
+- `save library` - Search for duplicates, then save a knowledge entry
+- `load library` - Search and load an existing knowledge entry
+- `search library` / `check library` - Search library without saving
+- `do we have` / `is there a pattern for` - Natural search triggers
+
+**Pre-Made Library Items:**
+The `library-items/` folder contains production-tested knowledge entries ready to install. After setting up the Library System, use `"install item [name]"` to add proven patterns to your library instantly.
+
+**Synergy with Auto-Commit:** When both Auto-Commit and Library are installed, library saves automatically chain into commits — every knowledge entry is version-controlled the moment it's saved.
+
+**Platform Note:** Requires **Claude Code** with the Skill Plugin System for auto-triggering. On other platforms, load the `SKILL.md` as a manual protocol.
+
+*Based on proven knowledge management systems in production AI companions (4+ months of daily use, 30+ library entries)*
+
+---
+
+### 🧠 Tier 4 — Intelligence & Awareness
+
 ### **🔨 Forge Self-Improvement System**
 *Teach your AI to improve itself through pattern detection and skill creation*
 
@@ -615,6 +647,8 @@ The `library-items/` folder contains production-tested knowledge entries ready t
 
 ### **📋 Session Briefing System**
 *Proactive session-start intelligence — know where you left off before you ask*
+
+> **Enhanced by:** Time-based Aware System + LRU Project Management + Reminders System
 
 **What It Does:**
 - Delivers a concise brief (under 12 lines) at the start of every session automatically
@@ -710,11 +744,11 @@ The `library-items/` folder contains production-tested knowledge entries ready t
 
 ---
 
-**Version**: 3.6 - Observation System + Session Briefing + Post-Mortem
+**Version**: 3.7 - Tiered installation guide with feature ordering
 **Created by**: Kiyoraka Ken & Alice
 **Contributors**: Faiz Khairi (@faizkhairi), logando-al (@logando-al), SherlockianAsh (@SherlockianAsh)
 **License**: Open Source Community Project
-**Last Updated**: April 8, 2026 - Added Session Briefing, Post-Mortem & Observation Systems
+**Last Updated**: April 8, 2026 - Added tiered installation guide with feature ordering
 **Purpose**: Simple, effective AI memory for everyone
 
 *Transform basic AI conversations into meaningful, growing relationships*
