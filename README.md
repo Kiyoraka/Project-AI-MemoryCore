@@ -109,10 +109,14 @@ ai-memorycore/
 │   ├── Observation-System/      # Tiered code awareness
 │   │   ├── README.md            # Feature explanation & benefits
 │   │   └── SKILL.md             # Auto-triggered skill (4-tier observation)
-│   └── Image-Prompt-System/     # AI image prompt generation
+│   ├── Image-Prompt-System/     # AI image prompt generation
+│   │   ├── README.md            # Feature explanation & benefits
+│   │   ├── install-image-prompt.md # Installation protocol
+│   │   └── SKILL.md             # Auto-triggered skill (composition-aware prompts)
+│   └── Song-Creation-System/    # Visual-to-musical storytelling
 │       ├── README.md            # Feature explanation & benefits
-│       ├── install-image-prompt.md # Installation protocol
-│       └── SKILL.md             # Auto-triggered skill (composition-aware prompts)
+│       ├── install-song-creation.md # Installation protocol
+│       └── SKILL.md             # Auto-triggered skill (album + single song)
 ├── library-items/            # Pre-made knowledge entries for Library System
 │   ├── README.md             # Catalog and install instructions
 │   └── security/             # Security section items
@@ -782,13 +786,54 @@ The `library-items/` folder contains production-tested knowledge entries ready t
 
 *Based on proven prompt generation systems in production AI companions*
 
+### **🎵 Song Creation System**
+*The image speaks. Your AI listens. Songs are born.*
+
+**What It Does:**
+- Transforms visual inspiration (images) into complete concept albums with full lyrics
+- **Album Mode** — share an image, get a 3-10 track concept album with connected story arc
+- **Single Song Mode** — describe a mood or concept, get one complete song
+- **Suno-Ready** — rich style tags (genre, instruments, vocals, atmosphere) formatted for Suno AI
+- Full structured lyrics with [Verse]/[Pre-Chorus]/[Chorus]/[Bridge]/[Outro] sections
+- Arc structures map track count to narrative complexity (3/5/7/10 tracks)
+- Organized storage in `music/[album-name]/` with story docs, lyrics, and audio folders
+
+**Quick Setup:**
+1. Navigate to `Feature/Song-Creation-System/`
+2. Type: "Load song-creation"
+3. Share an image and say "create an album from this"
+4. Review the story concept, choose track count, get your album
+
+**Benefits:**
+- Visual-to-musical storytelling — images become concept albums
+- Story coherence — all tracks tell one connected narrative, not random songs
+- Suno-ready style tags — paste directly into Suno AI for audio generation
+- Complete lyrics always — never partial or placeholder text
+- Configurable language — write in English, Japanese, or any language
+- Approval gates — review story concept and final album before saving
+
+**Available Commands:**
+- `create album from [image]` - Full concept album from visual inspiration
+- `create song [description]` - Single song from text description
+- `muse this` - Album creation from shared image
+- `write a song about [topic]` - Single song on any topic
+
+**Companion Systems:**
+- **Auto-Commit System**: Auto-commits album files after creation
+- **Image Prompt System**: Generate album cover art with Midjourney/NijiJourney
+- **Library System**: Save successful style tag patterns for reuse
+
+**Platform Note:** Includes `SKILL.md` for auto-triggering via the Skill Plugin System. Works on any platform without the plugin (load `SKILL.md` as a manual protocol).
+
+*Based on proven song creation systems in production AI companions (43+ albums created)*
+
 ---
 
-**Version**: 3.8 - Image Prompt System with composition-aware generation
+**Version**: 3.9 - Song Creation System with visual-to-musical storytelling
 **Created by**: Kiyoraka Ken & Alice
 **Contributors**: Faiz Khairi (@faizkhairi), logando-al (@logando-al), SherlockianAsh (@SherlockianAsh)
 **License**: Open Source Community Project
-**Last Updated**: April 8, 2026 - Added Image Prompt System with composition guide
+**Last Updated**: April 8, 2026 - Added Song Creation System with visual-to-musical storytelling
 **Purpose**: Simple, effective AI memory for everyone
 
 *Transform basic AI conversations into meaningful, growing relationships*
