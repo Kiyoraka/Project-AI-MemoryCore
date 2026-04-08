@@ -117,10 +117,16 @@ ai-memorycore/
 │   │   ├── README.md            # Feature explanation & benefits
 │   │   ├── install-song-creation.md # Installation protocol
 │   │   └── SKILL.md             # Auto-triggered skill (album + single song)
-│   └── Interactive-Story-System/ # Visual Novel RPG adventures
+│   ├── Interactive-Story-System/ # Visual Novel RPG adventures
+│   │   ├── README.md            # Feature explanation & benefits
+│   │   ├── install-interactive-story.md # Installation protocol
+│   │   └── SKILL.md             # Auto-triggered skill (VN RPG engine)
+│   └── Mulahazah-System/        # Instinct-based behavioral learning
 │       ├── README.md            # Feature explanation & benefits
-│       ├── install-interactive-story.md # Installation protocol
-│       └── SKILL.md             # Auto-triggered skill (VN RPG engine)
+│       ├── install-mulahazah.md # Installation protocol
+│       ├── config.json          # Hook configuration
+│       ├── rules-format.md      # Rule format template
+│       └── SKILL.md             # Auto-triggered skill (behavioral rules)
 ├── library-items/            # Pre-made knowledge entries for Library System
 │   ├── README.md             # Catalog and install instructions
 │   └── security/             # Security section items
@@ -874,13 +880,56 @@ The `library-items/` folder contains production-tested knowledge entries ready t
 
 *Based on proven interactive story systems in production AI companions (50+ adventures played)*
 
+### **👁️ Mulahazah System**
+*Your AI companion learns how you work — not just what you said.*
+
+> **Complements:** Forge Self-Improvement System (Mulahazah captures patterns passively, Forge promotes them into full skills)
+
+**What It Does:**
+- Hook-based observation that captures every tool call as JSONL (< 50ms, never blocks)
+- Haiku-powered analysis that extracts behavioral rules from session patterns
+- Persistent rules in `rules.md` — your AI reads and follows them each session
+- One command (`/continuous-improvement`) to reflect, analyze, and review learned rules
+- Background observer (optional) for automatic periodic analysis
+- Rules strengthen through repetition and decay without reinforcement
+
+**Quick Setup:**
+1. Navigate to `Feature/Mulahazah-System/`
+2. Run: `npx continuous-improvement install --target claude` (recommended)
+3. Or type: "Load mulahazah" for manual installation
+4. Work normally — observations accumulate silently
+
+**Benefits:**
+- Corrections become permanent — no repeating the same feedback across sessions
+- Zero effort — passive observation captures patterns automatically
+- Lightweight rules instead of heavy protocols — behavioral nudges, not process overhauls
+- Evidence-based — rules extracted from real tool call patterns, never hallucinated
+- Natural decay — rules without reinforcement fade, keeping the system fresh
+
+**Available Commands:**
+- `/continuous-improvement` - Reflect on session, analyze observations, extract new rules
+- `show learned rules` / `what have you learned` - Display current rules
+- `instinct status` / `mulahazah status` - Full system status report
+
+**How It Differs From Forge:**
+| Aspect | Forge | Mulahazah |
+|--------|-------|-----------|
+| How it starts | You notice and create | Hooks observe automatically |
+| Output | Full SKILL.md protocols | Lightweight rules in rules.md |
+| Best for | Deep reusable skills | Behavioral corrections |
+| Synergy | Rule clusters → Forge skill proposals | Forge skills ← pattern evidence |
+
+**Platform Note:** Requires **Claude Code** for hook-based observation. The `rules.md` output works on any platform.
+
+*Contributed by naimkatiman*
+
 ---
 
-**Version**: 4.0 - Interactive Story System with VN RPG engine
+**Version**: 4.1 - Mulahazah System with instinct-based behavioral learning
 **Created by**: Kiyoraka Ken & Alice
-**Contributors**: Faiz Khairi (@faizkhairi), logando-al (@logando-al), SherlockianAsh (@SherlockianAsh)
+**Contributors**: Faiz Khairi (@faizkhairi), logando-al (@logando-al), SherlockianAsh (@SherlockianAsh), naimkatiman (@naimkatiman)
 **License**: Open Source Community Project
-**Last Updated**: April 8, 2026 - Added Interactive Story System with VN RPG engine
+**Last Updated**: April 8, 2026 - Added Mulahazah System with instinct-based behavioral learning
 **Purpose**: Simple, effective AI memory for everyone
 
 *Transform basic AI conversations into meaningful, growing relationships*
