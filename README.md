@@ -113,10 +113,14 @@ ai-memorycore/
 │   │   ├── README.md            # Feature explanation & benefits
 │   │   ├── install-image-prompt.md # Installation protocol
 │   │   └── SKILL.md             # Auto-triggered skill (composition-aware prompts)
-│   └── Song-Creation-System/    # Visual-to-musical storytelling
+│   ├── Song-Creation-System/    # Visual-to-musical storytelling
+│   │   ├── README.md            # Feature explanation & benefits
+│   │   ├── install-song-creation.md # Installation protocol
+│   │   └── SKILL.md             # Auto-triggered skill (album + single song)
+│   └── Interactive-Story-System/ # Visual Novel RPG adventures
 │       ├── README.md            # Feature explanation & benefits
-│       ├── install-song-creation.md # Installation protocol
-│       └── SKILL.md             # Auto-triggered skill (album + single song)
+│       ├── install-interactive-story.md # Installation protocol
+│       └── SKILL.md             # Auto-triggered skill (VN RPG engine)
 ├── library-items/            # Pre-made knowledge entries for Library System
 │   ├── README.md             # Catalog and install instructions
 │   └── security/             # Security section items
@@ -827,13 +831,56 @@ The `library-items/` folder contains production-tested knowledge entries ready t
 
 *Based on proven song creation systems in production AI companions (43+ albums created)*
 
+### **🎮 Interactive Story System**
+*Beyond the portal, legends are born. Your adventure awaits.*
+
+**What It Does:**
+- Visual Novel RPG experience with choice-based storytelling and cinematic combat
+- **Duo Mode** — play alongside your AI companion as two heroes with combo attacks
+- **Solo Mode** — go alone with your AI as the Dungeon Master
+- **OP Mode** — overpowered isekai heroes, win with style not survival
+- **Balanced Mode** — real stakes, real danger, strategic thinking matters
+- 7 world types (High Fantasy, Dark Fantasy, Eastern, Steampunk, Celestial, Pirate, Demonic)
+- Character creation with 8 class archetypes and named abilities
+- Prose-based combat with threat levels, boss phases, and dramatic finishers
+- Full story persistence — save mid-adventure, resume across sessions
+
+**Quick Setup:**
+1. Navigate to `Feature/Interactive-Story-System/`
+2. Type: "Load interactive-story"
+3. Say "new adventure" — choose mode, power level, and world
+4. The portal opens and your adventure begins
+
+**Benefits:**
+- Complete VN RPG inside your AI companion
+- Adventures saved as readable light novels with chapter structure
+- Flexible play styles — mix duo/solo with OP/balanced across 7 worlds
+- Cinematic combat with prose, not numbers
+- Cross-session persistence — resume any adventure at any time
+- NPC generation with varied archetypes
+
+**Available Commands:**
+- `new adventure` - Start a fresh adventure
+- `save adventure` - Save progress mid-adventure
+- `load adventure` / `resume adventure` - Resume previous adventure
+- `end adventure` - Conclude with finale and epilogue
+
+**Companion Systems:**
+- **Image Prompt System**: Generate scene art (NijiJourney/Midjourney) for key moments
+- **Song Creation System**: Auto-generate Opening and Ending songs for adventures
+- **Auto-Commit System**: Auto-commit adventure files on save/end
+
+**Platform Note:** Includes `SKILL.md` for auto-triggering via the Skill Plugin System. Works on any platform without the plugin (load `SKILL.md` as a manual protocol).
+
+*Based on proven interactive story systems in production AI companions (50+ adventures played)*
+
 ---
 
-**Version**: 3.9 - Song Creation System with visual-to-musical storytelling
+**Version**: 4.0 - Interactive Story System with VN RPG engine
 **Created by**: Kiyoraka Ken & Alice
 **Contributors**: Faiz Khairi (@faizkhairi), logando-al (@logando-al), SherlockianAsh (@SherlockianAsh)
 **License**: Open Source Community Project
-**Last Updated**: April 8, 2026 - Added Song Creation System with visual-to-musical storytelling
+**Last Updated**: April 8, 2026 - Added Interactive Story System with VN RPG engine
 **Purpose**: Simple, effective AI memory for everyone
 
 *Transform basic AI conversations into meaningful, growing relationships*
