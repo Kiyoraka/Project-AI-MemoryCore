@@ -101,30 +101,20 @@ Executed when `"Load auto-load-hook"` is invoked — installs a personalized `Se
 - [ ] Validate the resulting JSON parses cleanly before writing
 - [ ] Write back to `~/.claude/settings.json` (atomic write preferred: write to temp file then rename)
 
-### Step 6: Update `master-memory.md`, Self-Delete, Announce
+### Step 6: Update `master-memory.md` and Announce
 
-- [ ] Append to the **Optional Components** section of `master-memory.md` the embedded record (this survives self-deletion of the Feature folder):
+- [ ] Append to the **Optional Components** section of `master-memory.md`:
 
 ```markdown
 ### Auto-Load Hook (Installed)
 *Fires on every Claude Code startup — auto-loads [AI_NAME] memory*
 - Hook script: ~/.claude/hooks/<ai-name-lower>-session-start.{ps1|sh}
 - Settings backup: ~/.claude/settings.json.backup-pre-autoload
-- Trigger phrase to uninstall: `"uninstall auto-load-hook"`
-
-**Uninstall protocol** (embedded — Feature folder self-deletes after install):
-1. Restore `~/.claude/settings.json` from `~/.claude/settings.json.backup-pre-autoload`
-2. Delete `~/.claude/hooks/<ai-name-lower>-session-start.{ps1|sh}`
-3. Remove this section from master-memory.md
-4. Confirm: "[AI_NAME] auto-load uninstalled — manual `[ai-name]` command required again"
-
-**Fallback** if backup missing: read settings.json, surgically remove only the SessionStart hook entry whose command path references `<ai-name-lower>-session-start`, leave everything else untouched.
+- Uninstall: see Feature/Auto-Load-Hook-System/uninstall-auto-load-hook.md or type `"uninstall auto-load-hook"`
 ```
 
 - [ ] Substitute `[AI_NAME]` and `<ai-name-lower>` with actual values before writing
-- [ ] **Self-delete** the entire `Feature/Auto-Load-Hook-System/` folder:
-  - Windows: `Remove-Item -Recurse -Force "Feature/Auto-Load-Hook-System"`
-  - Unix: `rm -rf "Feature/Auto-Load-Hook-System"`
+- [ ] The `Feature/Auto-Load-Hook-System/` folder **stays in the repo** — it serves as documentation and as the install/uninstall artifact for users on other AI tools (Codex, etc.)
 - [ ] Display completion message:
 
 ```
@@ -135,9 +125,8 @@ Next time you open Claude Code, [AI_NAME] will load automatically — no manual
 
 Backup saved at: ~/.claude/settings.json.backup-pre-autoload
 Hook script:    ~/.claude/hooks/<ai-name-lower>-session-start.{ps1|sh}
-Uninstall:      type "uninstall auto-load-hook" anytime.
-
-Feature/Auto-Load-Hook-System/ has been removed (functionality absorbed).
+Uninstall:      type "uninstall auto-load-hook" anytime
+                (or follow Feature/Auto-Load-Hook-System/uninstall-auto-load-hook.md)
 ```
 
 ## Specifications
@@ -174,15 +163,15 @@ After install, the relevant slice of `~/.claude/settings.json` looks like:
 | `timeout` | `15` | Memory file reads can be slow on large architectures; 10s is tight |
 | `async` | `true` | Hook runs in background — Claude Code never freezes on startup |
 
-### Files Created
+### Files Created / Modified
 
-| Path | Purpose | Persistent After Self-Delete? |
-|------|---------|-------------------------------|
-| `~/.claude/hooks/<ai-name-lower>-session-start.{ps1\|sh}` | Hook script that runs on session start | ✅ Yes |
-| `~/.claude/settings.json` | Modified to include the new hook entry | ✅ Yes |
-| `~/.claude/settings.json.backup-pre-autoload` | Pre-install backup | ✅ Yes |
-| `master-memory.md` (modified) | Embedded uninstall protocol | ✅ Yes |
-| `Feature/Auto-Load-Hook-System/` | Original feature folder | ❌ Self-deleted in Step 6 |
+| Path | Purpose |
+|------|---------|
+| `~/.claude/hooks/<ai-name-lower>-session-start.{ps1\|sh}` | Hook script that runs on session start |
+| `~/.claude/settings.json` | Modified to include the new SessionStart hook entry |
+| `~/.claude/settings.json.backup-pre-autoload` | Pre-install backup (used by uninstall) |
+| `master-memory.md` (modified) | Records that Auto-Load Hook is installed + points at uninstall reference |
+| `Feature/Auto-Load-Hook-System/` | **Stays in repo** — install/uninstall protocols and templates remain accessible for users on other AI tools |
 
 ## Notes
 

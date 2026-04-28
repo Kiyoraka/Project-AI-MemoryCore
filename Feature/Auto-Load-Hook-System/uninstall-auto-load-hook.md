@@ -3,9 +3,9 @@
 
 ## Purpose
 
-Restores `~/.claude/settings.json` to its pre-install state, removes the personalized hook script, and clears the embedded uninstall record from `master-memory.md`. After uninstall, the AI requires manual `[ai-name]` command on startup again.
+Restores `~/.claude/settings.json` to its pre-install state, removes the personalized hook script, and clears the install record from `master-memory.md`. After uninstall, the AI requires manual `[ai-name]` command on startup again.
 
-> **Note**: This file ships in the Feature folder for documentation purposes. The **operational** copy of this protocol gets embedded into `master-memory.md` during install (because the Feature folder self-deletes after install). After install, the embedded copy in `master-memory.md` is the authoritative uninstall reference.
+> **Note**: The Feature folder stays in the repo after install (so users on other AI tools like Codex can still reference it). This file is the canonical uninstall protocol — the AI reads it directly when you type `"uninstall auto-load-hook"`.
 
 ## Trigger Command
 ```
@@ -18,7 +18,7 @@ Restores `~/.claude/settings.json` to its pre-install state, removes the persona
 
 ## 5-Step Execution Process
 
-### Step 1: Read Embedded Record From `master-memory.md`
+### Step 1: Read Install Record From `master-memory.md`
 
 - [ ] Open `master-memory.md`
 - [ ] Locate the `### Auto-Load Hook (Installed)` section
@@ -49,7 +49,7 @@ Restores `~/.claude/settings.json` to its pre-install state, removes the persona
   - Unix: `rm "~/.claude/hooks/<ai-name-lower>-session-start.sh"`
 - [ ] If the file doesn't exist → continue silently (idempotent)
 
-### Step 4: Remove Embedded Record From `master-memory.md`
+### Step 4: Remove Install Record From `master-memory.md`
 
 - [ ] Open `master-memory.md`
 - [ ] Delete the entire `### Auto-Load Hook (Installed)` section, from its heading line down to (but not including) the next `###` heading or end-of-Optional-Components section
@@ -88,9 +88,8 @@ After uninstall, verify:
 
 If the user wants to reinstall after uninstalling:
 
-1. Restore the Feature folder from git: `git checkout HEAD -- Feature/Auto-Load-Hook-System/`
-2. Run `"Load auto-load-hook"` again — full install protocol runs from scratch
-3. A fresh `settings.json.backup-pre-autoload` will be created (since the previous one was either consumed or renamed)
+1. Run `"Load auto-load-hook"` again — full install protocol runs from scratch (Feature folder is already in the repo)
+2. A fresh `settings.json.backup-pre-autoload` will be created (since the previous one was either consumed or renamed)
 
 ## Edge Cases
 

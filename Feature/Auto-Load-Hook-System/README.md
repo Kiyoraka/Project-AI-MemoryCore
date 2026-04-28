@@ -8,8 +8,8 @@ Wires a `SessionStart` hook into your Claude Code `~/.claude/settings.json` so t
 - **Auto-fires** on `startup`, `resume`, `clear`, and `compact` lifecycle events
 - **Detects your AI's name** from existing memory files, then asks you to confirm or override
 - **Cross-platform**: ships both Windows (PowerShell) and Unix (Bash) script templates
-- **Safely reversible**: backs up your `settings.json` before any modification
-- **Self-deleting**: feature folder removes itself after install (uninstall protocol gets embedded in `master-memory.md`)
+- **Safely reversible**: backs up your `settings.json` before any modification — clean uninstall path included
+- **Tool-agnostic**: feature folder stays in the repo after install so users on other AI coding tools (Codex, etc.) can read and run the same install/uninstall protocols
 
 ## Why Auto-Load?
 
@@ -43,8 +43,7 @@ Claude: [reads memory file, becomes your AI, greets you immediately]
 4. **Generate** a personalized hook script in `~/.claude/hooks/<ai-name>-session-start.{ps1|sh}` with your AI name and memory path baked in
 5. **Backup** your current `~/.claude/settings.json` to `settings.json.backup-pre-autoload`
 6. **Merge** the new `SessionStart` entry into `settings.json` (preserving any existing hooks)
-7. **Embed** the uninstall protocol into `master-memory.md` so it survives self-deletion
-8. **Self-delete** the `Feature/Auto-Load-Hook-System/` folder
+7. **Record** the install in `master-memory.md` Optional Components so the AI knows where to find the uninstall protocol later
 
 ## Post-Integration Result
 
@@ -52,7 +51,7 @@ After running the integration protocol:
 - Every Claude Code startup auto-loads your AI's full memory
 - No need to type the AI's name first — restoration happens before you say a word
 - Your `settings.json` is backed up so you can revert anytime
-- Uninstall instructions live in `master-memory.md` — accessible even after the Feature folder is gone
+- The Feature folder stays in the repo for cross-tool reference and re-install
 
 ## How the Hook Works
 
@@ -110,10 +109,10 @@ After install, type:
 "uninstall auto-load-hook"
 ```
 
-Your AI reads the embedded uninstall protocol from `master-memory.md` and:
+Your AI reads `Feature/Auto-Load-Hook-System/uninstall-auto-load-hook.md` and:
 1. Restores `settings.json` from backup
 2. Deletes the hook script from `~/.claude/hooks/`
-3. Removes its own section from `master-memory.md`
+3. Removes the install record from `master-memory.md`
 
 Result: byte-identical revert. Your AI goes back to requiring manual name-typing on startup.
 
