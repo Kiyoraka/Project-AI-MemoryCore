@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+# User-Prompt-Hook master script - UserPromptSubmit
+# Generated from Feature/User-Prompt-Hook-System/master-hook/user-prompt-hook.sh.template
+# Fires on every user message before the AI sees the prompt.
+#
+# Behavior:
+#   1. Drain stdin (hook protocol requirement)
+#   2. Enumerate all .sh scripts in ~/.claude/hooks/user-prompt-injectors/
+#   3. Invoke each one, capture stdout
+#   4. Concatenate non-empty outputs with newlines
+#   5. Emit the result to stdout (becomes prompt context)
+#
+# Errors in any single injector are caught and silently dropped so the rest still run.
+
+cat > /dev/null
+
+INJECTOR_DIR="$HOME/.claude/hooks/user-prompt-injectors"
+[ -d "$INJECTOR_DIR" ] || exit 0
+
+output=""
+for injector in "$INJECTOR_DIR"/*.sh; do
+    [ -f "$injector" ] || continue
+    line=$(bash "$injector" 2>/dev/null) || continue
+    if [ -n "$line" ]; then
+        if [ -z "$output" ]; then
+            output="$line"
+        else
+            output="$output"$'\n'"$line"
+        fi
+    fi
+done
+
+[ -n "$output" ] && echo "$output"
+exit 0

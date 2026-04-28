@@ -1,0 +1,33 @@
+# User-Prompt-Hook master script - UserPromptSubmit
+# Generated from Feature/User-Prompt-Hook-System/master-hook/user-prompt-hook.ps1.template
+# Fires on every user message before the AI sees the prompt.
+#
+# Behavior:
+#   1. Drain stdin (hook protocol requirement)
+#   2. Enumerate all .ps1 scripts in ~/.claude/hooks/user-prompt-injectors/
+#   3. Invoke each one, capture stdout
+#   4. Concatenate non-empty outputs with newlines
+#   5. Emit the result to stdout (becomes prompt context)
+#
+# Errors in any single injector are caught and silently dropped so the rest still run.
+
+[Console]::In.ReadToEnd() | Out-Null
+
+$injectorDir = Join-Path $env:USERPROFILE ".claude\hooks\user-prompt-injectors"
+if (-not (Test-Path $injectorDir)) { exit 0 }
+
+$lines = @()
+Get-ChildItem -Path $injectorDir -Filter *.ps1 -ErrorAction SilentlyContinue | ForEach-Object {
+    try {
+        $output = & powershell -NoProfile -ExecutionPolicy Bypass -File $_.FullName 2>$null
+        if ($output) {
+            $lines += ($output | Out-String).TrimEnd()
+        }
+    } catch {
+        # Injector failed - skip silently so other injectors still run
+    }
+}
+
+if ($lines.Count -gt 0) {
+    Write-Output ($lines -join "`n")
+}

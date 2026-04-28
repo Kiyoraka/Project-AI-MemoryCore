@@ -1,0 +1,16 @@
+# Example injector: emits the current date and time
+# Place at: ~/.claude/hooks/user-prompt-injectors/timestamp.ps1
+#
+# This is a minimal "hello world" injector for the User-Prompt-Hook framework.
+# Copy it to the injectors directory to see the framework in action.
+# Not auto-installed - opt in by copying.
+#
+# Output example:
+#   Tuesday, April 28, 2026 10:54 AM
+
+try {
+    $now = Get-Date -Format "dddd, MMMM dd, yyyy hh:mm tt"
+    Write-Output $now
+} catch {
+    exit 0
+}
