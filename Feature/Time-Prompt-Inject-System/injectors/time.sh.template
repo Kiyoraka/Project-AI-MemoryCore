@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+# Time injector for User-Prompt-Hook framework
+# Generated from Feature/Time-Prompt-Inject-System/injectors/time.sh.template
+# Emits "<timestamp> | <PERIOD>" with transition signal on period changes.
+#
+# Period boundaries (24-hour, baked in at install time):
+#   MORNING   starts at [MORNING_START]:00
+#   AFTERNOON starts at [AFTERNOON_START]:00
+#   EVENING   starts at [EVENING_START]:00
+#   NIGHT     starts at [NIGHT_START]:00
+#
+# To change boundaries: uninstall + reinstall, OR edit the four integer values below.
+
+set +e
+
+morning_start=[MORNING_START]
+afternoon_start=[AFTERNOON_START]
+evening_start=[EVENING_START]
+night_start=[NIGHT_START]
+
+# Get current hour, strip leading zero so arithmetic compares cleanly
+hour=$(date +%H)
+hour=$((10#$hour))
+
+if   [ "$hour" -ge "$morning_start"   ] && [ "$hour" -lt "$afternoon_start" ]; then period="MORNING"
+elif [ "$hour" -ge "$afternoon_start" ] && [ "$hour" -lt "$evening_start"   ]; then period="AFTERNOON"
+elif [ "$hour" -ge "$evening_start"   ] && [ "$hour" -lt "$night_start"     ]; then period="EVENING"
+else                                                                              period="NIGHT"
+fi
+
+STATE_DIR="$HOME/.claude/user-prompt-injectors"
+STATE_FILE="$STATE_DIR/time-period-last.txt"
+mkdir -p "$STATE_DIR" 2>/dev/null
+
+last_period=""
+[ -f "$STATE_FILE" ] && last_period=$(cat "$STATE_FILE" 2>/dev/null | tr -d '\r\n')
+
+timestamp=$(date "+%A, %B %d, %Y %I:%M %p")
+
+if [ -n "$last_period" ] && [ "$last_period" != "$period" ]; then
+    echo "TIME PERIOD CHANGED: $last_period to $period | TRIGGER MIRROR | $timestamp | $period"
+else
+    echo "$timestamp | $period"
+fi
+
+printf '%s' "$period" > "$STATE_FILE"
+exit 0

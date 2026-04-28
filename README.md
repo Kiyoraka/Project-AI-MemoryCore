@@ -121,12 +121,53 @@ ai-memorycore/
 │   │   ├── README.md            # Feature explanation & benefits
 │   │   ├── install-interactive-story.md # Installation protocol
 │   │   └── SKILL.md             # Auto-triggered skill (VN RPG engine)
-│   └── Mulahazah-System/        # Instinct-based behavioral learning
+│   ├── Mulahazah-System/        # Instinct-based behavioral learning
+│   │   ├── README.md            # Feature explanation & benefits
+│   │   ├── install-mulahazah.md # Installation protocol
+│   │   ├── config.json          # Hook configuration
+│   │   ├── rules-format.md      # Rule format template
+│   │   └── SKILL.md             # Auto-triggered skill (behavioral rules)
+│   ├── Auto-Load-Hook-System/   # SessionStart hook — auto-loads AI on Claude Code startup
+│   │   ├── README.md            # Feature explanation & benefits
+│   │   ├── install-auto-load-hook.md # 6-step install protocol
+│   │   ├── uninstall-auto-load-hook.md # Reversibility protocol
+│   │   └── hooks/               # Cross-platform script templates
+│   │       ├── session-start.ps1.template # PowerShell (Windows)
+│   │       └── session-start.sh.template  # Bash (Unix / Git Bash)
+│   ├── User-Prompt-Hook-System/ # UserPromptSubmit hook framework — plug-and-play injectors
+│   │   ├── README.md            # Feature explanation & benefits
+│   │   ├── install-user-prompt-hook.md # 5-step install protocol
+│   │   ├── uninstall-user-prompt-hook.md # Reversibility protocol
+│   │   ├── injector-format.md   # Canonical contract for any future injector
+│   │   ├── master-hook/         # Master script templates (enumerates injectors)
+│   │   │   ├── user-prompt-hook.ps1.template
+│   │   │   └── user-prompt-hook.sh.template
+│   │   └── examples/            # Hello-world reference injectors (opt-in by copy)
+│   │       ├── example-timestamp-injector.ps1.template
+│   │       └── example-timestamp-injector.sh.template
+│   ├── Tone-Prompt-Inject-System/ # Tone injector pack for User-Prompt Hook
+│   │   ├── README.md            # Feature explanation & benefits
+│   │   ├── install-tone-prompt-inject.md # 6-step install protocol
+│   │   ├── uninstall-tone-prompt-inject.md # Reversibility protocol
+│   │   ├── commands.md          # add/set/list runtime command reference
+│   │   └── injectors/           # Cross-platform injector templates
+│   │       ├── tone.ps1.template
+│   │       └── tone.sh.template
+│   ├── Mood-Prompt-Inject-System/ # Mood injector pack for User-Prompt Hook
+│   │   ├── README.md            # Feature explanation & benefits
+│   │   ├── install-mood-prompt-inject.md # 6-step install protocol
+│   │   ├── uninstall-mood-prompt-inject.md # Reversibility protocol
+│   │   ├── commands.md          # add/set/list runtime command reference
+│   │   └── injectors/           # Cross-platform injector templates
+│   │       ├── mood.ps1.template
+│   │       └── mood.sh.template
+│   └── Time-Prompt-Inject-System/ # Time + period injector pack with user-configurable boundaries
 │       ├── README.md            # Feature explanation & benefits
-│       ├── install-mulahazah.md # Installation protocol
-│       ├── config.json          # Hook configuration
-│       ├── rules-format.md      # Rule format template
-│       └── SKILL.md             # Auto-triggered skill (behavioral rules)
+│       ├── install-time-prompt-inject.md # 6-step install protocol
+│       ├── uninstall-time-prompt-inject.md # Reversibility protocol
+│       └── injectors/           # Cross-platform injector templates
+│           ├── time.ps1.template
+│           └── time.sh.template
 ├── library-items/            # Pre-made knowledge entries for Library System
 │   ├── README.md             # Catalog and install instructions
 │   └── security/             # Security section items
@@ -255,6 +296,7 @@ Features are organized into **tiers** based on dependencies. Install Tier 1 firs
 | 💬 [User-Prompt Hook](Feature/User-Prompt-Hook-System/) | Generic UserPromptSubmit hook framework with plug-and-play injector pattern | `"Load user-prompt-hook"` |
 | 🎭 [Tone-Prompt Inject](Feature/Tone-Prompt-Inject-System/) | Injects `TONE: <description>` per prompt — registry in main memory, AI/user can switch — *requires User-Prompt Hook* | `"Load tone-prompt-inject"` |
 | 🌙 [Mood-Prompt Inject](Feature/Mood-Prompt-Inject-System/) | Injects `MOOD: <description>` per prompt — registry in main memory, AI/user can switch — *requires User-Prompt Hook* | `"Load mood-prompt-inject"` |
+| ⏱️ [Time-Prompt Inject](Feature/Time-Prompt-Inject-System/) | Injects `<timestamp> \| <PERIOD>` per prompt with transition signals on period flips — user-configurable boundaries — *requires User-Prompt Hook* | `"Load time-prompt-inject"` |
 
 ---
 

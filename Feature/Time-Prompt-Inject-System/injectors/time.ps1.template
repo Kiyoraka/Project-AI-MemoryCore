@@ -1,0 +1,46 @@
+# Time injector for User-Prompt-Hook framework
+# Generated from Feature/Time-Prompt-Inject-System/injectors/time.ps1.template
+# Emits "<timestamp> | <PERIOD>" with transition signal on period changes.
+#
+# Period boundaries (24-hour, baked in at install time):
+#   MORNING   starts at [MORNING_START]:00
+#   AFTERNOON starts at [AFTERNOON_START]:00
+#   EVENING   starts at [EVENING_START]:00
+#   NIGHT     starts at [NIGHT_START]:00
+#
+# To change boundaries: uninstall + reinstall, OR edit the four integer values below.
+
+try {
+    $morning_start   = [MORNING_START]
+    $afternoon_start = [AFTERNOON_START]
+    $evening_start   = [EVENING_START]
+    $night_start     = [NIGHT_START]
+
+    $hour = (Get-Date).Hour
+
+    if     ($hour -ge $morning_start   -and $hour -lt $afternoon_start) { $period = "MORNING" }
+    elseif ($hour -ge $afternoon_start -and $hour -lt $evening_start)   { $period = "AFTERNOON" }
+    elseif ($hour -ge $evening_start   -and $hour -lt $night_start)     { $period = "EVENING" }
+    else                                                                { $period = "NIGHT" }
+
+    $stateFile = Join-Path $env:USERPROFILE ".claude\user-prompt-injectors\time-period-last.txt"
+    $lastPeriod = ""
+    if (Test-Path $stateFile) {
+        $lastPeriod = (Get-Content -Path $stateFile -Raw -ErrorAction SilentlyContinue).Trim()
+    }
+
+    $timestamp = Get-Date -Format "dddd, MMMM dd, yyyy hh:mm tt"
+
+    if ($lastPeriod -and $lastPeriod -ne $period) {
+        Write-Output "TIME PERIOD CHANGED: $lastPeriod to $period | TRIGGER MIRROR | $timestamp | $period"
+    } else {
+        Write-Output "$timestamp | $period"
+    }
+
+    # Update state file (atomic-enough for single-writer hook context)
+    $stateDir = Split-Path -Parent $stateFile
+    if (-not (Test-Path $stateDir)) { New-Item -ItemType Directory -Path $stateDir -Force | Out-Null }
+    Set-Content -Path $stateFile -Value $period -NoNewline
+} catch {
+    exit 0
+}
