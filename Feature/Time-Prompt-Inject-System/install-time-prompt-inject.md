@@ -3,7 +3,7 @@
 
 ## Purpose
 
-Executed when `"Load time-prompt-inject"` is invoked — installs an injector that emits `<timestamp> | <PERIOD>` (with transition signals on period flips) into every user prompt's context.
+Executed when `"Load time-prompt-inject"` is invoked — installs an injector that emits `<timestamp> | <PERIOD>` (with `TIME PERIOD CHANGED:` transition prefix on period flips) into every user prompt's context.
 
 ## Trigger Command
 ```
@@ -68,7 +68,7 @@ Executed when `"Load time-prompt-inject"` is invoked — installs an injector th
 - [ ] Append to Optional Components in `master-memory.md`:
   ```markdown
   ### Time Inject (Installed)
-  *Injects `<timestamp> | <PERIOD>` line into every prompt context — fires `TIME PERIOD CHANGED: <FROM> to <TO> | TRIGGER MIRROR |` prefix on period transitions*
+  *Injects `<timestamp> | <PERIOD>` line into every prompt context — fires `TIME PERIOD CHANGED: <FROM> to <TO> |` prefix on period transitions*
   - Injector script: ~/.claude/hooks/user-prompt-injectors/time.{ps1|sh}
   - State file: ~/.claude/user-prompt-injectors/time-period-last.txt
   - Period boundaries: MORNING [MORNING_START] / AFTERNOON [AFTERNOON_START] / EVENING [EVENING_START] / NIGHT [NIGHT_START]
@@ -91,7 +91,7 @@ Executed when `"Load time-prompt-inject"` is invoked — installs an injector th
   
   Send any message — your AI will see "<timestamp> | [period]" prepended.
   When the clock crosses a boundary, you'll see a one-shot
-  "TIME PERIOD CHANGED: <from> to <to> | TRIGGER MIRROR |" prefix.
+  "TIME PERIOD CHANGED: <from> to <to> |" prefix.
 
   To change boundaries later: uninstall + reinstall.
   Uninstall: type "uninstall time-prompt-inject" anytime
@@ -116,7 +116,6 @@ Executed when `"Load time-prompt-inject"` is invoked — installs an injector th
 | Boundaries baked in at install time (not runtime config) | One less file read per fire; simpler injector logic; trade-off is reinstall to change |
 | State file at `~/.claude/user-prompt-injectors/` (sibling to other current-state files) | Consistent location with Tone/Mood `current.txt` files; clean per-injector namespace |
 | Initial state seeded in Step 5 | Prevents spurious "TIME PERIOD CHANGED: NIGHT to MORNING" signal on first prompt after install (file would otherwise be empty) |
-| `TRIGGER MIRROR` token in transition output | Hint for AI personality systems with outfit/tone/scene rotation; benign for systems without |
 
 ## Notes
 

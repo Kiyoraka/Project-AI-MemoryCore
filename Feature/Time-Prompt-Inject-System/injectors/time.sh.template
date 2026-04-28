@@ -38,7 +38,7 @@ last_period=""
 timestamp=$(date "+%A, %B %d, %Y %I:%M %p")
 
 if [ -n "$last_period" ] && [ "$last_period" != "$period" ]; then
-    echo "TIME PERIOD CHANGED: $last_period to $period | TRIGGER MIRROR | $timestamp | $period"
+    echo "TIME PERIOD CHANGED: $last_period to $period | $timestamp | $period"
 else
     echo "$timestamp | $period"
 fi

@@ -32,7 +32,7 @@ try {
     $timestamp = Get-Date -Format "dddd, MMMM dd, yyyy hh:mm tt"
 
     if ($lastPeriod -and $lastPeriod -ne $period) {
-        Write-Output "TIME PERIOD CHANGED: $lastPeriod to $period | TRIGGER MIRROR | $timestamp | $period"
+        Write-Output "TIME PERIOD CHANGED: $lastPeriod to $period | $timestamp | $period"
     } else {
         Write-Output "$timestamp | $period"
     }

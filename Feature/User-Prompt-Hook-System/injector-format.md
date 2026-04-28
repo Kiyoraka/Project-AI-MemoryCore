@@ -51,7 +51,7 @@ STATUS: Active project: AI-MemoryCore | Phase: feature-implementation
 ```
 
 ### Pattern 2: Pipe-separated columns
-For multi-field outputs. Mirrors Alice's existing time injector format.
+For multi-field outputs. Useful when one injector emits several related fields.
 
 ```
 Tuesday, April 28, 2026 10:54 AM | MORNING | TONE: Soft, sleepy, quiet

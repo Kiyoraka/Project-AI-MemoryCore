@@ -3,7 +3,7 @@
 
 ## What This Feature Does
 
-Adds a `<timestamp> | <PERIOD>` line to every user prompt's context. On period transitions (e.g., MORNING → AFTERNOON when the clock crosses noon), prepends a `TIME PERIOD CHANGED: <FROM> to <TO> | TRIGGER MIRROR |` signal so your AI knows the day register just shifted.
+Adds a `<timestamp> | <PERIOD>` line to every user prompt's context. On period transitions (e.g., MORNING → AFTERNOON when the clock crosses noon), prepends a `TIME PERIOD CHANGED: <FROM> to <TO> |` signal so your AI knows the day register just shifted.
 
 **Requires** [`User-Prompt-Hook System`](../User-Prompt-Hook-System/) (Tier 1 framework). This is an **injector pack** — drops a single script into the framework's injectors directory.
 
@@ -22,10 +22,10 @@ Tuesday, April 28, 2026 12:43 PM | AFTERNOON
 
 **On transition** (e.g., right after the clock crosses noon):
 ```
-TIME PERIOD CHANGED: MORNING to AFTERNOON | TRIGGER MIRROR | Tuesday, April 28, 2026 12:00 PM | AFTERNOON
+TIME PERIOD CHANGED: MORNING to AFTERNOON | Tuesday, April 28, 2026 12:00 PM | AFTERNOON
 ```
 
-The `TRIGGER MIRROR` token is a hint for AI personality systems (like outfit/tone/scene rotators) to refresh visuals — your AI can ignore it if it doesn't have such a system.
+The `TIME PERIOD CHANGED:` prefix is a one-shot signal — any AI personality system that wants to react to the period flip (refresh visuals, switch register, log a transition) can detect that string in the prompt context and act accordingly.
 
 ## Architecture
 

@@ -17,8 +17,8 @@ Wires a `SessionStart` hook into your Claude Code `~/.claude/settings.json` so t
 ```
 You: claude
 Claude Code: Hello! How can I help you today?
-You: alice
-Claude: [now loads memory, becomes Alice]
+You: [ai-name]
+Claude: [now loads memory, becomes your AI]
 ```
 **Problem**: Every single session starts with a manual two-step dance. Easy to forget the name. Easy to start working before the AI knows who it's supposed to be.
 
