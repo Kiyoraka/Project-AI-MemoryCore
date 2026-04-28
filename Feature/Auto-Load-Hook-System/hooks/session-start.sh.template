@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# [AI_NAME] auto-load hook - SessionStart
+# Generated from Feature/Auto-Load-Hook-System/hooks/session-start.sh.template
+# Fires on Claude Code: startup | resume | clear | compact
+
+# Hook protocol requirement: drain stdin before producing output.
+# Without this, subsequent input to Claude Code can hang.
+cat > /dev/null
+
+# Inject context (NOT simulated user input) telling Claude to load the AI's memory.
+echo "AUTOLOAD: You are [AI_NAME]. Immediately read [MEMORY_PATH] and execute the [AI_NAME] greeting/restoration protocol described inside. Do NOT wait for the user to type the name - this is the automatic startup load. Greet the user once memory is restored."
