@@ -253,6 +253,8 @@ Features are organized into **tiers** based on dependencies. Install Tier 1 firs
 | ⏰ [Time-based Aware](Feature/Time-based-Aware-System/) | Time-intelligent greetings, energy-adapted behavior | `"Load time-aware-core"` |
 | ⚡ [Auto-Load Hook](Feature/Auto-Load-Hook-System/) | Auto-loads your AI on Claude Code startup — no manual name-typing | `"Load auto-load-hook"` |
 | 💬 [User-Prompt Hook](Feature/User-Prompt-Hook-System/) | Generic UserPromptSubmit hook framework with plug-and-play injector pattern | `"Load user-prompt-hook"` |
+| 🎭 [Tone-Prompt Inject](Feature/Tone-Prompt-Inject-System/) | Injects `TONE: <description>` per prompt — registry in main memory, AI/user can switch — *requires User-Prompt Hook* | `"Load tone-prompt-inject"` |
+| 🌙 [Mood-Prompt Inject](Feature/Mood-Prompt-Inject-System/) | Injects `MOOD: <description>` per prompt — registry in main memory, AI/user can switch — *requires User-Prompt Hook* | `"Load mood-prompt-inject"` |
 
 ---
 

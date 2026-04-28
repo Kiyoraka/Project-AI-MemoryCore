@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Mood injector for User-Prompt-Hook framework
+# Generated from Feature/Mood-Prompt-Inject-System/injectors/mood.sh.template
+# Reads ~/.claude/user-prompt-injectors/mood-current.txt and emits a single MOOD: line.
+#
+# Behavior:
+#   - If state file missing or empty, exit 0 (no output, master skips silently)
+#   - On any error, swallow and exit 0 (don't crash master hook)
+
+set +e
+
+STATE_FILE="$HOME/.claude/user-prompt-injectors/mood-current.txt"
+[ -f "$STATE_FILE" ] || exit 0
+
+value=$(cat "$STATE_FILE" 2>/dev/null | tr -d '\r\n' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+[ -n "$value" ] && echo "MOOD: $value"
+exit 0

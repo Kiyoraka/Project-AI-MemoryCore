@@ -1,0 +1,19 @@
+# Tone injector for User-Prompt-Hook framework
+# Generated from Feature/Tone-Prompt-Inject-System/injectors/tone.ps1.template
+# Reads ~/.claude/user-prompt-injectors/tone-current.txt and emits a single TONE: line.
+#
+# Behavior:
+#   - If state file missing or empty, exit 0 (no output, master skips silently)
+#   - On any error, swallow and exit 0 (don't crash master hook)
+
+try {
+    $stateFile = Join-Path $env:USERPROFILE ".claude\user-prompt-injectors\tone-current.txt"
+    if (-not (Test-Path $stateFile)) { exit 0 }
+
+    $value = (Get-Content -Path $stateFile -Raw -ErrorAction SilentlyContinue).Trim()
+    if ($value) {
+        Write-Output "TONE: $value"
+    }
+} catch {
+    exit 0
+}

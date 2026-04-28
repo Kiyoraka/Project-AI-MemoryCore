@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Tone injector for User-Prompt-Hook framework
+# Generated from Feature/Tone-Prompt-Inject-System/injectors/tone.sh.template
+# Reads ~/.claude/user-prompt-injectors/tone-current.txt and emits a single TONE: line.
+#
+# Behavior:
+#   - If state file missing or empty, exit 0 (no output, master skips silently)
+#   - On any error, swallow and exit 0 (don't crash master hook)
+
+set +e
+
+STATE_FILE="$HOME/.claude/user-prompt-injectors/tone-current.txt"
+[ -f "$STATE_FILE" ] || exit 0
+
+value=$(cat "$STATE_FILE" 2>/dev/null | tr -d '\r\n' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+[ -n "$value" ] && echo "TONE: $value"
+exit 0
