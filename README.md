@@ -305,6 +305,7 @@ Features are organized into **tiers** based on dependencies. Install Tier 1 firs
 | Feature | Description | Setup |
 |---------|-------------|-------|
 | 📖 [Save Diary](Feature/Save-Diary-System/) | Daily session documentation with monthly auto-archival | `"Load save-diary"` |
+| 🗂️ [Topic Diary](Feature/Topic-Diary-System/) | Topic-based memory journals for discoveries, fixes, and lessons across sessions — *pairs well with Save Diary + Echo Recall* | `"Load topic-diary"` |
 | 🔍 [Echo Memory Recall](Feature/Echo-Memory-Recall/) | Search past sessions with narrative context — *requires Save Diary* | `"Load echo-recall"` |
 | 🔔 [Reminders](Feature/Reminders-System/) | Persistent cross-session reminders with deadline tracking | `"Load reminders"` |
 | 📋 [Decision Log](Feature/Decision-Log-System/) | Append-only record of decisions and their reasoning | `"Load decision-log"` |
