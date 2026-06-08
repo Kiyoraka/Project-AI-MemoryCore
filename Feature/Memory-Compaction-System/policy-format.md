@@ -35,6 +35,18 @@ Use this format to define which files are compacted, their budgets, and how much
 - Never compact secrets, tokens, passwords, or credentials.
 - Never compact the newest tier.
 
+### Detecting Secrets
+
+Treat an entry as a secret (and exclude it from any `## Compacted History` block) if it matches
+any of these:
+
+- Key names ending in `_KEY`, `_TOKEN`, `_SECRET`, `_PASSWORD`, or `_CREDENTIAL`
+- High-entropy values that look like API keys, tokens, or private keys
+- Anything under a `## Secrets`, `## Credentials`, or `## Tokens` section header
+
+When a secret is found in the oldest tier, leave it verbatim in place (do not summarize it) or
+ask the user how to handle it. Never merge a secret value into a shared summary.
+
 ## Maintenance Notes
 
 - Budgets are line-based by default; character-based budgets are allowed (e.g. `8000 chars`).
@@ -58,7 +70,7 @@ Use this format to define which files are compacted, their budgets, and how much
 |------|--------|------------------------|-------|
 | main/main-memory.md | 450 lines | last 25 entries | keep identity dense |
 | topic-diary/topics/docker.md | 250 lines | last 8 entries | high-churn topic |
-| topic-diary/topics/9router.md | 200 lines | last 8 entries | troubleshooting log |
+| topic-diary/topics/9router.md | 6000 chars | last 10 entries | char-based budget for notes-heavy topic |
 ```
 
 ---

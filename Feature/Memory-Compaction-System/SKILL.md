@@ -43,14 +43,23 @@ Before writing any `save` to a budgeted file:
 ### Step 1: Snapshot
 
 - [ ] Run `date` to get the current timestamp.
-- [ ] Copy the target file to `compaction/snapshots/[file]-[YYYY-MM-DD].md`.
-- [ ] If a snapshot for today exists, append `-HHMM` to avoid overwriting.
+- [ ] Copy the target file to `compaction/snapshots/[basename]-[YYYY-MM-DD].md`
+      (use only the filename without its directory — e.g. `main-memory`, not `main/main-memory` —
+      so snapshots never create nested subdirectories inside `compaction/snapshots/`).
+- [ ] If a snapshot for today already exists, append `-HHMMSS` (seconds included) to avoid
+      overwriting. If a same-second collision is still possible, use a sequential suffix
+      (`-v2`, `-v3`).
 
 ### Step 2: Split Into Tiers
 
 - [ ] **Newest tier** — the last N entries per the policy. Never touched.
 - [ ] **Mid-age tier** — entries between newest and oldest. Light summarization only.
 - [ ] **Oldest tier** — everything older. Target for heavy compaction.
+
+> **Deterministic boundary:** the newest tier is the last N entries named in the policy.
+> The oldest tier is everything below the newest tier, down to **30% of the file's total
+> line count** (rounded to whole entries). Anything between is the mid-age tier. This keeps
+> compaction results consistent across sessions.
 
 ### Step 3: Compact the Oldest Tier
 

@@ -98,7 +98,7 @@ No file is over budget. Compaction will run automatically when one is.
 | `compact memory` | Force a compaction pass on all over-budget files |
 | `compact [file]` | Compact a specific file now |
 | `check budgets` | Report each file's size against its budget |
-| `set budget [file] [n] lines` | Update a budget in the policy |
+| `set budget [file] [n] lines` or `set budget [file] [n] chars` | Update a budget in the policy |
 | `restore compaction [snapshot]` | Roll a file back to a pre-compaction snapshot |
 | `save` | Auto-checks budget first; compacts if needed, then saves |
 
