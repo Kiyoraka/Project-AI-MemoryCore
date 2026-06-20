@@ -333,6 +333,7 @@ Features are organized into **tiers** based on dependencies. Install Tier 1 firs
 | 👁️ [Observation](Feature/Observation-System/) | 4-tier code awareness — Survey, Investigate, Refine, Audit | `"Load observation"` |
 | 🎨 [Image Prompt](Feature/Image-Prompt-System/) | Composition-aware Midjourney/NijiJourney prompt generation | `"Load image-prompt"` |
 | 🖼️ [Image Generation](Feature/Image-Generation-System/) | Render descriptions into real PNGs via the OpenAI gpt-image API — built from your input, cost-confirmed — *pairs with Image Prompt* | `"Load image-generation"` |
+| 🎬 [Video Generation](Feature/Video-Generation-System/) | Render descriptions into MP4 video via the Seedance API (text & image-to-video, async, cost-gated) — *pairs with Image Generation* | `"Load video-generation"` |
 | 🎵 [Song Creation](Feature/Song-Creation-System/) | Visual-to-musical storytelling — image to concept album with Suno-ready output | `"Load song-creation"` |
 | 🎮 [Interactive Story](Feature/Interactive-Story-System/) | Visual Novel RPG — duo/solo, OP/balanced, 7 world types, cinematic combat | `"Load interactive-story"` |
 | 👁️ [Mulahazah](Feature/Mulahazah-System/) | Instinct-based behavioral learning — passive hook observation + persistent rules | `npx continuous-improvement install` |

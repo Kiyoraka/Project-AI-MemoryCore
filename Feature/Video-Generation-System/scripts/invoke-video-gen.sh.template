@@ -1,0 +1,265 @@
+#!/usr/bin/env bash
+# ============================================================
+# invoke-video-gen.sh
+# ============================================================
+# Video Generation System — capability layer (Mac/Linux/Git Bash).
+# Renders an MP4 from a prompt via the Seedance API (BytePlus ModelArk),
+# using an async submit -> poll -> download flow.
+#
+# The PROMPT is supplied by the caller — this script renders whatever
+# description it is given. It has no built-in subject or persona.
+#
+# Supports text-to-video AND image-to-video (pass local image paths or
+# URLs as first/last frame or reference images).
+#
+# Reads ARK_API_KEY from (priority order):
+#   1. $ARK_API_KEY environment variable
+#   2. A .env file: --env-file path if given, else `.env` in the current
+#      directory, else `.env` next to this script
+#   3. Exits with a helpful error if no key can be resolved
+#
+# Requires: curl, jq
+#
+# Setup:
+#   1. Copy this file somewhere on your PATH and drop the `.template`
+#      suffix so it becomes `invoke-video-gen.sh`; `chmod +x` it.
+#   2. Provide your key (see credential-setup.md).
+#
+# Usage (text-to-video):
+#   invoke-video-gen.sh --prompt "a paper boat drifting down a rainy street" \
+#       --outfile ./out.mp4 --resolution 1080p --duration 5
+#
+# Usage (image-to-video):
+#   invoke-video-gen.sh --prompt "slow push-in" --outfile ./out.mp4 \
+#       --first-frame ./still.png
+#
+# Usage (estimate only, no API call):
+#   invoke-video-gen.sh --prompt x --outfile x.mp4 --resolution 1080p --duration 5 --what-if-cost
+# ============================================================
+
+set -euo pipefail
+
+PROMPT=""
+OUTFILE=""
+MODEL="dreamina-seedance-2-0-260128"
+API_BASE="https://ark.ap-southeast.bytepluses.com/api/v3/contents/generations/tasks"
+RESOLUTION="1080p"
+DURATION="5"
+ASPECT_RATIO="16:9"
+FIRST_FRAME=""
+LAST_FRAME=""
+REFERENCE_IMAGES=()
+AUDIO="true"
+WATERMARK="false"
+SEED="-1"
+POLL_SECONDS="10"
+TIMEOUT_SECONDS="600"
+ENV_FILE=""
+WHAT_IF_COST="false"
+
+# ------------------------------------------------------------
+# Parse arguments
+# ------------------------------------------------------------
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --prompt)          PROMPT="$2";          shift 2 ;;
+    --outfile)         OUTFILE="$2";         shift 2 ;;
+    --model)           MODEL="$2";           shift 2 ;;
+    --api-base)        API_BASE="$2";        shift 2 ;;
+    --resolution)      RESOLUTION="$2";      shift 2 ;;
+    --duration)        DURATION="$2";        shift 2 ;;
+    --aspect-ratio)    ASPECT_RATIO="$2";    shift 2 ;;
+    --first-frame)     FIRST_FRAME="$2";     shift 2 ;;
+    --last-frame)      LAST_FRAME="$2";      shift 2 ;;
+    --reference-image) REFERENCE_IMAGES+=("$2"); shift 2 ;;
+    --audio)           AUDIO="$2";           shift 2 ;;
+    --watermark)       WATERMARK="$2";       shift 2 ;;
+    --seed)            SEED="$2";            shift 2 ;;
+    --poll-seconds)    POLL_SECONDS="$2";    shift 2 ;;
+    --timeout-seconds) TIMEOUT_SECONDS="$2"; shift 2 ;;
+    --env-file)        ENV_FILE="$2";        shift 2 ;;
+    --what-if-cost)    WHAT_IF_COST="true";  shift 1 ;;
+    *) echo "Unknown argument: $1" >&2; exit 1 ;;
+  esac
+done
+
+if [[ -z "$PROMPT" || -z "$OUTFILE" ]]; then
+  echo "Usage: invoke-video-gen.sh --prompt <text> --outfile <path.mp4> [--resolution 1080p] [--duration 5] [--first-frame <path|url>] [--what-if-cost]" >&2
+  exit 1
+fi
+
+# ------------------------------------------------------------
+# Cost estimate — indicative per-second USD by resolution.
+# VERIFY against current BytePlus ModelArk pricing; values change.
+# ------------------------------------------------------------
+case "$RESOLUTION" in
+  480p)  RATE="0.05" ;;
+  720p)  RATE="0.10" ;;
+  1080p) RATE="0.23" ;;
+  *)     RATE="0.23" ;;
+esac
+COST_ESTIMATE="$(awk "BEGIN { printf \"%.2f\", $RATE * $DURATION }")"
+
+if [[ "$WHAT_IF_COST" == "true" ]]; then
+  echo "cost_estimate_usd: ~$COST_ESTIMATE   resolution: $RESOLUTION   duration_seconds: $DURATION   model: $MODEL"
+  echo "note: Estimate only — no API call made. Verify pricing at BytePlus ModelArk."
+  exit 0
+fi
+
+command -v curl >/dev/null 2>&1 || { echo "Error: curl is required." >&2; exit 1; }
+command -v jq   >/dev/null 2>&1 || { echo "Error: jq is required."   >&2; exit 1; }
+
+# ------------------------------------------------------------
+# Read a single KEY=value from a dotenv-format file
+# ------------------------------------------------------------
+get_dotenv_key() {
+  local file="$1" key="$2"
+  [[ -f "$file" ]] || return 1
+  local val
+  val="$(grep -E "^\s*${key}\s*=" "$file" 2>/dev/null | grep -v '^\s*#' | head -n1 | sed -E "s/^\s*${key}\s*=\s*//; s/^[\"']//; s/[\"']\s*$//; s/\s+$//")"
+  [[ -n "$val" ]] || return 1
+  printf '%s' "$val"
+}
+
+# ------------------------------------------------------------
+# Resolve API key (priority cascade)
+# ------------------------------------------------------------
+API_KEY="${ARK_API_KEY:-}"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+if [[ -z "$API_KEY" || "$API_KEY" == *REPLACE-WITH* || "$API_KEY" == *PLACEHOLDER* ]]; then
+  for candidate in "$ENV_FILE" "./.env" "$SCRIPT_DIR/.env"; do
+    [[ -n "$candidate" ]] || continue
+    if found="$(get_dotenv_key "$candidate" ARK_API_KEY)"; then
+      if [[ "$found" != *REPLACE-WITH* && "$found" != *PLACEHOLDER* ]]; then
+        API_KEY="$found"
+        break
+      fi
+    fi
+  done
+fi
+
+if [[ -z "$API_KEY" || "$API_KEY" == *REPLACE-WITH* || "$API_KEY" == *PLACEHOLDER* ]]; then
+  cat >&2 <<'EOF'
+ARK_API_KEY missing. Resolve it one of these ways:
+  1. export ARK_API_KEY=your-key
+  2. Create a .env file (current dir, next to this script, or pass --env-file):
+       ARK_API_KEY=your-key-here
+Generate a key in the BytePlus ModelArk console (API Keys). See credential-setup.md.
+EOF
+  exit 1
+fi
+
+# Scrub any key leakage before printing an error
+sanitize() { printf '%s' "$1" | sed -E 's/(ark|sk)-[A-Za-z0-9_-]+/[REDACTED-KEY]/g'; }
+
+# ------------------------------------------------------------
+# Convert a local image to a base64 data URI (no hosting needed).
+# A value that already looks like a URL/data-uri is returned unchanged.
+# ------------------------------------------------------------
+to_data_uri() {
+  local p="$1"
+  if [[ "$p" =~ ^(https?|data): ]]; then printf '%s' "$p"; return 0; fi
+  [[ -f "$p" ]] || { echo "Reference image not found: $p" >&2; exit 1; }
+  local size_mb mime ext
+  size_mb=$(( $(wc -c < "$p") / 1048576 ))
+  if (( size_mb > 4 )); then echo "Reference image too large (>4 MB): $p" >&2; exit 1; fi
+  ext="$(printf '%s' "${p##*.}" | tr '[:upper:]' '[:lower:]')"
+  case "$ext" in
+    png)       mime="image/png" ;;
+    jpg|jpeg)  mime="image/jpeg" ;;
+    webp)      mime="image/webp" ;;
+    *) echo "Unsupported image type '.$ext' (use png/jpg/webp): $p" >&2; exit 1 ;;
+  esac
+  printf 'data:%s;base64,%s' "$mime" "$(base64 -w0 "$p" 2>/dev/null || base64 "$p" | tr -d '\n')"
+}
+
+# ------------------------------------------------------------
+# Build the content array (text + optional image conditioning)
+# ------------------------------------------------------------
+CONTENT="$(jq -nc --arg text "$PROMPT" '[{type:"text", text:$text}]')"
+add_image() {
+  local uri role
+  uri="$(to_data_uri "$1")"; role="$2"
+  CONTENT="$(printf '%s' "$CONTENT" | jq -c --arg url "$uri" --arg role "$role" \
+    '. + [{type:"image_url", image_url:{url:$url}, role:$role}]')"
+}
+[[ -n "$FIRST_FRAME" ]] && add_image "$FIRST_FRAME" "first_frame"
+[[ -n "$LAST_FRAME"  ]] && add_image "$LAST_FRAME"  "last_frame"
+for ref in "${REFERENCE_IMAGES[@]:-}"; do
+  [[ -n "$ref" ]] && add_image "$ref" "reference_image"
+done
+
+# ------------------------------------------------------------
+# Assemble the submit body
+# ------------------------------------------------------------
+BODY="$(jq -nc \
+  --arg model "$MODEL" \
+  --argjson content "$CONTENT" \
+  --arg resolution "$RESOLUTION" \
+  --arg ratio "$ASPECT_RATIO" \
+  --argjson duration "$DURATION" \
+  --argjson audio "$AUDIO" \
+  --argjson watermark "$WATERMARK" \
+  --argjson seed "$SEED" \
+  '{model:$model, content:$content, resolution:$resolution, ratio:$ratio, duration:$duration, generate_audio:$audio, watermark:$watermark}
+   + (if $seed >= 0 then {seed:$seed} else {} end)')"
+
+mkdir -p "$(dirname "$OUTFILE")"
+START="$(date +%s)"
+
+# ------------------------------------------------------------
+# PHASE 1: SUBMIT
+# ------------------------------------------------------------
+SUBMIT_RESP="$(curl -sS -w $'\n%{http_code}' -X POST "$API_BASE" \
+  -H "Authorization: Bearer ${API_KEY}" -H "Content-Type: application/json" \
+  -d "$BODY" 2>&1 || true)"
+SUBMIT_CODE="$(printf '%s' "$SUBMIT_RESP" | tail -n1)"
+SUBMIT_BODY="$(printf '%s' "$SUBMIT_RESP" | sed '$d')"
+
+if [[ "$SUBMIT_CODE" != "200" ]]; then
+  echo "Video submit failed (HTTP $SUBMIT_CODE): $(sanitize "$SUBMIT_BODY")" >&2
+  exit 1
+fi
+TASK_ID="$(printf '%s' "$SUBMIT_BODY" | jq -r '.id // empty')"
+[[ -n "$TASK_ID" ]] || { echo "Submit response missing task id: $(sanitize "$SUBMIT_BODY")" >&2; exit 1; }
+
+# ------------------------------------------------------------
+# PHASE 2: POLL
+# ------------------------------------------------------------
+VIDEO_URL=""
+while true; do
+  sleep "$POLL_SECONDS"
+  NOW="$(date +%s)"
+  if (( NOW - START > TIMEOUT_SECONDS )); then
+    echo "Poll timed out after ${TIMEOUT_SECONDS}s (task $TASK_ID)" >&2
+    exit 1
+  fi
+
+  TASK_RESP="$(curl -sS -X GET "${API_BASE}/${TASK_ID}" \
+    -H "Authorization: Bearer ${API_KEY}" 2>&1 || true)"
+  STATUS="$(printf '%s' "$TASK_RESP" | jq -r '(.status // "") | ascii_downcase' 2>/dev/null || echo "")"
+
+  case "$STATUS" in
+    succeeded|completed|done|success)
+      VIDEO_URL="$(printf '%s' "$TASK_RESP" | jq -r '
+        .content.video_url // .output.video_url // .video_url // .data.video_url // .content.url // empty')"
+      break ;;
+    failed|error|cancelled|canceled)
+      echo "Task $STATUS (task $TASK_ID): $(sanitize "$TASK_RESP")" >&2
+      exit 1 ;;
+  esac
+done
+
+[[ -n "$VIDEO_URL" ]] || { echo "Task succeeded but no video_url found (task $TASK_ID)" >&2; exit 1; }
+
+# ------------------------------------------------------------
+# PHASE 3: DOWNLOAD
+# ------------------------------------------------------------
+curl -sS -L -o "$OUTFILE" "$VIDEO_URL" || { echo "Video download failed (task $TASK_ID)" >&2; exit 1; }
+
+END="$(date +%s)"
+ELAPSED=$((END - START))
+
+echo "saved_path: $OUTFILE"
+echo "cost_estimate_usd: ~$COST_ESTIMATE   elapsed_seconds: ${ELAPSED}   model: $MODEL   resolution: $RESOLUTION   duration_seconds: $DURATION   task_id: $TASK_ID"

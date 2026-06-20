@@ -1,0 +1,301 @@
+# ============================================================
+# Invoke-VideoGen.ps1
+# ============================================================
+# Video Generation System - capability layer.
+# Renders an MP4 from a prompt via the Seedance API (BytePlus ModelArk),
+# using an async submit -> poll -> download flow.
+#
+# The PROMPT is supplied by the caller - this script renders whatever
+# description it is given. It has no built-in subject or persona.
+#
+# Supports text-to-video AND image-to-video (pass local image paths or
+# URLs as first/last frame or reference images).
+#
+# Reads ARK_API_KEY from (priority order):
+#   1. $env:ARK_API_KEY environment variable
+#   2. A .env file: the -EnvFile path if given, else a `.env` discovered
+#      in the current directory, else `.env` next to this script
+#   3. Throws a helpful error if no key can be resolved
+#
+# Setup:
+#   1. Copy this file to a folder on your PATH and drop the `.template`
+#      suffix so it becomes `Invoke-VideoGen.ps1`.
+#   2. Provide your key (see credential-setup.md).
+#
+# Usage (text-to-video):
+#   $r = & Invoke-VideoGen.ps1 -Prompt "a paper boat drifting down a rainy street" `
+#            -OutFile "C:\path\out.mp4" -Resolution "1080p" -Duration 5
+#
+# Usage (image-to-video - animate a local still):
+#   $r = & Invoke-VideoGen.ps1 -Prompt "slow camera push-in, leaves drifting" `
+#            -OutFile "C:\path\out.mp4" -FirstFrame "C:\path\still.png"
+#
+# Usage (estimate cost only, no API call):
+#   & Invoke-VideoGen.ps1 -Prompt "x" -OutFile "x.mp4" -Resolution "1080p" -Duration 5 -WhatIfCost
+# ============================================================
+
+param(
+    [Parameter(Mandatory=$true)][string]$Prompt,
+    [Parameter(Mandatory=$true)][string]$OutFile,
+    [Parameter()][string]$Model = "dreamina-seedance-2-0-260128",
+    [Parameter()][string]$ApiBase = "https://ark.ap-southeast.bytepluses.com/api/v3/contents/generations/tasks",
+    [Parameter()][ValidateSet("480p","720p","1080p")][string]$Resolution = "1080p",
+    [Parameter()][int]$Duration = 5,
+    [Parameter()][string]$AspectRatio = "16:9",
+    [Parameter()][string]$FirstFrame,
+    [Parameter()][string]$LastFrame,
+    [Parameter()][string[]]$ReferenceImages = @(),
+    [Parameter()][bool]$Audio = $true,
+    [Parameter()][bool]$Watermark = $false,
+    [Parameter()][int]$Seed = -1,
+    [Parameter()][int]$PollSeconds = 10,
+    [Parameter()][int]$TimeoutSeconds = 600,
+    [Parameter()][string]$EnvFile,
+    [Parameter()][switch]$WhatIfCost
+)
+
+# ============================================================
+# Reusable function: Get-DotEnvKey
+# Parses a dotenv-format file and extracts a single KEY_NAME=value pair.
+# ============================================================
+function Get-DotEnvKey {
+    param(
+        [Parameter(Mandatory=$true)][string]$EnvFilePath,
+        [Parameter(Mandatory=$true)][string]$KeyName
+    )
+
+    if (-not (Test-Path $EnvFilePath)) {
+        return $null
+    }
+
+    $lines = Get-Content $EnvFilePath -ErrorAction SilentlyContinue
+    foreach ($line in $lines) {
+        if ($line -match '^\s*#') { continue }
+        if ([string]::IsNullOrWhiteSpace($line)) { continue }
+
+        if ($line -match "^\s*$([regex]::Escape($KeyName))\s*=\s*(.+)\s*$") {
+            $value = $Matches[1].Trim()
+            if ($value.StartsWith('"') -and $value.EndsWith('"')) {
+                $value = $value.Substring(1, $value.Length - 2)
+            } elseif ($value.StartsWith("'") -and $value.EndsWith("'")) {
+                $value = $value.Substring(1, $value.Length - 2)
+            }
+            return $value
+        }
+    }
+    return $null
+}
+
+# ============================================================
+# Convert a local image file to a base64 data URI (no hosting needed).
+# Supports PNG / JPG / JPEG / WebP. Guards against oversized files
+# (base64 inflates ~33%; keep source under ~4 MB).
+# A value that already looks like a URL is returned unchanged.
+# ============================================================
+function ConvertTo-DataUri {
+    param([Parameter(Mandatory=$true)][string]$PathOrUrl)
+
+    if ($PathOrUrl -match '^(https?|data):') { return $PathOrUrl }
+
+    if (-not (Test-Path $PathOrUrl)) {
+        throw "Reference image not found: $PathOrUrl"
+    }
+    $sizeMB = (Get-Item $PathOrUrl).Length / 1MB
+    if ($sizeMB -gt 4) {
+        throw "Reference image too large ($([Math]::Round($sizeMB,1)) MB > 4 MB): $PathOrUrl"
+    }
+
+    $ext = [System.IO.Path]::GetExtension($PathOrUrl).TrimStart('.').ToLower()
+    $mime = switch ($ext) {
+        "png"  { "image/png" }
+        "jpg"  { "image/jpeg" }
+        "jpeg" { "image/jpeg" }
+        "webp" { "image/webp" }
+        default { throw "Unsupported image type '.$ext' (use png/jpg/webp): $PathOrUrl" }
+    }
+    $bytes = [System.IO.File]::ReadAllBytes($PathOrUrl)
+    $b64 = [System.Convert]::ToBase64String($bytes)
+    return "data:$mime;base64,$b64"
+}
+
+# ============================================================
+# Cost estimate - indicative per-second USD by resolution.
+# VERIFY against current BytePlus ModelArk pricing; values change.
+# ============================================================
+$ratePerSec = @{
+    "480p"  = 0.05
+    "720p"  = 0.10
+    "1080p" = 0.23
+}
+$rate = if ($ratePerSec.ContainsKey($Resolution)) { $ratePerSec[$Resolution] } else { 0.23 }
+$costEstimate = [Math]::Round($rate * $Duration, 2)
+
+# ============================================================
+# -WhatIfCost: report the estimate and exit WITHOUT calling the API.
+# ============================================================
+if ($WhatIfCost) {
+    return [PSCustomObject]@{
+        would_fire        = $false
+        cost_estimate_usd = $costEstimate
+        resolution        = $Resolution
+        duration_seconds  = $Duration
+        model             = $Model
+        note              = "Estimate only - no API call made. Verify pricing at BytePlus ModelArk."
+    }
+}
+
+# ============================================================
+# Resolve API key (priority cascade)
+# ============================================================
+$apiKey = $null
+if ($env:ARK_API_KEY) {
+    $apiKey = $env:ARK_API_KEY
+}
+if (-not $apiKey -or $apiKey -match "REPLACE-WITH" -or $apiKey -match "PLACEHOLDER") {
+    $candidates = @()
+    if ($EnvFile) { $candidates += $EnvFile }
+    $candidates += (Join-Path (Get-Location) ".env")
+    $candidates += (Join-Path $PSScriptRoot ".env")
+
+    foreach ($candidate in $candidates) {
+        $found = Get-DotEnvKey -EnvFilePath $candidate -KeyName "ARK_API_KEY"
+        if ($found -and $found -notmatch "REPLACE-WITH" -and $found -notmatch "PLACEHOLDER") {
+            $apiKey = $found
+            break
+        }
+    }
+}
+if (-not $apiKey -or $apiKey -match "REPLACE-WITH" -or $apiKey -match "PLACEHOLDER") {
+    throw @"
+ARK_API_KEY missing. Resolve it one of these ways:
+  1. Set the environment variable:  `$env:ARK_API_KEY = 'your-key'
+  2. Create a .env file (current dir, next to this script, or pass -EnvFile):
+       ARK_API_KEY=your-key-here
+Generate a key in the BytePlus ModelArk console (API Keys). See credential-setup.md.
+"@
+}
+
+# ============================================================
+# Ensure target folder exists
+# ============================================================
+$outDir = Split-Path -Parent $OutFile
+if ($outDir -and -not (Test-Path $outDir)) {
+    New-Item -ItemType Directory -Path $outDir -Force | Out-Null
+}
+
+# ============================================================
+# Build the content array (text + optional image conditioning)
+# ============================================================
+$content = New-Object System.Collections.ArrayList
+[void]$content.Add(@{ type = "text"; text = $Prompt })
+
+if ($FirstFrame) {
+    [void]$content.Add(@{ type = "image_url"; image_url = @{ url = (ConvertTo-DataUri $FirstFrame) }; role = "first_frame" })
+}
+if ($LastFrame) {
+    [void]$content.Add(@{ type = "image_url"; image_url = @{ url = (ConvertTo-DataUri $LastFrame) }; role = "last_frame" })
+}
+foreach ($refImg in $ReferenceImages) {
+    if ($refImg) {
+        [void]$content.Add(@{ type = "image_url"; image_url = @{ url = (ConvertTo-DataUri $refImg) }; role = "reference_image" })
+    }
+}
+
+$headers = @{
+    "Authorization" = "Bearer $apiKey"
+    "Content-Type"  = "application/json"
+}
+
+# Helper: scrub any key leakage from a message before surfacing it
+function Protect-Message {
+    param([string]$Text)
+    $t = $Text
+    $t = $t -replace 'ark-[A-Za-z0-9_-]+', '[REDACTED-KEY]'
+    $t = $t -replace 'sk-[A-Za-z0-9_-]+', '[REDACTED-KEY]'
+    return $t
+}
+
+$startTime = Get-Date
+
+# ============================================================
+# PHASE 1: SUBMIT - create the generation task
+# ============================================================
+try {
+    $createBody = @{
+        model          = $Model
+        content        = $content
+        resolution     = $Resolution
+        ratio          = $AspectRatio
+        duration       = $Duration
+        generate_audio = $Audio
+        watermark      = $Watermark
+    }
+    if ($Seed -ge 0) { $createBody["seed"] = $Seed }
+    $createBodyJson = $createBody | ConvertTo-Json -Depth 12 -Compress
+
+    $createResp = Invoke-RestMethod -Uri $ApiBase -Method POST -Headers $headers -Body $createBodyJson -ErrorAction Stop
+    $taskId = $createResp.id
+    if (-not $taskId) { throw "Submit response missing task id" }
+} catch {
+    throw "Video submit failed: $(Protect-Message $_.Exception.Message)"
+}
+
+# ============================================================
+# PHASE 2: POLL - retrieve the task until a terminal status
+# ============================================================
+$retrieveUrl = "$ApiBase/$taskId"
+$videoUrl = $null
+$finalStatus = $null
+
+try {
+    while ($true) {
+        Start-Sleep -Seconds $PollSeconds
+        $elapsed = (New-TimeSpan -Start $startTime -End (Get-Date)).TotalSeconds
+        if ($elapsed -gt $TimeoutSeconds) {
+            throw "Poll timed out after ${TimeoutSeconds}s (task $taskId, last status: $finalStatus)"
+        }
+
+        $task = Invoke-RestMethod -Uri $retrieveUrl -Method GET -Headers $headers -ErrorAction Stop
+        $finalStatus = "$($task.status)".ToLower()
+
+        if ($finalStatus -in @("succeeded","completed","done","success")) {
+            if     ($task.content.video_url) { $videoUrl = $task.content.video_url }
+            elseif ($task.output.video_url)  { $videoUrl = $task.output.video_url }
+            elseif ($task.video_url)         { $videoUrl = $task.video_url }
+            elseif ($task.data.video_url)    { $videoUrl = $task.data.video_url }
+            elseif ($task.content.url)       { $videoUrl = $task.content.url }
+            break
+        }
+        elseif ($finalStatus -in @("failed","error","cancelled","canceled")) {
+            throw "Task $finalStatus (task $taskId)"
+        }
+    }
+    if (-not $videoUrl) { throw "Task succeeded but no video_url found in response (task $taskId)" }
+} catch {
+    throw "Video generation failed: $(Protect-Message $_.Exception.Message)"
+}
+
+# ============================================================
+# PHASE 3: DOWNLOAD - fetch the MP4 to disk
+# ============================================================
+try {
+    Invoke-WebRequest -Uri $videoUrl -OutFile $OutFile -ErrorAction Stop | Out-Null
+} catch {
+    throw "Video download failed: $(Protect-Message $_.Exception.Message)"
+}
+
+$endTime = Get-Date
+$elapsedTotal = [Math]::Round((New-TimeSpan -Start $startTime -End $endTime).TotalSeconds, 1)
+
+# ============================================================
+# Return structured result (the API key is NEVER included)
+# ============================================================
+[PSCustomObject]@{
+    saved_path        = $OutFile
+    cost_estimate_usd = $costEstimate
+    elapsed_seconds   = $elapsedTotal
+    model             = $Model
+    resolution        = $Resolution
+    duration_seconds  = $Duration
+    task_id           = $taskId
+}
