@@ -1,10 +1,10 @@
 # ============================================================
 # Invoke-ImageGen.ps1
 # ============================================================
-# Image Generation System — capability layer.
+# Image Generation System - capability layer.
 # Calls the OpenAI gpt-image endpoint and saves the result as a PNG.
 #
-# The PROMPT is supplied by the caller — this script renders whatever
+# The PROMPT is supplied by the caller - this script renders whatever
 # description it is given. It has no built-in subject or persona.
 #
 # Reads OPENAI_API_KEY from (priority order):
@@ -150,7 +150,7 @@ try {
     [System.IO.File]::WriteAllBytes($OutFile, $bytes)
 
 } catch {
-    # Sanitize error message — strip any potential key leakage
+    # Sanitize error message - strip any potential key leakage
     $errMsg = $_.Exception.Message
     if ($errMsg -match 'sk-[A-Za-z0-9_-]+') {
         $errMsg = $errMsg -replace 'sk-[A-Za-z0-9_-]+', '[REDACTED-KEY]'
@@ -163,7 +163,7 @@ $elapsed = [Math]::Round(($endTime - $startTime).TotalSeconds, 1)
 
 # ============================================================
 # Cost estimate lookup
-# gpt-image pricing — VERIFY against https://openai.com/api/pricing/
+# gpt-image pricing - VERIFY against https://openai.com/api/pricing/
 # These are indicative per-image USD values and may change.
 # ============================================================
 $costTable = @{
