@@ -1,0 +1,165 @@
+#!/usr/bin/env bash
+# ============================================================
+# invoke-image-gen.sh
+# ============================================================
+# Image Generation System — capability layer (Mac/Linux/Git Bash).
+# Calls the OpenAI gpt-image endpoint and saves the result as a PNG.
+#
+# The PROMPT is supplied by the caller — this script renders whatever
+# description it is given. It has no built-in subject or persona.
+#
+# Reads OPENAI_API_KEY from (priority order):
+#   1. $OPENAI_API_KEY environment variable
+#   2. A .env file: --env-file path if given, else `.env` in the current
+#      directory, else `.env` next to this script
+#   3. Exits with a helpful error if no key can be resolved
+#
+# Requires: curl, jq
+#
+# Setup:
+#   1. Copy this file somewhere on your PATH and drop the `.template`
+#      suffix so it becomes `invoke-image-gen.sh`; `chmod +x` it.
+#   2. Provide your key (see credential-setup.md).
+#
+# Usage:
+#   invoke-image-gen.sh --prompt "a sunset over mountains" \
+#       --outfile ./out.png --size 1024x1024 --quality medium
+# ============================================================
+
+set -euo pipefail
+
+PROMPT=""
+OUTFILE=""
+SIZE="1024x1024"
+QUALITY="medium"
+MODEL="gpt-image-2"
+ENV_FILE=""
+
+# ------------------------------------------------------------
+# Parse arguments
+# ------------------------------------------------------------
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --prompt)    PROMPT="$2";   shift 2 ;;
+    --outfile)   OUTFILE="$2";  shift 2 ;;
+    --size)      SIZE="$2";     shift 2 ;;
+    --quality)   QUALITY="$2";  shift 2 ;;
+    --model)     MODEL="$2";    shift 2 ;;
+    --env-file)  ENV_FILE="$2"; shift 2 ;;
+    *) echo "Unknown argument: $1" >&2; exit 1 ;;
+  esac
+done
+
+if [[ -z "$PROMPT" || -z "$OUTFILE" ]]; then
+  echo "Usage: invoke-image-gen.sh --prompt <text> --outfile <path.png> [--size 1024x1024] [--quality medium] [--model gpt-image-2] [--env-file <path>]" >&2
+  exit 1
+fi
+
+command -v curl >/dev/null 2>&1 || { echo "Error: curl is required." >&2; exit 1; }
+command -v jq   >/dev/null 2>&1 || { echo "Error: jq is required."   >&2; exit 1; }
+
+# ------------------------------------------------------------
+# Read a single KEY=value from a dotenv-format file
+# ------------------------------------------------------------
+get_dotenv_key() {
+  local file="$1" key="$2"
+  [[ -f "$file" ]] || return 1
+  # First non-comment match; strip surrounding quotes and whitespace
+  local val
+  val="$(grep -E "^\s*${key}\s*=" "$file" 2>/dev/null | grep -v '^\s*#' | head -n1 | sed -E "s/^\s*${key}\s*=\s*//; s/^[\"']//; s/[\"']\s*$//; s/\s+$//")"
+  [[ -n "$val" ]] || return 1
+  printf '%s' "$val"
+}
+
+# ------------------------------------------------------------
+# Resolve API key (priority cascade)
+# ------------------------------------------------------------
+API_KEY="${OPENAI_API_KEY:-}"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+if [[ -z "$API_KEY" || "$API_KEY" == *REPLACE-WITH* || "$API_KEY" == *PLACEHOLDER* ]]; then
+  for candidate in "$ENV_FILE" "./.env" "$SCRIPT_DIR/.env"; do
+    [[ -n "$candidate" ]] || continue
+    if found="$(get_dotenv_key "$candidate" OPENAI_API_KEY)"; then
+      if [[ "$found" != *REPLACE-WITH* && "$found" != *PLACEHOLDER* ]]; then
+        API_KEY="$found"
+        break
+      fi
+    fi
+  done
+fi
+
+if [[ -z "$API_KEY" || "$API_KEY" == *REPLACE-WITH* || "$API_KEY" == *PLACEHOLDER* ]]; then
+  cat >&2 <<'EOF'
+OPENAI_API_KEY missing. Resolve it one of these ways:
+  1. export OPENAI_API_KEY=sk-...
+  2. Create a .env file (current dir, next to this script, or pass --env-file):
+       OPENAI_API_KEY=sk-your-key-here
+See credential-setup.md for details.
+EOF
+  exit 1
+fi
+
+# ------------------------------------------------------------
+# Ensure target folder exists
+# ------------------------------------------------------------
+OUTDIR="$(dirname "$OUTFILE")"
+mkdir -p "$OUTDIR"
+
+# ------------------------------------------------------------
+# Build request + invoke the gpt-image endpoint
+# ------------------------------------------------------------
+START="$(date +%s)"
+
+BODY="$(jq -nc \
+  --arg model "$MODEL" \
+  --arg prompt "$PROMPT" \
+  --arg size "$SIZE" \
+  --arg quality "$QUALITY" \
+  '{model:$model, prompt:$prompt, size:$size, quality:$quality, n:1}')"
+
+# Capture body + HTTP status separately
+HTTP_RESPONSE="$(curl -sS -w $'\n%{http_code}' \
+  -X POST "https://api.openai.com/v1/images/generations" \
+  -H "Authorization: Bearer ${API_KEY}" \
+  -H "Content-Type: application/json" \
+  -d "$BODY" 2>&1 || true)"
+
+HTTP_CODE="$(printf '%s' "$HTTP_RESPONSE" | tail -n1)"
+RESPONSE_BODY="$(printf '%s' "$HTTP_RESPONSE" | sed '$d')"
+
+# Sanitize any key leakage before we ever print an error
+sanitize() { printf '%s' "$1" | sed -E 's/sk-[A-Za-z0-9_-]+/[REDACTED-KEY]/g'; }
+
+if [[ "$HTTP_CODE" != "200" ]]; then
+  echo "Image generation failed (HTTP $HTTP_CODE): $(sanitize "$RESPONSE_BODY")" >&2
+  exit 1
+fi
+
+B64="$(printf '%s' "$RESPONSE_BODY" | jq -r '.data[0].b64_json // empty')"
+if [[ -z "$B64" ]]; then
+  echo "Image generation failed: response missing b64_json. $(sanitize "$RESPONSE_BODY")" >&2
+  exit 1
+fi
+
+printf '%s' "$B64" | base64 -d > "$OUTFILE"
+
+END="$(date +%s)"
+ELAPSED=$((END - START))
+
+# ------------------------------------------------------------
+# Indicative cost estimate
+# gpt-image pricing — VERIFY against https://openai.com/api/pricing/
+# ------------------------------------------------------------
+COST="0.04"
+case "${SIZE}_${QUALITY}" in
+  1024x1024_low)    COST="0.020" ;;
+  1024x1024_medium) COST="0.040" ;;
+  1024x1024_high)   COST="0.190" ;;
+  1024x1536_low|1536x1024_low)       COST="0.030" ;;
+  1024x1536_medium|1536x1024_medium) COST="0.060" ;;
+  1024x1536_high|1536x1024_high)     COST="0.250" ;;
+esac
+
+echo "saved_path: $OUTFILE"
+echo "cost_estimate_usd: ~$COST   elapsed_seconds: ${ELAPSED}   model: $MODEL   size: $SIZE   quality: $QUALITY"

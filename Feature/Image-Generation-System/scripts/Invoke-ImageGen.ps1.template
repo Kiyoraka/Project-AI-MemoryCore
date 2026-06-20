@@ -1,0 +1,195 @@
+# ============================================================
+# Invoke-ImageGen.ps1
+# ============================================================
+# Image Generation System — capability layer.
+# Calls the OpenAI gpt-image endpoint and saves the result as a PNG.
+#
+# The PROMPT is supplied by the caller — this script renders whatever
+# description it is given. It has no built-in subject or persona.
+#
+# Reads OPENAI_API_KEY from (priority order):
+#   1. $env:OPENAI_API_KEY environment variable
+#   2. A .env file: the -EnvFile path if given, else a `.env` discovered
+#      in the current directory, else `.env` next to this script
+#   3. Throws a helpful error if no key can be resolved
+#
+# Setup:
+#   1. Copy this file to a folder on your PATH and drop the `.template`
+#      suffix so it becomes `Invoke-ImageGen.ps1`.
+#   2. Provide your key (see credential-setup.md).
+#
+# Usage:
+#   $r = & Invoke-ImageGen.ps1 -Prompt "a sunset over mountains" `
+#            -OutFile "C:\path\to\out.png" -Size "1024x1024" -Quality "medium"
+# ============================================================
+
+param(
+    [Parameter(Mandatory=$true)][string]$Prompt,
+    [Parameter(Mandatory=$true)][string]$OutFile,
+    [Parameter()][ValidateSet("1024x1024","1024x1536","1536x1024")][string]$Size = "1024x1024",
+    [Parameter()][ValidateSet("low","medium","high")][string]$Quality = "medium",
+    [Parameter()][string]$Model = "gpt-image-2",
+    [Parameter()][string]$EnvFile
+)
+
+# ============================================================
+# Reusable function: Get-DotEnvKey
+# Parses a dotenv-format file and extracts a single KEY_NAME=value pair.
+# ============================================================
+function Get-DotEnvKey {
+    param(
+        [Parameter(Mandatory=$true)][string]$EnvFilePath,
+        [Parameter(Mandatory=$true)][string]$KeyName
+    )
+
+    if (-not (Test-Path $EnvFilePath)) {
+        return $null
+    }
+
+    $lines = Get-Content $EnvFilePath -ErrorAction SilentlyContinue
+    foreach ($line in $lines) {
+        # Skip comments and empty lines
+        if ($line -match '^\s*#') { continue }
+        if ([string]::IsNullOrWhiteSpace($line)) { continue }
+
+        # Match KEY=value pattern
+        if ($line -match "^\s*$([regex]::Escape($KeyName))\s*=\s*(.+)\s*$") {
+            $value = $Matches[1].Trim()
+            # Strip surrounding quotes if present
+            if ($value.StartsWith('"') -and $value.EndsWith('"')) {
+                $value = $value.Substring(1, $value.Length - 2)
+            } elseif ($value.StartsWith("'") -and $value.EndsWith("'")) {
+                $value = $value.Substring(1, $value.Length - 2)
+            }
+            return $value
+        }
+    }
+    return $null
+}
+
+# ============================================================
+# Resolve API key (priority cascade)
+# ============================================================
+$apiKey = $null
+
+# 1. Environment variable
+if ($env:OPENAI_API_KEY) {
+    $apiKey = $env:OPENAI_API_KEY
+}
+
+# 2. .env file (explicit -EnvFile, then current dir, then alongside this script)
+if (-not $apiKey -or $apiKey -match "REPLACE-WITH" -or $apiKey -match "PLACEHOLDER") {
+    $candidates = @()
+    if ($EnvFile) { $candidates += $EnvFile }
+    $candidates += (Join-Path (Get-Location) ".env")
+    $candidates += (Join-Path $PSScriptRoot ".env")
+
+    foreach ($candidate in $candidates) {
+        $found = Get-DotEnvKey -EnvFilePath $candidate -KeyName "OPENAI_API_KEY"
+        if ($found -and $found -notmatch "REPLACE-WITH" -and $found -notmatch "PLACEHOLDER") {
+            $apiKey = $found
+            break
+        }
+    }
+}
+
+if (-not $apiKey -or $apiKey -match "REPLACE-WITH" -or $apiKey -match "PLACEHOLDER") {
+    throw @"
+OPENAI_API_KEY missing. Resolve it one of these ways:
+  1. Set the environment variable:  `$env:OPENAI_API_KEY = 'sk-...'
+  2. Create a .env file (current dir, next to this script, or pass -EnvFile):
+       OPENAI_API_KEY=sk-your-key-here
+See credential-setup.md for details.
+"@
+}
+
+# ============================================================
+# Validate target folder exists (create parent if needed)
+# ============================================================
+$outDir = Split-Path -Parent $OutFile
+if ($outDir -and -not (Test-Path $outDir)) {
+    New-Item -ItemType Directory -Path $outDir -Force | Out-Null
+}
+
+# ============================================================
+# Build request + invoke the gpt-image endpoint
+# ============================================================
+$startTime = Get-Date
+
+$body = @{
+    model = $Model
+    prompt = $Prompt
+    size = $Size
+    quality = $Quality
+    n = 1
+} | ConvertTo-Json -Depth 10 -Compress
+
+$headers = @{
+    "Authorization" = "Bearer $apiKey"
+    "Content-Type" = "application/json"
+}
+
+try {
+    $response = Invoke-RestMethod `
+        -Uri "https://api.openai.com/v1/images/generations" `
+        -Method POST `
+        -Headers $headers `
+        -Body $body `
+        -ErrorAction Stop
+
+    # Decode base64 PNG from response.data[0].b64_json
+    if (-not $response.data -or $response.data.Count -lt 1) {
+        throw "API response missing data array"
+    }
+    $b64 = $response.data[0].b64_json
+    if (-not $b64) {
+        throw "API response missing b64_json field (response_format may be 'url' instead of 'b64_json')"
+    }
+
+    $bytes = [System.Convert]::FromBase64String($b64)
+    [System.IO.File]::WriteAllBytes($OutFile, $bytes)
+
+} catch {
+    # Sanitize error message — strip any potential key leakage
+    $errMsg = $_.Exception.Message
+    if ($errMsg -match 'sk-[A-Za-z0-9_-]+') {
+        $errMsg = $errMsg -replace 'sk-[A-Za-z0-9_-]+', '[REDACTED-KEY]'
+    }
+    throw "Image generation failed: $errMsg"
+}
+
+$endTime = Get-Date
+$elapsed = [Math]::Round(($endTime - $startTime).TotalSeconds, 1)
+
+# ============================================================
+# Cost estimate lookup
+# gpt-image pricing — VERIFY against https://openai.com/api/pricing/
+# These are indicative per-image USD values and may change.
+# ============================================================
+$costTable = @{
+    "1024x1024_low"    = 0.020
+    "1024x1024_medium" = 0.040
+    "1024x1024_high"   = 0.190
+    "1024x1536_low"    = 0.030
+    "1024x1536_medium" = 0.060
+    "1024x1536_high"   = 0.250
+    "1536x1024_low"    = 0.030
+    "1536x1024_medium" = 0.060
+    "1536x1024_high"   = 0.250
+}
+$costKey = "${Size}_${Quality}"
+$cost = if ($costTable.ContainsKey($costKey)) { $costTable[$costKey] } else { 0.04 }
+
+# ============================================================
+# Return structured result (the API key is NEVER included)
+# ============================================================
+$result = [PSCustomObject]@{
+    saved_path        = $OutFile
+    cost_estimate_usd = $cost
+    elapsed_seconds   = $elapsed
+    model             = $Model
+    size              = $Size
+    quality           = $Quality
+}
+
+$result
