@@ -170,8 +170,11 @@ ai-memorycore/
 │           └── time.sh.template
 ├── library-items/            # Pre-made knowledge entries for Library System
 │   ├── README.md             # Catalog and install instructions
+│   ├── integration/          # Integration section items
+│   │   └── toyyibpay-payment-gateway.md # ToyyibPay FPX/card gateway integration
 │   └── security/             # Security section items
-│       └── security-headers.md # HTTP security headers with CSP
+│       ├── security-headers.md # HTTP security headers with CSP
+│       └── toyyibpay-webhook-verification.md # ToyyibPay callback verification
 ├── daily-diary/             # Optional conversation archive
 │   ├── daily-diary-protocol.md # Archive management rules
 │   ├── Daily-Diary-001.md   # Current active diary

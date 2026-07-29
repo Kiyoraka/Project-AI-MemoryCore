@@ -30,7 +30,13 @@ You can also browse items manually and copy any `.md` file directly into your `l
 
 | Section | Item | Description |
 |---------|------|-------------|
+| `integration` | `toyyibpay-payment-gateway` | Malaysian FPX/card gateway — bill creation, callbacks, credential test, known API gotchas (framework-neutral API contract + Laravel) |
 | `security` | `security-headers` | HTTP security headers with CSP — framework-agnostic (Laravel, Express, Spring Boot, Nginx/Apache) |
+| `security` | `toyyibpay-webhook-verification` | Server-side callback verification, idempotency and audit checklist for ToyyibPay |
+
+> The two ToyyibPay items are companions but each is self-contained — install either alone, or both
+> for a complete gateway integration. Since items match by filename keyword,
+> `"install item toyyibpay"` will offer both; use the full name to pick just one.
 
 ## Item Format
 
