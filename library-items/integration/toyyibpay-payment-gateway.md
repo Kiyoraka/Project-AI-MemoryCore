@@ -62,6 +62,17 @@ Handle both shapes rather than assuming one.
 
 ## Configuration
 
+Two ways to hold credentials — pick one before you write any code, because it decides who can change
+the keys without a deploy.
+
+| Approach | Use when | Trade-off |
+|----------|----------|-----------|
+| **Admin settings in the database** (`PaymentSetting` below — used by the service class in this item) | The merchant owns their own ToyyibPay account and must be able to paste keys, flip sandbox/production and test the connection from an admin screen | Needs encryption at rest and an admin UI, but no redeploy to change keys or switch modes |
+| **Environment variables** | You operate the ToyyibPay account yourself and keys change roughly never | Simplest, but every key rotation or mode switch is a deploy, and non-developers cannot do it |
+
+The service class in this item reads from `PaymentSetting`. To go env-only instead, replace the
+constructor's three lookups with `config('services.toyyibpay.*')` — nothing else changes.
+
 ### Environment Variables
 ```env
 TOYYIBPAY_SECRET_KEY=your_secret_key
@@ -83,10 +94,14 @@ return [
 ];
 ```
 
-### Database Model — PaymentSetting (optional)
+### Database Model — PaymentSetting (admin-managed credentials)
 
-Use this instead of env config when merchants manage their own credentials from an admin panel.
-It stores the key encrypted at rest and switches base URL by mode.
+The admin-settings path. Merchants paste their own `userSecretKey` and `categoryCode` into an admin
+screen; both are encrypted at rest, the `mode` column flips sandbox/production without a deploy, and
+the Test Connection diagnostic further down validates the saved pair before any real bill is created.
+
+Never render the saved secret back into the admin form — show a masked placeholder and only write the
+field when the merchant submits a new value.
 
 ```php
 <?php

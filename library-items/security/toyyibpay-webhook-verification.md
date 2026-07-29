@@ -178,6 +178,9 @@ class ToyyibPayService
 
     public function __construct()
     {
+        // Credentials shown here from config/env for brevity. If merchants manage their own
+        // keys from an admin panel, swap these three lines for the encrypted PaymentSetting
+        // model in the companion integration item — nothing below this constructor changes.
         $this->secretKey    = config('services.toyyibpay.secret_key');
         $this->categoryCode = config('services.toyyibpay.category_code');
         $this->baseUrl      = config('services.toyyibpay.test_mode')
