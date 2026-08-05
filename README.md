@@ -58,6 +58,17 @@ ai-memorycore/
 │   │   ├── README.md        # Feature explanation & benefits
 │   │   ├── install-save-diary.md # Installation protocol
 │   │   └── SKILL.md         # Auto-triggered skill (for Skill Plugin System)
+│   ├── Topic-Diary-System/  # Topic-based memory journals
+│   │   ├── README.md        # Feature explanation & benefits
+│   │   ├── install-topic-diary.md # Installation protocol
+│   │   ├── index-format.md  # Sample format for topic index
+│   │   ├── topic-format.md  # Sample format for topic entries
+│   │   └── SKILL.md         # Auto-triggered skill (for Skill Plugin System)
+│   ├── Memory-Compaction-System/ # Budget-aware memory compression
+│   │   ├── README.md             # Feature explanation & benefits
+│   │   ├── install-memory-compaction.md # Installation protocol
+│   │   ├── policy-format.md      # Sample format for compaction policy
+│   │   └── SKILL.md              # Auto-triggered skill (for Skill Plugin System)
 │   ├── Echo-Memory-Recall/  # Memory search and recall
 │   │   ├── README.md        # Feature explanation & benefits
 │   │   ├── install-echo-recall.md # Installation protocol
@@ -113,6 +124,16 @@ ai-memorycore/
 │   │   ├── README.md            # Feature explanation & benefits
 │   │   ├── install-image-prompt.md # Installation protocol
 │   │   └── SKILL.md             # Auto-triggered skill (composition-aware prompts)
+│   ├── Image-Generation-System/ # AI image generation via gpt-image API
+│   │   ├── README.md            # Feature explanation & benefits
+│   │   ├── install-image-generation.md # Installation protocol
+│   │   ├── credential-setup.md  # API credential setup
+│   │   └── scripts/             # Generation scripts
+│   ├── Video-Generation-System/ # AI video generation via Seedance API
+│   │   ├── README.md            # Feature explanation & benefits
+│   │   ├── install-video-generation.md # Installation protocol
+│   │   ├── credential-setup.md  # API credential setup
+│   │   └── scripts/             # Generation scripts
 │   ├── Song-Creation-System/    # Visual-to-musical storytelling
 │   │   ├── README.md            # Feature explanation & benefits
 │   │   ├── install-song-creation.md # Installation protocol
