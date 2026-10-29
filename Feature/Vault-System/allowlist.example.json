@@ -1,0 +1,13 @@
+{
+  "_comment": "Deny by default. A secret with no entry here never leaves the vault. Key is the secret name, value is the list of programs allowed to receive it.",
+  "OPENAI_API_KEY": [
+    "python3",
+    "node",
+    "curl"
+  ],
+  "ANTHROPIC_API_KEY": [
+    "python3",
+    "node",
+    "curl"
+  ]
+}
