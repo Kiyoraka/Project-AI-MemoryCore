@@ -341,6 +341,7 @@ Features are organized into **tiers** based on dependencies. Install Tier 1 firs
 | 🎵 [Song Creation](Feature/Song-Creation-System/) | Visual-to-musical storytelling — image to concept album with Suno-ready output | `"Load song-creation"` |
 | 🎮 [Interactive Story](Feature/Interactive-Story-System/) | Visual Novel RPG — duo/solo, OP/balanced, 7 world types, cinematic combat | `"Load interactive-story"` |
 | 👁️ [Mulahazah](Feature/Mulahazah-System/) | Instinct-based behavioral learning — passive hook observation + persistent rules | `npx continuous-improvement install` |
+| 🌅 [Time-Adaptive Web Design](Feature/Time-Adaptive-Web-Design/) | Design ambient websites with shared scene and interface states | `"Load time-adaptive-web-design"` |
 
 > Each feature has a detailed README inside its folder. Click the feature name to learn more.
 
@@ -354,6 +355,7 @@ Features are organized into **tiers** based on dependencies. Install Tier 1 firs
 | 2 | [logando-al](https://github.com/logando-al) | Session Briefing System, Post-Mortem System |
 | 3 | [SherlockianAsh](https://github.com/SherlockianAsh) | Observation System |
 | 4 | [naimkatiman](https://github.com/naimkatiman) | Mulahazah System |
+| 5 | [strdst7](https://github.com/strdst7) | Time-Adaptive Web Design |
 
 > Want to contribute? Fork the repo, create a feature in `Feature/[Your-Feature]/`, and submit a PR!
 
